@@ -1,15 +1,210 @@
 "use client";
-import { FormEvent,useEffect,useState } from "react";
-type Entry={id:number;caption:string;displayName:string;imageUrl:string;status?:"pending"|"approved"};
-const slots=[
-  [4,15],[5,15],[6,14],[7,15],[8,14],[9,15],[10,14],[11,15],[12,15],
-  [8,13],[9,13],[8,12],[9,12],[8,11],[9,11],[8,10],[9,10],
-  [6,10],[7,9],[10,9],[11,10],[5,9],[12,9],
-  [7,8],[8,8],[9,8],[10,8],[6,7],[7,7],[8,7],[9,7],[10,7],[11,7],
-  [4,6],[5,6],[6,6],[7,6],[8,6],[9,6],[10,6],[11,6],[12,6],[13,6],
-  [3,5],[4,5],[5,5],[6,5],[7,5],[8,5],[9,5],[10,5],[11,5],[12,5],[13,5],[14,5],
-  [4,4],[5,4],[6,4],[7,4],[8,4],[9,4],[10,4],[11,4],[12,4],[13,4],
-  [5,3],[6,3],[7,3],[8,3],[9,3],[10,3],[11,3],[12,3],[6,2],[7,2],[8,2],[9,2],[10,2],[11,2]
+
+import { FormEvent, useEffect, useState } from "react";
+
+type Entry = {
+  id: number;
+  caption: string;
+  displayName: string;
+  imageUrl: string;
+  status?: "pending" | "approved";
+};
+
+const slots = [
+  [4, 15], [5, 15], [6, 14], [7, 15], [8, 14], [9, 15], [10, 14], [11, 15],
+  [12, 15], [8, 13], [9, 13], [8, 12], [9, 12], [8, 11], [9, 11], [8, 10],
+  [9, 10], [6, 10], [7, 9], [10, 9], [11, 10], [5, 9], [12, 9], [7, 8], [8, 8],
+  [9, 8], [10, 8], [6, 7], [7, 7], [8, 7], [9, 7], [10, 7], [11, 7], [4, 6],
+  [5, 6], [6, 6], [7, 6], [8, 6], [9, 6], [10, 6], [11, 6], [12, 6], [13, 6],
+  [3, 5], [4, 5], [5, 5], [6, 5], [7, 5], [8, 5], [9, 5], [10, 5], [11, 5],
+  [12, 5], [13, 5], [14, 5], [4, 4], [5, 4], [6, 4], [7, 4], [8, 4], [9, 4],
+  [10, 4], [11, 4], [12, 4], [13, 4], [5, 3], [6, 3], [7, 3], [8, 3], [9, 3],
+  [10, 3], [11, 3], [12, 3], [6, 2], [7, 2], [8, 2], [9, 2], [10, 2], [11, 2],
 ];
-export default function NaturePractice(){const[entries,setEntries]=useState<Entry[]>([]),[file,setFile]=useState<File|null>(null),[caption,setCaption]=useState(""),[name,setName]=useState(""),[consent,setConsent]=useState(false),[note,setNote]=useState(""),[busy,setBusy]=useState(false),[selected,setSelected]=useState<Entry|null>(null);useEffect(()=>{fetch("/api/nature").then(r=>r.json()).then(d=>setEntries(d.entries??[]))},[]);async function submit(event:FormEvent){event.preventDefault();if(!file){setNote("Choose one nature photograph first.");return}if(!consent){setNote("Please confirm that you own the photograph and may share it.");return}setBusy(true);const localPreview=URL.createObjectURL(file);const form=new FormData();form.set("photo",file);form.set("caption",caption);form.set("displayName",name);form.set("consent","yes");const response=await fetch("/api/nature",{method:"POST",body:form});const data=await response.json();setBusy(false);if(!response.ok){URL.revokeObjectURL(localPreview);setNote(data.error??"The photograph could not be added.");return}setEntries(current=>[{...data.entry,imageUrl:localPreview,status:"pending"},...current]);setFile(null);setCaption("");setNote("Thank you so much for your contribution! Your photograph will join the shared tree after review.")}
-return <div className="practice-grid"><div className="practice card"><p className="eyebrow">Your daily experiment · one attentive moment</p><h2>Look up. Notice. Photograph.</h2><p>Spend a moment with something living or natural. Take one photograph—not to perform, but to pay attention—and add it to the tree.</p><form className="gratitude-form" onSubmit={submit}><label>Nature photograph<input className="file-input" type="file" accept="image/jpeg,image/png,image/webp" onChange={e=>setFile(e.target.files?.[0]??null)}/></label><label>What did you notice? <span className="muted">(optional)</span><textarea maxLength={240} value={caption} onChange={e=>setCaption(e.target.value)} placeholder="Light on wet leaves, the first bud, a bird overhead…"/></label><label>Name or pseudonym <span className="muted">(optional)</span><input maxLength={40} value={name} onChange={e=>setName(e.target.value)} placeholder="Anonymous"/></label><label className="checkbox"><input type="checkbox" checked={consent} onChange={e=>setConsent(e.target.checked)}/>I took this photograph, it contains no identifiable person, and it may appear in the shared mosaic after review.</label><button className="button" disabled={busy}>{busy?"Adding…":"Add my tile"}</button><p className="form-note">{note}</p></form></div><div className="tree-panel"><div className="creation-heading"><div><p className="eyebrow">Our collective creation</p><h2>The tree we are growing</h2></div><span>{entries.length} nature tiles</span></div><div className="tree-mosaic" aria-label="A tree mosaic growing from shared nature photographs">{slots.map(([column,row],index)=>{const entry=entries[index];return <button key={index} className={`tree-tile ${entry?"filled":""}`} style={{gridColumn:column,gridRow:row}} disabled={!entry} onClick={()=>entry&&setSelected(entry)}>{entry&&<img src={entry.imageUrl} alt={entry.caption||"A shared moment in nature"}/>}</button>})}<svg className="root-lines" viewBox="0 0 800 500" preserveAspectRatio="none" aria-hidden="true"><path d="M400 240 C400 330 400 350 390 395 M390 390 C300 390 250 440 140 455 M390 400 C490 400 545 445 675 458 M390 405 C330 430 315 465 270 490 M405 405 C460 435 475 470 525 492"/></svg></div>{selected&&<div className="mosaic-note"><button onClick={()=>setSelected(null)}>×</button><img src={selected.imageUrl} alt={selected.caption||"Shared nature photograph"}/><p>{selected.caption||"A moment noticed in nature."}</p><span>— {selected.displayName}{selected.status==="pending"?" · awaiting review":""}</span></div>}<p className="creation-caption">The mosaic begins at the roots. With every photograph, it grows upward—root, trunk, branch and canopy—until many separate moments become one living tree.</p></div></div>}
+
+export default function NaturePractice() {
+  const [entries, setEntries] = useState<Entry[]>([]);
+  const [file, setFile] = useState<File | null>(null);
+  const [caption, setCaption] = useState("");
+  const [name, setName] = useState("");
+  const [consent, setConsent] = useState(false);
+  const [note, setNote] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [selected, setSelected] = useState<Entry | null>(null);
+
+  useEffect(() => {
+    fetch("/api/nature")
+      .then((response) => response.json())
+      .then((data) => setEntries(data.entries ?? []));
+  }, []);
+
+  async function submit(event: FormEvent) {
+    event.preventDefault();
+    if (!file) {
+      setNote("Choose one nature photograph first.");
+      return;
+    }
+    if (!consent) {
+      setNote("Please confirm that you own the photograph and may share it.");
+      return;
+    }
+
+    setBusy(true);
+    const localPreview = URL.createObjectURL(file);
+    const form = new FormData();
+    form.set("photo", file);
+    form.set("caption", caption);
+    form.set("displayName", name);
+    form.set("consent", "yes");
+    const response = await fetch("/api/nature", { method: "POST", body: form });
+    const data = await response.json();
+    setBusy(false);
+    if (!response.ok) {
+      URL.revokeObjectURL(localPreview);
+      setNote(data.error ?? "The photograph could not be added.");
+      return;
+    }
+
+    setEntries((current) => [
+      { ...data.entry, imageUrl: localPreview, status: "pending" },
+      ...current,
+    ]);
+    setFile(null);
+    setCaption("");
+    setNote(
+      "Thank you. Your photograph is saved and visible to you here as Awaiting approval. It will join the shared tree after review."
+    );
+  }
+
+  return (
+    <div className="practice-grid">
+      <div className="practice card">
+        <p className="eyebrow">Your daily experiment · one attentive moment</p>
+        <h2>Look up. Notice. Photograph.</h2>
+        <p>
+          Spend a moment with something living or natural. Take one photograph—not
+          to perform, but to pay attention—and add it to the tree.
+        </p>
+        <form className="gratitude-form" onSubmit={submit}>
+          <label>
+            Nature photograph
+            <input
+              className="file-input"
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              onChange={(event) =>
+                setFile(event.target.files?.[0] ?? null)
+              }
+            />
+          </label>
+          <label>
+            What did you notice? <span className="muted">(optional)</span>
+            <textarea
+              maxLength={240}
+              value={caption}
+              onChange={(event) => setCaption(event.target.value)}
+              placeholder="Light on wet leaves, the first bud, a bird overhead…"
+            />
+          </label>
+          <label>
+            Name or pseudonym <span className="muted">(optional)</span>
+            <input
+              maxLength={40}
+              value={name}
+              onChange={(event) => setName(event.target.value)}
+              placeholder="Anonymous"
+            />
+          </label>
+          <label className="checkbox">
+            <input
+              type="checkbox"
+              checked={consent}
+              onChange={(event) => setConsent(event.target.checked)}
+            />
+            I took this photograph, it contains no identifiable person, and it
+            may appear in the shared mosaic after review.
+          </label>
+          <button className="button" disabled={busy}>
+            {busy ? "Adding…" : "Add my tile"}
+          </button>
+          <p className="form-note">{note}</p>
+        </form>
+      </div>
+
+      <div className="tree-panel">
+        <div className="creation-heading">
+          <div>
+            <p className="eyebrow">Our collective creation</p>
+            <h2>The tree we are growing</h2>
+          </div>
+          <span>{entries.length} nature tiles</span>
+        </div>
+        <div
+          className="tree-mosaic"
+          aria-label="A tree mosaic growing from shared nature photographs"
+        >
+          {slots.map(([column, row], index) => {
+            const entry = entries[index];
+            return (
+              <button
+                key={index}
+                className={`tree-tile ${entry ? "filled" : ""}`}
+                style={{ gridColumn: column, gridRow: row }}
+                disabled={!entry}
+                aria-label={
+                  entry?.status === "pending"
+                    ? "Your nature photograph, awaiting approval"
+                    : entry
+                      ? "Approved shared nature photograph"
+                      : undefined
+                }
+                onClick={() => entry && setSelected(entry)}
+              >
+                {entry && (
+                  <>
+                    <img
+                      src={entry.imageUrl}
+                      alt={entry.caption || "A shared moment in nature"}
+                    />
+                    {entry.status === "pending" && (
+                      <span className="pending-tile-label">
+                        Awaiting approval
+                      </span>
+                    )}
+                  </>
+                )}
+              </button>
+            );
+          })}
+          <svg
+            className="root-lines"
+            viewBox="0 0 800 500"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
+            <path d="M400 240 C400 330 400 350 390 395 M390 390 C300 390 250 440 140 455 M390 400 C490 400 545 445 675 458 M390 405 C330 430 315 465 270 490 M405 405 C460 435 475 470 525 492" />
+          </svg>
+        </div>
+        {selected && (
+          <div className="mosaic-note">
+            <button onClick={() => setSelected(null)}>×</button>
+            <img
+              src={selected.imageUrl}
+              alt={selected.caption || "Shared nature photograph"}
+            />
+            <p>{selected.caption || "A moment noticed in nature."}</p>
+            <span>
+              — {selected.displayName}
+              {selected.status === "pending" ? " · Awaiting approval" : ""}
+            </span>
+          </div>
+        )}
+        <p className="creation-caption">
+          The mosaic begins at the roots. With every photograph, it grows
+          upward—root, trunk, branch and canopy—until many separate moments
+          become one living tree.
+        </p>
+      </div>
+    </div>
+  );
+}

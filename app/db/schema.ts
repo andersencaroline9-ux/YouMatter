@@ -5,6 +5,7 @@ export const gratitudes = sqliteTable("gratitudes", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   message: text("message").notNull(),
   displayName: text("display_name").notNull().default("Anonymous"),
+  ownerTokenHash: text("owner_token_hash"),
   status: text("status", { enum: ["pending", "approved", "rejected"] })
     .notNull()
     .default("pending"),
@@ -17,6 +18,7 @@ export const natureEntries = sqliteTable("nature_entries", {
   objectKey: text("object_key").notNull(),
   caption: text("caption").notNull().default(""),
   displayName: text("display_name").notNull().default("Anonymous"),
+  ownerTokenHash: text("owner_token_hash"),
   status: text("status", { enum: ["pending", "approved", "rejected"] }).notNull().default("pending"),
   createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
   approvedAt: text("approved_at"),
@@ -27,6 +29,7 @@ export const kindnessEntries = sqliteTable("kindness_entries", {
   message: text("message").notNull(),
   kind: text("kind", { enum: ["gave", "received", "witnessed"] }).notNull(),
   displayName: text("display_name").notNull().default("Anonymous"),
+  ownerTokenHash: text("owner_token_hash"),
   status: text("status", { enum: ["pending", "approved", "rejected"] }).notNull().default("pending"),
   createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
   approvedAt: text("approved_at"),

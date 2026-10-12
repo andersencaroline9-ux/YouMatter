@@ -1,30 +1,71 @@
-# AGENTS
+# You Matter — contributor and AI-assistant guide
 
-## Role
-This repository is a small web project focused on collective wellbeing and small daily acts of contribution. Future AI assistants should support the project’s vision without drifting into unnecessary complexity or corporate tone.
+## Project vision
 
-## Project goals
-- Preserve the warm, human, reflective tone of the concept.
-- Keep the idea centered on connection, small actions, and visible collective change.
-- Build the product in stages without losing the original emotional intent.
+You Matter is a warm, human, evidence-informed wellbeing project grounded in
+positive psychology, connection, contribution, belonging, and collective
+wellbeing. Its guiding idea is “You Matter. But this isn't about you.” Preserve
+the project's original creative intent: small daily practices become visible
+parts of something larger. Avoid corporate or clinical tone, overclaiming
+research, toxic positivity, rankings, or unnecessary redesign.
 
-## Important context
-Before making substantive changes, read these files first:
+Before substantive work, read:
+
 - `project-memory/VISION.md`
 - `project-memory/ADVENTURES.md`
 - `project-memory/DECISIONS.md`
 - `project-memory/STATUS.md`
 
-## Working rules
-- Do not make destructive or broad rewrites without a clear reason.
-- Prefer surgical, well-scoped changes.
-- Keep the implementation simple unless a stronger requirement justifies more infrastructure.
-- If a change affects direction, scope, or technical approach, update `project-memory/DECISIONS.md` and `project-memory/STATUS.md`.
-- If you materially change the project’s state, keep the memory files aligned with the new reality.
+Use `README.md` as the repository entry point and `app/README.md` for local
+application setup.
 
-## Current reality
-- The original static homepage remains at the repository root.
-- The recovered deployed-baseline full application is set up independently under `app/`; it includes the three adventures and local D1/R2 emulation.
-- Local development data is isolated under `app/.wrangler/`; never configure local work to use production resources.
-- The copied app includes Cloudflare Access authorization for admin routes. Do not weaken or bypass those checks to make local development easier.
-- Preserve the recovered design and Caroline's creative decisions. Do not merge the app into the root homepage or change the source snapshots without a clear request.
+## Source of truth and archival material
+
+- `app/` is the authoritative full website and the only active application
+  development target.
+- `index.html` and `assets/style.css` are the existing GitHub Pages homepage.
+  Keep them intact until the full application is safely deployed, verified,
+  and Caroline explicitly approves replacing the public entry point.
+- `imports/` contains recovered source versions, handovers, and recovery
+  material. Treat it as archival and read-only; do not make active fixes there.
+- `project-memory/CHATGPT_HANDOVER.md` is a superseded legacy handover. Use the
+  current repository guide and memory files instead.
+
+Do not merge the app into the static homepage, publish, deploy, or change live
+Cloudflare settings unless Caroline explicitly requests and approves that work.
+
+## Local development and architecture
+
+From `app/`, run `pnpm dev`. See `app/README.md` for prerequisites and
+first-time D1 migrations. The local homepage and three adventure routes are:
+`/`, `/gratitude`, `/nature`, and `/kindness`.
+
+Cloudflare Workers is the chosen hosting platform. Local development uses
+Cloudflare-compatible D1 and R2 emulation under the ignored `app/.wrangler/`
+directory; never point local development at production. D1 stores contribution
+records and moderation state; R2 stores nature photographs. New contributions
+are pending. A random HttpOnly visitor cookie lets the submitter retrieve their
+own pending contributions after refresh; only its SHA-256 hash is stored.
+Public feeds expose approved items, while pending items and images remain
+private to their submitter and moderators. Moderation removes visitor ownership
+when approving or rejecting.
+
+Admin routes must continue validating Cloudflare Access JWTs and the
+administrator email allowlist. Do not weaken or bypass these checks to make
+local moderation easier. Local moderation requires a trusted local identity
+configuration.
+
+## Working rules
+
+- Make precise, scoped changes and preserve existing appearance and behavior.
+- Do not delete, overwrite, or modify archival snapshots or recovery files
+  unless explicitly asked.
+- Do not commit secrets, credentials, local databases, visitor photographs, or
+  development-generated state. Keep `.env*`, `.dev.vars*`, dependencies,
+  build output, and Wrangler state out of Git.
+- If a change affects product direction or technical decisions, update
+  `project-memory/DECISIONS.md` and `project-memory/STATUS.md`.
+- Keep `project-memory/STATUS.md` aligned with what has actually been tested;
+  distinguish verified behavior from planned work.
+- No commit, push, publish, deploy, or production configuration change without
+  explicit approval.

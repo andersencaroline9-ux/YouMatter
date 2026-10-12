@@ -2,6 +2,13 @@
 
 Start here.
 
+> **ARCHIVAL RECOVERY PACKAGE — NOT THE ACTIVE APPLICATION.** This folder
+> preserves the recovered source snapshots and their original handover
+> documents. The authoritative website is now in [`../../app/`](../../app/);
+> use the repository [`README`](../../README.md) and [`AGENTS.md`](../../AGENTS.md)
+> for current instructions. Do not treat the recovery steps below as current
+> integration or deployment instructions.
+
 This export preserves both:
 
 - the exact deployed private Site source; and
@@ -18,4 +25,3 @@ Read in this order:
 7. handover/FILE-INVENTORY.md
 
 Do not copy the current-working-copy over an existing GitHub repository without a branch and comparison. Do not make the Site public before protecting the moderation surface.
-

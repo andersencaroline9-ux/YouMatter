@@ -11,14 +11,41 @@ The adventures are at `/gratitude` (Gratitude Garden), `/nature` (Nature
 Mosaic), and `/kindness` (Built From Kindness). Header and back links return to
 this app's homepage. The development server binds to loopback.
 
+## First-time local database setup
+
+This setup is needed only when `.wrangler/state/` has no local database. It
+builds the local Worker config and applies the baseline migrations to local D1
+only:
+
+```sh
+pnpm build
+node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0000_large_rocket_raccoon.sql
+node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0001_heavy_baron_zemo.sql
+node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0002_visitor-submission-ownership.sql
+```
+
+Apply these migrations once in order. Do not replay them against an already
+initialized local database. The last migration adds nullable ownership hashes;
+existing pending records have no owner association and remain moderator-only.
+
 ## Local features and data
 
 - Adventure pages and contribution forms run locally.
 - Contributions use local D1 emulation; nature photographs use local R2
   emulation. Both are persisted under `.wrangler/state/`, separate from
   production.
-- New contributions are held for moderation and are not shown publicly until
-  approved.
+- New contributions are held for moderation. The submitting browser keeps a
+  random, HttpOnly visitor cookie; D1 stores only its SHA-256 hash with the
+  pending contribution. Adventure APIs return approved contributions to
+  everyone and pending contributions only to the matching visitor. Cookie
+  ownership is removed when a moderator approves or rejects an item.
+- Public APIs never return the ownership hash. Pending nature-image URLs also
+  require the matching visitor cookie and are not cacheable; approved images
+  are public.
+- The local HTTP preview uses a host-only, HttpOnly, SameSite cookie. HTTPS
+  deployments use the `__Host-` cookie prefix and `Secure` attribute. Clearing
+  the browser cookie means that visitor can no longer retrieve their pending
+  contributions.
 - `/admin` and admin APIs verify Cloudflare Access JWTs and the administrator
   email allowlist. Do not bypass this protection; local admin use requires a
   trusted local identity/JWT setup.
