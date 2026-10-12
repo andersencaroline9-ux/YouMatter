@@ -34,6 +34,9 @@ existing pending records have no owner association and remain moderator-only.
 - Contributions use local D1 emulation; nature photographs use local R2
   emulation. Both are persisted under `.wrangler/state/`, separate from
   production.
+- The deployable Worker build intentionally omits the R2 binding until
+  production photo storage and billing are approved. Nature-photo uploads need
+  that binding configured before they can work after deployment.
 - New contributions are held for moderation. The submitting browser keeps a
   random, HttpOnly visitor cookie; D1 stores only its SHA-256 hash with the
   pending contribution. Adventure APIs return approved contributions to
