@@ -1,34 +1,36 @@
 # STATUS
 
 ## Working
-- Homepage structure is in place and loads as a standalone static page.
-- The visual design and layout are implemented in plain HTML and CSS.
-- The hero section and main content sections communicate the project’s message clearly.
-- The core concept and tone are already established and consistent.
+- The original GitHub Pages homepage remains at repository root, unchanged by local application setup.
+- A standalone copy of the recovered deployed-baseline application is set up in `app/`.
+- The local app has the homepage and routes for Gratitude Garden, Nature Mosaic, and Built From Kindness.
+- Dependencies are installed and the production build passes.
+- Local D1 migrations are applied to Wrangler's local state only; R2 is emulated locally. No production resources were connected.
+- Cloudflare Access JWT and admin email allowlist checks remain enabled in the copied app.
 
 ## Missing
-- Fully implemented adventure pages for Gratitude Garden, Nature Mosaic, and Built From Kindness.
-- Submission forms or contribution flows for each adventure.
-- Persistent storage for user submissions.
-- Moderation or admin review tools.
-- A local backend or data layer for the project.
-- Testing, validation, or deployment automation.
+- Browser verification of all three adventure pages and their navigation is still to be completed.
+- Local admin access requires a trusted Cloudflare Access JWT and allowlist configuration; it is intentionally not bypassed.
+- Moderation of local pending contributions therefore needs that authorized admin setup or a later approved local-only admin authentication design.
+- End-to-end testing of contribution persistence and nature image handling remains outstanding.
 
 ## Risks
-- The current adventure links still point to the original ChatGPT-hosted website, which may become stale or unavailable.
-- Without a backend, the project cannot yet collect or display contributions in a durable way.
-- The project may appear conceptually complete from the homepage while the interactive parts are still missing.
+- The root homepage and standalone app are separate; running the app locally does not alter the root homepage or deploy any changes.
+- The approved source-level admin authorization patch is not deployed. Until the Access policy and Worker values are configured and tested, do not treat the live admin area as protected by this change.
+- The imported source trees are locally patched and no longer exact copies of their original recovered source states; the original `site.tar.gz` archives were not changed.
+- Automated moderation, rate limiting, abuse controls, and privacy/legal review remain incomplete.
 - Future work should avoid expanding scope beyond the existing product vision without updating the project memory.
 
 ## Navigation audit — 2026-10-12
-- Audited locally available web files: the repository contains the homepage (`index.html`) and its stylesheet, but no local adventure or admin pages.
+- The earlier audit checked the root homepage (`index.html`) before the recovered full application was copied into `app/`.
 - Homepage header logo returns to the homepage top; homepage section links to `#adventures` and `#why` resolve to existing section IDs.
 - The three adventure cards point to the corresponding Gratitude Garden (`/gratitude`), Nature Mosaic (`/nature`), and Built From Kindness (`/kindness`) routes on the separately hosted site. They were left unchanged because they already point to the named adventures.
 - The homepage footer brand was plain text rather than a link; it now links to the homepage top.
 - The admin link remains pointed at the external `/admin` route.
-- Navigation inside the remote adventure and admin pages—including logo return links, “Choose another adventure” / “All adventures”, section links, back links, and mobile behavior—cannot be audited or repaired from this repository. Obtain their current source code (including page HTML, styles, scripts, and any shared navigation/template) and bring those pages under local control before auditing them.
+- The full source is now locally runnable from `app/`. Its internal navigation still needs browser verification, including logo return links, “Choose another adventure” / “All adventures”, section links, back links, and mobile behavior.
 - The remote routes are preserved as existing links; this local audit does not verify that the separate host remains available or that its page-internal navigation works.
 
 ## Current priority
-- Convert the project from a homepage-only concept into a layered, functional experience with local persistence and real adventure pages.
+- Verify the local app in a browser, including adventure navigation, forms, and local persistence.
+- Keep the app standalone until there is an explicit decision to integrate it with the root GitHub Pages homepage.
 - Keep the existing emotional tone and philosophy while implementing the missing technical functionality.

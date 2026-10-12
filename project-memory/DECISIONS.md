@@ -6,9 +6,9 @@
 - The tone should feel warm, calm, welcoming, and human rather than clinical or corporate.
 
 ## 2026-10-12 — Product scope
-- The repository currently contains a static homepage that introduces the project and the three adventure concepts.
-- The homepage is intentionally a lightweight, HTML/CSS-only version designed for portability and easy hosting.
-- Subpages, interactive features, submission flows, and admin tooling are not yet migrated from the original ChatGPT-hosted experience.
+- The repository root retains the lightweight static homepage for portability and GitHub Pages.
+- The recovered deployed-baseline full application is kept separately in `app/` so the root homepage is not overwritten.
+- The recovered app contains the three adventure pages, contribution flows, moderation, and storage integration; these are developed and tested in the standalone app.
 
 ## 2026-10-12 — Adventure structure
 - The project centers on three core practices:
@@ -18,10 +18,13 @@
 - Each adventure is positioned as a small, repeatable action that contributes to a collective whole.
 
 ## 2026-10-12 — Technical approach
-- Keep the implementation simple and static unless a clear need for a backend or data layer emerges.
+- Use the recovered deployed-baseline application as the starting point for local full-site development.
+- Local development uses Cloudflare-compatible D1/R2 emulation and must not connect to production.
+- Keep the app isolated from the root static homepage until an explicit integration decision is made.
 - Prefer human-centered design over optimization or complexity.
 - Preserve the original emotional intent of the concept even when the implementation is minimal.
 
 ## 2026-10-12 — External links
-- The adventure and admin links currently point to the original ChatGPT-hosted site because the underlying subpages are not yet recreated locally.
-- This is considered a temporary state, not a final architecture decision.
+- The root static homepage retains its original separate hosting links.
+- The recovered app has local adventure routes. Admin routes remain protected by Cloudflare Access JWT verification and an administrator email allowlist.
+- Local development must not bypass authorization or use live Cloudflare configuration.

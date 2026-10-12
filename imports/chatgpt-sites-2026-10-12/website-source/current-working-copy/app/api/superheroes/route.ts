@@ -1,0 +1,9 @@
+import { desc, eq } from "drizzle-orm";
+import { getDb } from "../../../db";
+import { superheroEntries } from "../../../db/schema";
+
+const strengths = ["Appreciation of Beauty & Excellence","Bravery","Creativity","Curiosity","Fairness","Forgiveness","Gratitude","Honesty","Hope","Humility","Humor","Judgment","Kindness","Leadership","Love","Love of Learning","Perseverance","Perspective","Prudence","Self-Regulation","Social Intelligence","Spirituality","Teamwork","Zest"];
+
+export async function GET(){try{const rows=await getDb().select().from(superheroEntries).where(eq(superheroEntries.status,"approved")).orderBy(desc(superheroEntries.approvedAt),desc(superheroEntries.id)).limit(80);return Response.json({entries:rows})}catch(error){return Response.json({error:error instanceof Error?error.message:"Unable to load the Superhero Wall."},{status:500})}}
+
+export async function POST(request:Request){try{const body=await request.json() as {strength?:unknown;superpower?:unknown;displayName?:unknown;consent?:unknown};const strength=typeof body.strength==="string"?body.strength.trim():"",superpower=typeof body.superpower==="string"?body.superpower.trim():"";if(!strengths.includes(strength))return Response.json({error:"Choose your leading VIA character strength."},{status:400});if(!superpower||superpower.length>240)return Response.json({error:"Describe your superpower in 240 characters or fewer."},{status:400});if(body.consent!==true)return Response.json({error:"Consent is required before joining the wall."},{status:400});const displayName=typeof body.displayName==="string"&&body.displayName.trim()?body.displayName.trim().slice(0,40):"Anonymous";const[row]=await getDb().insert(superheroEntries).values({strength,superpower,displayName,status:"pending"}).returning();return Response.json({entry:row},{status:201})}catch(error){return Response.json({error:error instanceof Error?error.message:"Your superpower could not be added."},{status:500})}}

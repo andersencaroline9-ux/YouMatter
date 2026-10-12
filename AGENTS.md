@@ -23,6 +23,8 @@ Before making substantive changes, read these files first:
 - If you materially change the project’s state, keep the memory files aligned with the new reality.
 
 ## Current reality
-- The homepage is present and working as a static export.
-- The core concept is strong, but interactive features and backend systems are still missing.
-- Remaining work should respect the current static-first stage while moving toward a complete product.
+- The original static homepage remains at the repository root.
+- The recovered deployed-baseline full application is set up independently under `app/`; it includes the three adventures and local D1/R2 emulation.
+- Local development data is isolated under `app/.wrangler/`; never configure local work to use production resources.
+- The copied app includes Cloudflare Access authorization for admin routes. Do not weaken or bypass those checks to make local development easier.
+- Preserve the recovered design and Caroline's creative decisions. Do not merge the app into the root homepage or change the source snapshots without a clear request.
