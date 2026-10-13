@@ -22,11 +22,16 @@ pnpm build
 node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0000_large_rocket_raccoon.sql
 node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0001_heavy_baron_zemo.sql
 node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0002_visitor-submission-ownership.sql
+node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0003_gratitude_country.sql
+node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0004_gratitude_submission_groups.sql
 ```
 
 Apply these migrations once in order. Do not replay them against an already
-initialized local database. The last migration adds nullable ownership hashes;
+initialized local database. Migration `0002` adds nullable ownership hashes;
 existing pending records have no owner association and remain moderator-only.
+Migration `0003` adds an optional ISO 3166-1 alpha-2 country code to gratitude
+entries. Migration `0004` groups the three messages from each new Gratitude
+submission so moderation and public garden display treat them as one contribution.
 
 ## Local features and data
 

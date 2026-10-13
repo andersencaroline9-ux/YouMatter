@@ -1,6 +1,8 @@
 import { and, desc, eq } from "drizzle-orm";
 import { getDb } from "../../../db";
 import { gratitudes } from "../../../db/schema";
+import { normalizeCountryCode } from "../../../lib/countries";
+import { groupGratitudeRows } from "../../../lib/gratitude-submissions";
 import {
   createVisitorSubmissionIdentity,
   getVisitorTokenHash,
@@ -15,6 +17,8 @@ export async function GET(request: Request) {
         id: gratitudes.id,
         message: gratitudes.message,
         displayName: gratitudes.displayName,
+        countryCode: gratitudes.countryCode,
+        submissionId: gratitudes.submissionId,
         status: gratitudes.status,
         createdAt: gratitudes.createdAt,
         approvedAt: gratitudes.approvedAt,
@@ -22,7 +26,7 @@ export async function GET(request: Request) {
       .from(gratitudes)
       .where(eq(gratitudes.status, "approved"))
       .orderBy(desc(gratitudes.approvedAt), desc(gratitudes.id))
-      .limit(60);
+      .limit(183);
 
     const ownerTokenHash = await getVisitorTokenHash(request);
     const ownPending = ownerTokenHash
@@ -31,6 +35,8 @@ export async function GET(request: Request) {
             id: gratitudes.id,
             message: gratitudes.message,
             displayName: gratitudes.displayName,
+            countryCode: gratitudes.countryCode,
+            submissionId: gratitudes.submissionId,
             status: gratitudes.status,
             createdAt: gratitudes.createdAt,
             approvedAt: gratitudes.approvedAt,
@@ -43,9 +49,18 @@ export async function GET(request: Request) {
             )
           )
           .orderBy(desc(gratitudes.id))
+          .limit(180)
       : [];
 
-    const entries = [...approved, ...ownPending].sort(
+    const entries = [
+      ...groupGratitudeRows(approved)
+        .filter(
+          (submission) =>
+            !submission.submissionId || submission.messages.length === 3
+        )
+        .slice(0, 60),
+      ...groupGratitudeRows(ownPending),
+    ].sort(
       (left, right) =>
         right.createdAt.localeCompare(left.createdAt) || right.id - left.id
     );
@@ -66,6 +81,7 @@ export async function POST(request: Request) {
     const body = (await request.json()) as {
       messages?: unknown;
       displayName?: unknown;
+      countryCode?: unknown;
       consent?: unknown;
     };
     const messages = Array.isArray(body.messages)
@@ -89,17 +105,27 @@ export async function POST(request: Request) {
         { status: 400 }
       );
     }
+    const country = normalizeCountryCode(body.countryCode);
+    if (!country.valid) {
+      return Response.json(
+        { error: "Please choose a country from the list." },
+        { status: 400 }
+      );
+    }
 
     const rawName =
       typeof body.displayName === "string" ? body.displayName.trim() : "";
     const displayName = rawName.slice(0, 40) || "Anonymous";
     const identity = await createVisitorSubmissionIdentity(request);
+    const submissionId = crypto.randomUUID();
     const rows = await getDb()
       .insert(gratitudes)
       .values(
         messages.map((message) => ({
           message,
           displayName,
+          countryCode: country.countryCode,
+          submissionId,
           ownerTokenHash: identity.tokenHash,
           status: "pending" as const,
         }))
@@ -108,13 +134,15 @@ export async function POST(request: Request) {
         id: gratitudes.id,
         message: gratitudes.message,
         displayName: gratitudes.displayName,
+        countryCode: gratitudes.countryCode,
+        submissionId: gratitudes.submissionId,
         status: gratitudes.status,
         createdAt: gratitudes.createdAt,
         approvedAt: gratitudes.approvedAt,
       });
 
     return privateVisitorJson(
-      { gratitudes: rows },
+      { gratitudes: groupGratitudeRows(rows) },
       { status: 201 },
       identity.setCookie
     );
