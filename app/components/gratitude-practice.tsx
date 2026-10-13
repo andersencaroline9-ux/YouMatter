@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useMemo, useState } from "react";
-import { countries, getCountryDisplay } from "../lib/countries";
+import { countries } from "../lib/countries";
 
 type Entry = {
   id: number;
@@ -15,31 +15,6 @@ type Entry = {
 };
 
 type IdentityChoice = "anonymous" | "firstName";
-type PlantVariant =
-  | "red-campion"
-  | "wood-anemone"
-  | "oxeye-daisy"
-  | "cowslip"
-  | "cow-parsley"
-  | "bluebell";
-
-const plantVariants: PlantVariant[] = [
-  "red-campion",
-  "wood-anemone",
-  "oxeye-daisy",
-  "cowslip",
-  "cow-parsley",
-  "bluebell",
-];
-
-function stableHash(value: string) {
-  let hash = 2166136261;
-  for (let index = 0; index < value.length; index += 1) {
-    hash ^= value.charCodeAt(index);
-    hash = Math.imul(hash, 16777619);
-  }
-  return hash >>> 0;
-}
 
 function entryKey(entry: Entry) {
   return entry.submissionId ?? `legacy-${entry.id}`;
@@ -55,8 +30,6 @@ export default function GratitudePractice() {
   const [consent, setConsent] = useState(false);
   const [note, setNote] = useState("");
   const [busy, setBusy] = useState(false);
-  const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [previewId, setPreviewId] = useState<string | null>(null);
 
   useEffect(() => {
     fetch("/api/gratitudes")
@@ -72,28 +45,6 @@ export default function GratitudePractice() {
     () => entries.filter((entry) => entry.status === "pending"),
     [entries]
   );
-  const plants = useMemo(
-    () =>
-      approvedEntries.slice(0, 24).map((entry) => {
-        const hash = stableHash(entryKey(entry));
-        return {
-          entry,
-          key: entryKey(entry),
-          variant: plantVariants[hash % plantVariants.length],
-          left: 5 + ((hash >>> 3) % 90),
-          width: 76 + ((hash >>> 12) % 69),
-          height: 128 + ((hash >>> 19) % 94),
-          bottom: 8 + ((hash >>> 23) % 13),
-          rotation: ((hash >>> 8) % 17) - 8,
-          layer: 2 + ((hash >>> 27) % 5),
-        };
-      }),
-    [approvedEntries]
-  );
-
-  const activeId = previewId ?? selectedId;
-  const activeEntry =
-    plants.find((plant) => plant.key === activeId)?.entry ?? null;
 
   async function submit(event: FormEvent) {
     event.preventDefault();
@@ -241,96 +192,25 @@ export default function GratitudePractice() {
       </div>
 
       <div className="gratitude-garden-column">
-        <div className="garden-wrap">
+        <div
+          className="garden-wrap"
+          style={{ minHeight: "600px" }}
+        >
           <div className="garden-title">
             <strong>The garden we are growing</strong>
             <span className="garden-count" aria-live="polite">
               {approvedEntries.length}{" "}
-              {approvedEntries.length === 1 ? "flower" : "flowers"}
+              {approvedEntries.length === 1
+                ? "approved contribution"
+                : "approved contributions"}
             </span>
           </div>
-          {plants.length === 0 && (
+          {approvedEntries.length === 0 && (
             <div className="empty-garden">
               <strong className="serif">
                 The garden is waiting for its first flowers.
               </strong>
             </div>
-          )}
-          {plants.map((plant) => {
-            const displayName = plant.entry.displayName || "Anonymous";
-            const country = plant.entry.countryCode
-              ? getCountryDisplay(plant.entry.countryCode)
-              : null;
-            return (
-              <button
-                key={plant.key}
-                className="gratitude-plant"
-                aria-label={`Explore gratitude from ${displayName}${country ? `, ${country.name}` : ""}`}
-                aria-pressed={selectedId === plant.key}
-                style={{
-                  left: `${plant.left}%`,
-                  bottom: `${plant.bottom}%`,
-                  width: `${plant.width}px`,
-                  height: `${plant.height}px`,
-                  zIndex: plant.layer,
-                  ["--plant-rotation" as string]: `${plant.rotation}deg`,
-                }}
-                onMouseEnter={() => setPreviewId(plant.key)}
-                onMouseLeave={() => setPreviewId(null)}
-                onFocus={() => setPreviewId(plant.key)}
-                onBlur={() => setPreviewId(null)}
-                onClick={() =>
-                  setSelectedId((current) =>
-                    current === plant.key ? null : plant.key
-                  )
-                }
-              >
-                <img
-                  src={`/gratitude-plants/${plant.variant}.webp`}
-                  alt=""
-                  draggable={false}
-                  loading="lazy"
-                  decoding="async"
-                />
-              </button>
-            );
-          })}
-
-          {activeEntry && (
-            <section
-              className="gratitude-detail"
-              aria-label="Selected gratitude contribution"
-              aria-live="polite"
-            >
-              <button
-                className="gratitude-detail__close"
-                type="button"
-                aria-label="Close gratitude details"
-                onClick={() => {
-                  setSelectedId(null);
-                  setPreviewId(null);
-                }}
-              >
-                ×
-              </button>
-              <h3>
-                {activeEntry.displayName || "Anonymous"}
-                {activeEntry.countryCode && (
-                  <>
-                    {" · "}
-                    {getCountryDisplay(activeEntry.countryCode).name}{" "}
-                    <span aria-label={getCountryDisplay(activeEntry.countryCode).name}>
-                      {getCountryDisplay(activeEntry.countryCode).flag}
-                    </span>
-                  </>
-                )}
-              </h3>
-              <ol>
-                {activeEntry.messages.map((message, index) => (
-                  <li key={`${activeEntry.id}-${index}`}>{message}</li>
-                ))}
-              </ol>
-            </section>
           )}
         </div>
 

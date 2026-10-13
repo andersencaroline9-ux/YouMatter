@@ -53,7 +53,12 @@ export async function GET(request: Request) {
       : [];
 
     const entries = [
-      ...groupGratitudeRows(approved).slice(0, 60),
+      ...groupGratitudeRows(approved)
+        .filter(
+          (submission) =>
+            !submission.submissionId || submission.messages.length === 3
+        )
+        .slice(0, 60),
       ...groupGratitudeRows(ownPending),
     ].sort(
       (left, right) =>
