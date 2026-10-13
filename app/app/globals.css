@@ -74,10 +74,12 @@
 .gratitude-clearing__practice .garden-count{background:rgba(255,253,247,.92);color:#263b2d}
 .gratitude-clearing__hero{--gratitude-clearing-image:url("/gratitude-clearing-base-temporary.png");background-image:linear-gradient(90deg,rgba(17,31,21,.45),rgba(17,31,21,.14) 68%,rgba(17,31,21,.08)),linear-gradient(0deg,rgba(17,31,21,.3),transparent 65%),var(--gratitude-clearing-image);background-position:center,center,center 82%}
 .gratitude-clearing__practice .garden-wrap{isolation:isolate;background-color:#344936;background-image:linear-gradient(rgba(31,48,29,.08),rgba(31,48,29,.16)),url("/gratitude-clearing-base-temporary.png");background-position:center,center 50%;background-size:cover}
+.gratitude-clearing__practice .garden-wrap--plant-preview .empty-garden{top:25%;transform:translateX(-50%)}
 .gratitude-clearing__practice .garden-wrap::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(23,39,26,.12),transparent 50%,rgba(17,34,21,.17))}
 .gratitude-clearing__practice .garden-wrap::before{display:none}
 .gratitude-clearing__practice .garden-wrap>.garden-title{z-index:9}
 .gratitude-clearing__practice .garden-count{position:relative;z-index:9}
+.gratitude-plant-preview{position:absolute;left:var(--plant-x);top:var(--plant-y);z-index:var(--plant-z-index);display:block;width:min(28.5%,230px);height:auto;transform:translate(-50%,-100%);pointer-events:none;user-select:none}
 .gratitude-plant{position:absolute;display:block;min-width:44px;min-height:44px;padding:0;border:0;background:transparent;cursor:pointer;touch-action:manipulation;transform-origin:50% 100%;border-radius:50%}
 .gratitude-plant img{display:block;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 5px 7px rgba(18,31,19,.38));pointer-events:none;user-select:none}
 .gratitude-plant:hover img{filter:drop-shadow(0 7px 9px rgba(18,31,19,.54))}
@@ -97,6 +99,7 @@
 .gratitude-pending ol+ol{margin-top:14px}
 .gratitude-pending li{font:1rem/1.5 Georgia,"Times New Roman",serif}
 @media(max-width:560px){.gratitude-clearing__practice .garden-wrap{background-position:center,center 78%}.gratitude-plant{max-width:calc((100% - 36px)/3);max-height:108px}.gratitude-plant:focus-visible{outline-offset:2px}.gratitude-detail{bottom:14px;max-height:52%;padding:18px 48px 16px 18px}}
+@media(max-width:700px){.gratitude-plant-preview{left:var(--plant-mobile-x);top:var(--plant-mobile-y);width:min(40%,150px)}}
 @media(prefers-reduced-motion:reduce){.gratitude-plant,.gratitude-detail,.gratitude-detail__close{scroll-behavior:auto;transition:none;animation:none}}
 .forest-live-trailhead{--forest-live-trailhead-image:url("/forest-live-trailhead-temporary.jpg");position:relative;display:flex;min-height:min(88vh,820px);min-height:min(88svh,820px);align-items:center;overflow:hidden;color:#fff;background-color:#263b2d;background-image:linear-gradient(90deg,rgba(13,25,17,.76),rgba(13,25,17,.46) 58%,rgba(13,25,17,.12)),linear-gradient(0deg,rgba(13,25,17,.44),transparent 55%),var(--forest-live-trailhead-image);background-position:center,center,center 58%;background-size:cover}
 .forest-live-trailhead__content{max-width:1160px;padding-block:76px;text-shadow:0 2px 14px rgba(0,0,0,.55)}

@@ -1,7 +1,9 @@
 "use client";
 
-import { FormEvent, useEffect, useMemo, useState } from "react";
+import { CSSProperties, FormEvent, useEffect, useMemo, useState } from "react";
 import { countries } from "../lib/countries";
+import { gratitudePlantingPositions } from "../lib/gratitude-planting-layout";
+import { gratitudePlantVariants } from "../lib/gratitude-plant-variants";
 
 type Entry = {
   id: number;
@@ -15,6 +17,20 @@ type Entry = {
 };
 
 type IdentityChoice = "anonymous" | "firstName";
+
+const developmentPlantPosition = gratitudePlantingPositions.find(
+  (position) => position.id === "middle-right"
+);
+
+const developmentPlantStyle = developmentPlantPosition
+  ? ({
+      "--plant-x": `${developmentPlantPosition.x}%`,
+      "--plant-y": `${developmentPlantPosition.y}%`,
+      "--plant-mobile-x": `${developmentPlantPosition.mobile.x}%`,
+      "--plant-mobile-y": `${developmentPlantPosition.mobile.y}%`,
+      "--plant-z-index": developmentPlantPosition.zIndex,
+    } as CSSProperties & Record<`--${string}`, string | number>)
+  : undefined;
 
 function entryKey(entry: Entry) {
   return entry.submissionId ?? `legacy-${entry.id}`;
@@ -193,7 +209,11 @@ export default function GratitudePractice() {
 
       <div className="gratitude-garden-column">
         <div
-          className="garden-wrap"
+          className={
+            process.env.NODE_ENV === "development"
+              ? "garden-wrap garden-wrap--plant-preview"
+              : "garden-wrap"
+          }
           style={{ minHeight: "600px" }}
         >
           <div className="garden-title">
@@ -205,6 +225,18 @@ export default function GratitudePractice() {
                 : "approved contributions"}
             </span>
           </div>
+          {process.env.NODE_ENV === "development" &&
+            developmentPlantPosition &&
+            developmentPlantStyle && (
+              <img
+                className="gratitude-plant-preview"
+                src={gratitudePlantVariants.bluebell}
+                alt=""
+                aria-hidden="true"
+                data-visual-test-only="development"
+                style={developmentPlantStyle}
+              />
+            )}
           {approvedEntries.length === 0 && (
             <div className="empty-garden">
               <strong className="serif">
