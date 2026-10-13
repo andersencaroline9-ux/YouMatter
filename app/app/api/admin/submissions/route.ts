@@ -7,6 +7,7 @@ import {
   natureEntries,
 } from "../../../../db/schema";
 import { authorizeAdmin } from "../../../../lib/admin-auth";
+import { groupGratitudeRows } from "../../../../lib/gratitude-submissions";
 
 export async function GET(request: Request) {
   const authorization = await authorizeAdmin(
@@ -27,13 +28,15 @@ export async function GET(request: Request) {
           id: gratitudes.id,
           message: gratitudes.message,
           displayName: gratitudes.displayName,
+          countryCode: gratitudes.countryCode,
+          submissionId: gratitudes.submissionId,
           status: gratitudes.status,
           createdAt: gratitudes.createdAt,
           approvedAt: gratitudes.approvedAt,
         })
         .from(gratitudes)
         .orderBy(desc(gratitudes.createdAt))
-        .limit(100),
+        .limit(300),
       db
         .select({
           id: natureEntries.id,
@@ -61,7 +64,7 @@ export async function GET(request: Request) {
         .limit(100),
     ]);
     return Response.json({
-      gratitude,
+      gratitude: groupGratitudeRows(gratitude).slice(0, 100),
       nature: nature.map((row) => ({
         ...row,
         imageUrl: `/api/admin/nature/${row.id}/image`,
@@ -95,6 +98,7 @@ export async function PATCH(request: Request) {
   try {
     const body = (await request.json()) as {
       id?: unknown;
+      submissionId?: unknown;
       type?: unknown;
       status?: unknown;
     };
@@ -113,6 +117,24 @@ export async function PATCH(request: Request) {
     const db = getDb();
     const approvedAt = status === "approved" ? sql`CURRENT_TIMESTAMP` : null;
     if (body.type === "gratitude") {
+      if (
+        typeof body.submissionId === "string" &&
+        body.submissionId.length > 0 &&
+        body.submissionId.length <= 64
+      ) {
+        const entries = await db
+          .update(gratitudes)
+          .set({ status, approvedAt, ownerTokenHash: null })
+          .where(eq(gratitudes.submissionId, body.submissionId))
+          .returning({ id: gratitudes.id, status: gratitudes.status });
+        if (entries.length === 0) {
+          return Response.json(
+            { error: "Submission not found." },
+            { status: 404 }
+          );
+        }
+        return Response.json({ entries });
+      }
       const [entry] = await db
         .update(gratitudes)
         .set({ status, approvedAt, ownerTokenHash: null })

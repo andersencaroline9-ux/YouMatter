@@ -5,6 +5,8 @@ export const gratitudes = sqliteTable("gratitudes", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   message: text("message").notNull(),
   displayName: text("display_name").notNull().default("Anonymous"),
+  countryCode: text("country_code"),
+  submissionId: text("submission_id"),
   ownerTokenHash: text("owner_token_hash"),
   status: text("status", { enum: ["pending", "approved", "rejected"] })
     .notNull()
