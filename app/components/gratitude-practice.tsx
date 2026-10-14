@@ -1,40 +1,51 @@
 "use client";
 
-import { CSSProperties, FormEvent, useEffect, useMemo, useState } from "react";
-import { countries } from "../lib/countries";
+import {
+  CSSProperties,
+  FormEvent,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import { countries, getCountryDisplay } from "../lib/countries";
+import { gratitudeClearings } from "../lib/gratitude-clearings";
 import { gratitudePlantingPositions } from "../lib/gratitude-planting-layout";
-import { gratitudePlantVariants } from "../lib/gratitude-plant-variants";
+import {
+  gratitudePlantVariants,
+  type GratitudePlantVariant,
+} from "../lib/gratitude-plant-variants";
 
 type Entry = {
-  id: number;
-  submissionId: string | null;
+  key: string;
   messages: string[];
   displayName: string;
   countryCode: string | null;
   status: "pending" | "approved";
-  createdAt: string;
-  approvedAt: string | null;
+};
+
+type PublicEntry = Omit<Entry, "key" | "status">;
+
+type GratitudesResponse = {
+  gratitudes?: PublicEntry[];
+  pending?: PublicEntry[];
+  error?: string;
 };
 
 type IdentityChoice = "anonymous" | "firstName";
-
-const developmentPlantPosition = gratitudePlantingPositions.find(
-  (position) => position.id === "middle-right"
-);
-
-const developmentPlantStyle = developmentPlantPosition
-  ? ({
-      "--plant-x": `${developmentPlantPosition.x}%`,
-      "--plant-y": `${developmentPlantPosition.y}%`,
-      "--plant-mobile-x": `${developmentPlantPosition.mobile.x}%`,
-      "--plant-mobile-y": `${developmentPlantPosition.mobile.y}%`,
-      "--plant-z-index": developmentPlantPosition.zIndex,
-    } as CSSProperties & Record<`--${string}`, string | number>)
-  : undefined;
-
-function entryKey(entry: Entry) {
-  return entry.submissionId ?? `legacy-${entry.id}`;
-}
+const currentClearing = gratitudeClearings[0];
+const plantVariants = [
+  "woodAnemone",
+  "bluebell",
+  "cowslip",
+  "redCampion",
+  "oxeyeDaisy",
+  "foxglove",
+] as const satisfies readonly GratitudePlantVariant[];
+const clearingStyle = {
+  minHeight: "600px",
+  "--clearing-image": `url("${currentClearing.image}")`,
+} as CSSProperties;
 
 export default function GratitudePractice() {
   const [entries, setEntries] = useState<Entry[]>([]);
@@ -46,11 +57,33 @@ export default function GratitudePractice() {
   const [consent, setConsent] = useState(false);
   const [note, setNote] = useState("");
   const [busy, setBusy] = useState(false);
+  const [selectedEntryKey, setSelectedEntryKey] = useState<string | null>(
+    null
+  );
+  const selectedFlowerRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
     fetch("/api/gratitudes")
-      .then((response) => response.json())
-      .then((data) => setEntries(data.gratitudes ?? []));
+      .then(async (response) => {
+        const data = (await response.json()) as GratitudesResponse;
+        if (!response.ok) throw new Error();
+        return data;
+      })
+      .then((data) =>
+        setEntries([
+          ...(data.gratitudes ?? []).map((entry, index) => ({
+            ...entry,
+            key: `approved-${index}`,
+            status: "approved" as const,
+          })),
+          ...(data.pending ?? []).map((entry, index) => ({
+            ...entry,
+            key: `pending-${index}`,
+            status: "pending" as const,
+          })),
+        ])
+      )
+      .catch(() => setNote("The garden is temporarily unavailable."));
   }, []);
 
   const approvedEntries = useMemo(
@@ -61,6 +94,32 @@ export default function GratitudePractice() {
     () => entries.filter((entry) => entry.status === "pending"),
     [entries]
   );
+  const flowerEntries = useMemo(
+    () =>
+      [...approvedEntries]
+        .filter((entry) => entry.messages.length === 3)
+        .slice(0, gratitudePlantingPositions.length),
+    [approvedEntries]
+  );
+  const selectedEntry = approvedEntries.find(
+    (entry) => entry.key === selectedEntryKey
+  );
+  const selectedCountry = selectedEntry?.countryCode
+    ? getCountryDisplay(selectedEntry.countryCode)
+    : null;
+
+  useEffect(() => {
+    if (!selectedEntry) return;
+
+    function closeOnEscape(event: KeyboardEvent) {
+      if (event.key !== "Escape") return;
+      setSelectedEntryKey(null);
+      selectedFlowerRef.current?.focus();
+    }
+
+    document.addEventListener("keydown", closeOnEscape);
+    return () => document.removeEventListener("keydown", closeOnEscape);
+  }, [selectedEntry]);
 
   async function submit(event: FormEvent) {
     event.preventDefault();
@@ -76,29 +135,40 @@ export default function GratitudePractice() {
     }
 
     setBusy(true);
-    const response = await fetch("/api/gratitudes", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        messages: clean,
-        displayName: identityChoice === "firstName" ? name : "",
-        countryCode,
-        consent,
-      }),
-    });
-    const data = await response.json();
-    setBusy(false);
+    try {
+      const response = await fetch("/api/gratitudes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: clean,
+          displayName: identityChoice === "firstName" ? name : "",
+          countryCode,
+          consent,
+        }),
+      });
+      const data = (await response.json()) as GratitudesResponse;
+      if (!response.ok) {
+        setNote(data.error ?? "The seeds could not be planted.");
+        return;
+      }
 
-    if (!response.ok) {
-      setNote(data.error ?? "The seeds could not be planted.");
-      return;
+      setEntries((current) => [
+        ...(data.gratitudes ?? []).map((entry) => ({
+          ...entry,
+          key: crypto.randomUUID(),
+          status: "pending" as const,
+        })),
+        ...current,
+      ]);
+      setMessages(["", "", ""]);
+      setNote(
+        "Thank you. Your seeds are saved and visible to you here as Awaiting approval. They will join the shared garden after review."
+      );
+    } catch {
+      setNote("The seeds could not be planted right now. Please try again.");
+    } finally {
+      setBusy(false);
     }
-
-    setEntries((current) => [...data.gratitudes, ...current]);
-    setMessages(["", "", ""]);
-    setNote(
-      "Thank you. Your seeds are saved and visible to you here as Awaiting approval. They will join the shared garden after review."
-    );
   }
 
   return (
@@ -209,12 +279,9 @@ export default function GratitudePractice() {
 
       <div className="gratitude-garden-column">
         <div
-          className={
-            process.env.NODE_ENV === "development"
-              ? "garden-wrap garden-wrap--plant-preview"
-              : "garden-wrap"
-          }
-          style={{ minHeight: "600px" }}
+          className="garden-wrap"
+          data-clearing-id={currentClearing.id}
+          style={clearingStyle}
         >
           <div className="garden-title">
             <strong>The garden we are growing</strong>
@@ -225,18 +292,84 @@ export default function GratitudePractice() {
                 : "approved contributions"}
             </span>
           </div>
-          {process.env.NODE_ENV === "development" &&
-            developmentPlantPosition &&
-            developmentPlantStyle && (
-              <img
-                className="gratitude-plant-preview"
-                src={gratitudePlantVariants.bluebell}
-                alt=""
-                aria-hidden="true"
-                data-visual-test-only="development"
-                style={developmentPlantStyle}
-              />
-            )}
+          {flowerEntries.map((entry, index) => {
+            const position = gratitudePlantingPositions[index];
+            const variant = plantVariants[index % plantVariants.length];
+            const key = entry.key;
+            const plantStyle = {
+              "--plant-x": `${position.x}%`,
+              "--plant-y": `${position.y}%`,
+              "--plant-mobile-x": `${position.mobile.x}%`,
+              "--plant-mobile-y": `${position.mobile.y}%`,
+              "--plant-z-index": position.zIndex,
+              "--plant-width-desktop": `${28.5 * position.scale}%`,
+              "--plant-width-mobile": `${40 * position.scale}%`,
+              "--plant-rotation": `${position.rotation}deg`,
+            } as CSSProperties & Record<`--${string}`, string | number>;
+
+            return (
+              <button
+                key={key}
+                ref={(button) => {
+                  if (selectedEntryKey === key) selectedFlowerRef.current = button;
+                }}
+                type="button"
+                className={`gratitude-plant gratitude-plant--${position.depth}`}
+                style={plantStyle}
+                data-plant-position={position.id}
+                data-plant-variant={variant}
+                aria-label={`Read three gratitudes shared by ${entry.displayName}`}
+                aria-pressed={selectedEntryKey === key}
+                aria-controls="gratitude-detail"
+                aria-expanded={selectedEntryKey === key}
+                onClick={(event) => {
+                  selectedFlowerRef.current = event.currentTarget;
+                  setSelectedEntryKey(key);
+                }}
+              >
+                <img src={gratitudePlantVariants[variant]} alt="" />
+              </button>
+            );
+          })}
+          {selectedEntry && (
+            <section
+              className="gratitude-detail"
+              id="gratitude-detail"
+              role="region"
+              aria-live="polite"
+              aria-labelledby="gratitude-detail-title"
+            >
+              <button
+                className="gratitude-detail__close"
+                type="button"
+                aria-label="Close gratitude card"
+                onClick={() => {
+                  setSelectedEntryKey(null);
+                  selectedFlowerRef.current?.focus();
+                }}
+              >
+                ×
+              </button>
+              <h3 id="gratitude-detail-title">
+                Three things someone was grateful for
+              </h3>
+              <ol>
+                {selectedEntry.messages.map((message, index) => (
+                  <li key={`${selectedEntry.key}-${index}`}>{message}</li>
+                ))}
+              </ol>
+              <p className="gratitude-detail__identity">
+                {selectedEntry.displayName}
+                {selectedCountry && (
+                  <>
+                    {" · "}
+                    {selectedCountry.name}{" "}
+                    <span aria-hidden="true">{selectedCountry.flag}</span>
+                  </>
+                )}
+              </p>
+            </section>
+          )}
           {approvedEntries.length === 0 && (
             <div className="empty-garden">
               <strong className="serif">
@@ -245,6 +378,16 @@ export default function GratitudePractice() {
             </div>
           )}
         </div>
+
+        {approvedEntries.length > flowerEntries.length && (
+          <p className="garden-capacity-note">
+            {approvedEntries.length - flowerEntries.length} approved{" "}
+            {approvedEntries.length - flowerEntries.length === 1
+              ? "contribution is"
+              : "contributions are"}{" "}
+            not shown in this clearing yet.
+          </p>
+        )}
 
         {pendingEntries.length > 0 && (
           <section
@@ -255,9 +398,9 @@ export default function GratitudePractice() {
               Your contribution is awaiting approval
             </h3>
             {pendingEntries.map((entry) => (
-              <ol key={entryKey(entry)}>
+              <ol key={entry.key}>
                 {entry.messages.map((message, index) => (
-                  <li key={`${entry.id}-${index}`}>{message}</li>
+                  <li key={`${entry.key}-${index}`}>{message}</li>
                 ))}
               </ol>
             ))}

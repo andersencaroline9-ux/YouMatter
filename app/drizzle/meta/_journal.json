@@ -22,6 +22,41 @@
       "when": 1791833732404,
       "tag": "0002_visitor-submission-ownership",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1791975000000,
+      "tag": "0003_gratitude_country",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1791975300000,
+      "tag": "0004_gratitude_submission_groups",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1791976680000,
+      "tag": "0005_strengths_contributions",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1791978000000,
+      "tag": "0006_live_adventure_waiting_list",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "6",
+      "when": 1791993634277,
+      "tag": "0007_homepage_checkins",
+      "breakpoints": true
     }
   ]
 }

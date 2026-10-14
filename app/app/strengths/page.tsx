@@ -1,11 +1,18 @@
-import Link from "next/link";
+import SiteFooter from "../../components/site-footer";
+import SiteHeader from "../../components/site-header";
+import "./strengths.css";
+import StrengthsPractice from "./strengths-practice";
 
 export default function StrengthsPage() {
   return (
-    <main className="strengths-placeholder">
-      <h1>What Do You Bring?</h1>
-      <p>This adventure is being built. Return to the forest for now.</p>
-      <Link href="/">Return to the forest</Link>
-    </main>
+    <>
+      <SiteHeader />
+      <main className="strengths-page">
+        <div className="shell">
+          <StrengthsPractice />
+        </div>
+      </main>
+      <SiteFooter />
+    </>
   );
 }

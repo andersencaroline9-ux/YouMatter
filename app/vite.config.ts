@@ -1,9 +1,11 @@
+import { randomBytes } from "node:crypto";
 import vinext from "vinext";
 import { defineConfig } from "vite";
 import hostingConfig from "./.openai/hosting.json";
 import { readExecutionProfile } from "./scripts/execution-profile.mjs";
 import { sites } from "./build/sites-vite-plugin";
 import { connectorPreview } from "./build/connector-preview-plugin.mjs";
+import { localAdminAuth } from "./build/local-admin-auth-plugin";
 
 const YOUMATTER_DATABASE_ID = "286f1104-1730-436c-ba0b-62b96cef1693";
 
@@ -27,7 +29,12 @@ const localBindingConfig = {
     : [],
 };
 
-export default defineConfig(async ({ command }) => {
+export default defineConfig(async ({ command, isPreview }) => {
+  const localAdminSecret =
+    command === "serve" && !isPreview
+      ? randomBytes(32).toString("base64url")
+      : null;
+
   // Use Miniflare's local Request.cf placeholder unless fetching is requested.
   process.env.CLOUDFLARE_CF_FETCH_ENABLED ??= "false";
   process.env.WRANGLER_SEND_METRICS ??= "false";
@@ -54,12 +61,20 @@ export default defineConfig(async ({ command }) => {
     plugins: [
       vinext(),
       sites({ mockAuth: !managedLinux }),
+      ...(localAdminSecret ? [localAdminAuth(localAdminSecret)] : []),
       connectorPreview(),
       cloudflare({
         viteEnvironment: { name: "rsc", childEnvironments: ["ssr"] },
         inspectorPort: false,
         config: {
           ...localBindingConfig,
+          ...(localAdminSecret
+            ? {
+                vars: {
+                  LOCAL_ADMIN_MARKER_SECRET: localAdminSecret,
+                },
+              }
+            : {}),
           ...(command === "serve" && r2
             ? {
                 r2_buckets: [

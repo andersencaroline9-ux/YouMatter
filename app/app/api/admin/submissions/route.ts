@@ -3,15 +3,20 @@ import { desc, eq, sql } from "drizzle-orm";
 import { getDb } from "../../../../db";
 import {
   gratitudes,
+  homepageCheckins,
   kindnessEntries,
   natureEntries,
+  strengthsEntries,
 } from "../../../../db/schema";
 import { authorizeAdmin } from "../../../../lib/admin-auth";
+import { parseStoredCharacterStrengths } from "../../../../lib/character-strengths";
 import { groupGratitudeRows } from "../../../../lib/gratitude-submissions";
+import { LOCAL_ADMIN_PROOF_HEADER } from "../../../../lib/local-admin-auth-proof";
 
 export async function GET(request: Request) {
   const authorization = await authorizeAdmin(
-    request.headers.get("cf-access-jwt-assertion")
+    request.headers.get("cf-access-jwt-assertion"),
+    request.headers.get(LOCAL_ADMIN_PROOF_HEADER)
   );
   if (!authorization.authorized) {
     return Response.json(
@@ -22,7 +27,7 @@ export async function GET(request: Request) {
 
   try {
     const db = getDb();
-    const [gratitude, nature, kindness] = await Promise.all([
+    const [gratitude, nature, kindness, strengths, checkins] = await Promise.all([
       db
         .select({
           id: gratitudes.id,
@@ -62,7 +67,39 @@ export async function GET(request: Request) {
         .from(kindnessEntries)
         .orderBy(desc(kindnessEntries.createdAt))
         .limit(100),
+      db
+        .select({
+          id: strengthsEntries.id,
+          strength: strengthsEntries.strength,
+          reflection: strengthsEntries.reflection,
+          displayName: strengthsEntries.displayName,
+          countryCode: strengthsEntries.countryCode,
+          status: strengthsEntries.status,
+          createdAt: strengthsEntries.createdAt,
+          approvedAt: strengthsEntries.approvedAt,
+        })
+        .from(strengthsEntries)
+        .orderBy(desc(strengthsEntries.createdAt))
+        .limit(100),
+      db
+        .select({
+          id: homepageCheckins.id,
+          rating: homepageCheckins.rating,
+          comment: homepageCheckins.comment,
+          displayName: homepageCheckins.displayName,
+          countryCode: homepageCheckins.countryCode,
+          status: homepageCheckins.status,
+          createdAt: homepageCheckins.createdAt,
+          approvedAt: homepageCheckins.approvedAt,
+        })
+        .from(homepageCheckins)
+        .orderBy(desc(homepageCheckins.createdAt))
+        .limit(100),
     ]);
+    const groupedStrengths = strengths.map(({ strength, ...entry }) => ({
+      ...entry,
+      strengths: parseStoredCharacterStrengths(strength),
+    }));
     return Response.json({
       gratitude: groupGratitudeRows(gratitude).slice(0, 100),
       nature: nature.map((row) => ({
@@ -70,6 +107,8 @@ export async function GET(request: Request) {
         imageUrl: `/api/admin/nature/${row.id}/image`,
       })),
       kindness,
+      strengths: groupedStrengths,
+      checkins,
     });
   } catch (error) {
     return Response.json(
@@ -86,7 +125,8 @@ export async function GET(request: Request) {
 
 export async function PATCH(request: Request) {
   const authorization = await authorizeAdmin(
-    request.headers.get("cf-access-jwt-assertion")
+    request.headers.get("cf-access-jwt-assertion"),
+    request.headers.get(LOCAL_ADMIN_PROOF_HEADER)
   );
   if (!authorization.authorized) {
     return Response.json(
@@ -116,6 +156,34 @@ export async function PATCH(request: Request) {
 
     const db = getDb();
     const approvedAt = status === "approved" ? sql`CURRENT_TIMESTAMP` : null;
+    if (body.type === "checkins") {
+      const [entry] = await db
+        .update(homepageCheckins)
+        .set({ status, approvedAt, ownerTokenHash: null })
+        .where(eq(homepageCheckins.id, id))
+        .returning({
+          id: homepageCheckins.id,
+          status: homepageCheckins.status,
+        });
+      if (!entry) {
+        return Response.json({ error: "Submission not found." }, { status: 404 });
+      }
+      return Response.json({ entry });
+    }
+    if (body.type === "strengths") {
+      const [entry] = await db
+        .update(strengthsEntries)
+        .set({ status, approvedAt, ownerTokenHash: null })
+        .where(eq(strengthsEntries.id, id))
+        .returning({
+          id: strengthsEntries.id,
+          status: strengthsEntries.status,
+        });
+      if (!entry) {
+        return Response.json({ error: "Submission not found." }, { status: 404 });
+      }
+      return Response.json({ entry });
+    }
     if (body.type === "gratitude") {
       if (
         typeof body.submissionId === "string" &&

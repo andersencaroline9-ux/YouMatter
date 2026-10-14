@@ -1,0 +1,26 @@
+.kindness-discovery{background:#e8efe4}
+.kindness-discovery-layout{display:block}
+.kindness-tree-experience{min-width:0}
+.kindness-tree-scene{overflow:hidden;border-radius:28px}
+.kindness-tree-scene img{display:block;width:100%;height:auto}
+.kindness-pending h2{font:500 clamp(1.8rem,3vw,2.7rem)/1.1 Georgia,serif;margin:12px 0 18px}
+.kindness-empty{font-size:.95rem;line-height:1.6;color:#526a5d}
+.kindness-discovery-button{margin-top:20px}
+.kindness-reveal{width:min(100%,760px);margin-top:16px;padding:20px 22px;border:1px solid var(--line);border-radius:18px;background:#fffdf7}
+.kindness-reveal p{margin:0 0 12px;font:1.15rem/1.6 Georgia,serif;white-space:pre-wrap;overflow-wrap:anywhere}
+.kindness-reveal span{font-size:.82rem;color:#526a5d}
+.kindness-story-list{list-style:none;margin:20px 0 0;padding:0;display:grid;gap:12px}
+.kindness-story-choice{display:block;width:100%;min-height:44px;padding:16px 0;text-align:left;border:0;border-block:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+.kindness-story-choice small{display:block;font-size:.75rem;font-weight:700;margin-bottom:8px;color:#526a5d}
+.kindness-story-choice>span{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font:1.08rem/1.5 Georgia,serif;overflow-wrap:anywhere}
+.kindness-story-choice[aria-expanded="true"]{border-color:#51705f}
+.kindness-story-choice:focus-visible,.kindness-story-detail button:focus-visible{outline:3px solid #51705f;outline-offset:4px}
+.kindness-story-detail{padding:18px;background:#fffdf7;border-radius:16px;overflow-wrap:anywhere}
+.kindness-story-detail p{font:1.15rem/1.65 Georgia,serif;margin:0 0 12px;white-space:pre-wrap}
+.kindness-story-detail>span{display:block;font-size:.8rem;color:#526a5d}
+.kindness-story-detail button{min-height:44px;border:0;background:transparent;padding:12px 0 0;color:var(--ink);font-weight:700;text-decoration:underline;cursor:pointer}
+.kindness-practice-layout{display:grid;grid-template-columns:1.1fr .9fr;gap:34px;align-items:start}
+.kindness-pending{padding:28px;border:1px solid var(--line);border-radius:28px;background:#f7f1df;min-width:0}
+.kindness-pending>p{line-height:1.65;color:#526a5d}
+@media(max-width:860px){.kindness-practice-layout{grid-template-columns:1fr}.kindness-pending{padding:22px}}
+@media(max-width:560px){.kindness-tree-scene{border-radius:22px}.kindness-story-choice{padding:16px 4px}}

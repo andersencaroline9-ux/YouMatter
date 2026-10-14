@@ -5,5 +5,6 @@ declare namespace Cloudflare {
     CF_ACCESS_TEAM_DOMAIN?: string;
     CF_ACCESS_AUD?: string;
     ADMIN_EMAILS?: string;
+    LOCAL_ADMIN_MARKER_SECRET?: string;
   }
 }

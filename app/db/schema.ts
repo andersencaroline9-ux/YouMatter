@@ -1,5 +1,11 @@
 import { sql } from "drizzle-orm";
-import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import {
+  check,
+  integer,
+  sqliteTable,
+  text,
+  uniqueIndex,
+} from "drizzle-orm/sqlite-core";
 
 export const gratitudes = sqliteTable("gratitudes", {
   id: integer("id").primaryKey({ autoIncrement: true }),
@@ -36,3 +42,51 @@ export const kindnessEntries = sqliteTable("kindness_entries", {
   createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
   approvedAt: text("approved_at"),
 });
+
+export const strengthsEntries = sqliteTable("strengths_entries", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  strength: text("strength").notNull(),
+  reflection: text("reflection"),
+  displayName: text("display_name").notNull().default("Anonymous"),
+  countryCode: text("country_code"),
+  ownerTokenHash: text("owner_token_hash"),
+  status: text("status", { enum: ["pending", "approved", "rejected"] })
+    .notNull()
+    .default("pending"),
+  createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
+  approvedAt: text("approved_at"),
+});
+
+export const homepageCheckins = sqliteTable("homepage_checkins", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  rating: integer("rating").notNull(),
+  comment: text("comment"),
+  displayName: text("display_name").notNull().default("Anonymous"),
+  countryCode: text("country_code"),
+  ownerTokenHash: text("owner_token_hash"),
+  status: text("status", { enum: ["pending", "approved", "rejected"] })
+    .notNull()
+    .default("pending"),
+  createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
+  approvedAt: text("approved_at"),
+}, (table) => ({
+  ratingRange: check(
+    "homepage_checkins_rating_range",
+    sql`${table.rating} BETWEEN 1 AND 10`
+  ),
+}));
+
+export const liveAdventureInterests = sqliteTable(
+  "live_adventure_interests",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    name: text("name").notNull(),
+    email: text("email").notNull(),
+    createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
+  },
+  (table) => ({
+    emailUnique: uniqueIndex("live_adventure_interests_email_unique").on(
+      table.email
+    ),
+  })
+);

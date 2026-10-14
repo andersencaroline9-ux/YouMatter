@@ -1,6 +1,255 @@
 # Project status
 
-Last reviewed: 2026-10-12
+Last reviewed: 2026-10-14
+
+## Homepage reference styling — 2026-10-14
+
+- Restored/preserved the original You Matter banner and subtitle above the new welcome composition. Matched the supplied reference's WHY copy, serif scale, cream palette, two-column arrangement, and lower-right tree using a new clean background (`app/public/homepage-welcome-scene.png`). Existing artwork files remain intact.
+- Kept check-in submission logic and approved-only community data unchanged. Updated desktop/mobile leaf coordinates for the new artwork; ratings never alter leaf appearance. Expanded form fields have a cream backing for contrast.
+- Verified production build, targeted ESLint, and whitespace checks. Browser checks at 1536px desktop, 768px tablet, and 390px mobile confirmed responsive layout; tablet/mobile had no horizontal overflow. Verified restored banner, ten rating options, form expansion, and keyboard opening/closing of an existing approved check-in card. No new submission or moderation was performed.
+- No API, database, admin, impact, adventure-route, static homepage, or production configuration changes were made for this styling task. No commit or deployment.
+
+## Homepage check-in infrastructure — 2026-10-14
+
+- Added a separate D1 `homepage_checkins` table for a 1–10 human check-in,
+  optional comment, Anonymous/first-name identity, optional country, pending
+  moderation status, timestamps, and hashed visitor ownership. A database check
+  constraint and API validation both enforce the rating range.
+- Added `/api/home-checkins`. Public `checkins` contain approved items and only
+  rating, optional comment, display name, and country; a separate `pending`
+  collection is returned only for the matching visitor token. No IDs, hashes,
+  status, or timestamps are exposed in these API collections.
+- Added check-ins to the existing protected admin submissions API and page.
+  They use the shared moderation controls and are one record per check-in.
+- Generated migration `0007_homepage_checkins` and applied it to local D1 only.
+  The existing `0006` Drizzle snapshot had an invalid index-column shape; its
+  metadata was corrected so Drizzle can generate future migrations. No
+  historical SQL migration was changed, and remote D1 was not accessed.
+- Validation created four clearly marked synthetic local check-ins, confirmed
+  anonymous/first-name submission, rating/comment/country/consent validation,
+  owner-only pending retrieval, approved-only public data, protected admin
+  listing, and one test approval through the admin endpoint. All four
+  synthetic rows were then deleted; the local check-in table is empty.
+- Homepage UI and the community-tree visual were outside this infrastructure
+  task. Check-ins do not count toward the 50-contribution commitment;
+  `/api/impact` was not changed.
+- Targeted ESLint passed with one existing raw-image warning. The production
+  build and Drizzle no-change verification passed. Full TypeScript checking
+  still reports existing errors in Nature/R2, impact, authentication, and
+  Gratitude helper code; no new check-in type errors were reported.
+- The local homepage and `/admin` returned HTTP 200. Homepage HTML retained its
+  existing forest entrance and contained no check-in UI. Browser CDP navigation
+  was unavailable, so visual browser inspection was not completed.
+
+## Homepage front door — 2026-10-14
+
+- Combined the opening “You Matter. / But this isn’t about you.” identity with
+  the homepage WHY, optional 1–10 human check-in, and a small approved-only
+  “How we’re doing” glimpse in one front-door composition before forest entry.
+- Desktop places the short explanation beside the check-in and community
+  glimpse. Mobile intentionally stacks check-in, community, then explanation.
+  The invitation into the forest follows this welcome.
+- The temporary community presentation uses only real approved check-ins and
+  shows the first-leaves empty state when none exist. No community tree,
+  average, ranking, or rating-based styling was added.
+- The form uses `/api/home-checkins` with optional comment, Anonymous by
+  default or first name, optional country, and established review consent.
+  Pending check-ins are not shown publicly.
+- The final living Community Tree remains future Task 12A.12C. No database,
+  API, moderation, impact, or individual adventure behavior was changed.
+
+## Homepage community tree — 2026-10-14
+
+- Replaced the temporary approved-check-in list with a photograph-backed
+  community tree using the existing `kindness-tree.png` woodland asset.
+- Up to 12 approved check-ins from `/api/home-checkins` are represented by
+  same-size, same-colour interactive leaves in deterministic API order.
+  Selecting a leaf reveals only its public rating, display name, optional
+  country, and optional comment. Pending check-ins are never rendered.
+- The tree remains visible with zero approved check-ins; no interactive leaves
+  or fake contributions are added in the empty state. This is a first-stage
+  window, not an unlimited-growth engine.
+- Removed the extra check-in eyebrow/questionnaire explanation and softened
+  the divider between the WHY and human check-in areas. No backend, database,
+  moderation, or impact behavior changed.
+
+## Local development admin access — 2026-10-14
+
+- Added a Vite development-only middleware that strips any client-provided
+  `x-youmatter-local-admin-proof`, verifies a local hostname and loopback
+  socket peer, then adds a short-lived HMAC proof signed with a random
+  per-server secret.
+- The shared admin authorizer accepts `local-admin@youmatter.test` only when
+  that proof verifies. The secret and middleware are excluded from production
+  builds and Vite preview; all admin routes retain independent authorization.
+- Cloudflare Access JWT verification and the `ADMIN_EMAILS` allowlist remain
+  unchanged for every request without a valid local proof.
+- Verified `/admin` and the protected submission, Gratitude, and Live
+  Adventure GET APIs return HTTP 200 at local port 5173; the four public
+  adventure pages and homepage also return HTTP 200. A browser load displayed
+  the existing admin interface.
+- A client-supplied forged proof is replaced on same-origin loopback requests;
+  a cross-origin forged request is denied. A direct request to the local
+  Worker with a forged proof remains unauthorized.
+- Targeted ESLint and the production build pass. The repository-wide
+  TypeScript check still reports existing unrelated errors, including existing
+  admin-page typing and optional R2 binding diagnostics.
+- No contribution moderation was performed and aggregate local D1 row counts
+  remained unchanged during the GET-only checks.
+
+## Homepage simplification — 2026-10-14
+
+- Kept the forest entrance, scenic sequence, adventure destinations, and Live
+  Adventure pilot facts/link.
+- Replaced the desktop-only “path to the left” label with “A quieter path,” and
+  removed the static Live Adventure process sentence.
+- Removed the redundant “Understand. Practise. Contribute.” section and the
+  explanatory paragraph that duplicated `/what-is-this`. Retained
+  “Wellbeing is personal. It is also collective.” as a concise bridge with a
+  link to the explanation page.
+- Removed the blank/placeholder impact progress UI and retained the approved
+  50-contribution tree-funding commitment without a current count or progress.
+- Static checks and editor diagnostics passed; browser, lint, and build checks
+  were unavailable because Node.js and pnpm are not installed.
+
+## What is this? page and navigation language — 2026-10-14
+
+- Added `/what-is-this` as a conceptual explanation of the project, its
+  evidence-informed approach, individual-to-collective pattern, four
+  adventures, forest metaphor, and invitation to take part.
+- Updated shared navigation to “What is this?” and “Go straight to the
+  adventures”; the adventure disclosure and responsive/keyboard behavior are
+  retained. The new page is also linked from the shared footer.
+- Stated the commitment to fund one tree for every 50 approved contributions
+  across You Matter without claiming trees have already been funded or planted.
+- No Caroline biography, specific new research citations, impact counter,
+  adventure behavior, backend, or payment functionality was added or changed.
+
+## Shared site navigation and footer — 2026-10-14
+
+- Added a shared header to the homepage, Gratitude Garden, Kindness Tree,
+  What Do You Bring?, and 30 Days in Nature. It provides the four launch
+  adventures and a link to the homepage idea section.
+- Added a click-operated Adventures disclosure with Escape/outside-click
+  dismissal, current-adventure indication, and a responsive mobile menu.
+- Replaced duplicated footers with one shared footer linking Home and the four
+  launch adventures, with the existing concise wellbeing disclaimer.
+- Kept local Gratitude, Kindness, and Nature section navigation available.
+  Nature remains directly accessible, but is not in the primary/footer links;
+  `/admin` remains protected and is no longer advertised publicly.
+- Editor diagnostics reported no errors for the changed TSX files and
+  `git diff --check` passed. Browser, lint, and build checks could not run
+  because Node.js and pnpm are unavailable in this environment.
+
+## Live Adventure participant page — 2026-10-14
+
+- Expanded `/live-adventure` with the daily nature practice, opening call,
+  private WhatsApp check-ins, closing call, a short cautious nature/wellbeing
+  explanation with existing references, clear boundaries, pilot price, and
+  waiting-list next steps.
+- Kept the temporary trailhead image, waiting-list form placement near the top,
+  form component, API, schema, migration, reserve/capacity behavior, and admin
+  list unchanged. No payment, newsletter, or cohort automation was introduced.
+- Static copy checks, editor diagnostics, and `git diff --check` passed.
+  Interactive responsive checks, lint, and build could not run because Node.js
+  and pnpm are unavailable.
+
+## Live Adventure waiting list — 2026-10-14
+
+- `/live-adventure` now collects only first name and email for the 30 Days in
+  Nature pilot. It explains the 18+ and no-commitment/no-payment conditions.
+- A new D1 table stores at most 20 unique normalized email addresses. Its
+  public endpoint returns aggregate interest data only, caps the displayed
+  count at the 15-person group size, and distinguishes reserve availability.
+- The separately protected admin endpoint exposes names, emails, dates, and
+  first-15 versus reserve ordering. No participant data is added to the
+  contribution moderation queue.
+- No visitor-ownership token, newsletter consent, payment fields, Stripe,
+  email sending, or cohort automation was added. Payments and confirmation
+  remain manual.
+- Local source/schema checks are recorded in the task report. Runtime tests,
+  lint, and build could not run because Node.js is unavailable.
+
+## What Do You Bring? shelter visual — 2026-10-14
+
+- Installed the supplied 1365 × 768 shelter image unchanged at
+  `app/public/strengths-shelter.png`.
+- `/strengths` now presents the page invitation first, then a prominent
+  semantic, aspect-ratio-preserving shelter photograph and the collective
+  message, followed by the existing continuous contribution form and pending
+  area.
+- The shelter remains visible regardless of contribution count. After the
+  contribution feed loads, a brief waiting message appears if it contains no
+  approved contributions. No fake contributions or branch placements were
+  added.
+- The Task 8B form/API/data/moderation and `/api/impact` remain unchanged.
+- Confirmed the installed image is byte-identical to the supplied file,
+  checked its dimensions, received no editor diagnostics for the Strengths
+  page/component, and passed `git diff --check`. Responsive layout is based on
+  intrinsic image dimensions; interactive browser checks, lint, and build were
+  unavailable because Node.js is not installed in this environment.
+
+## What Do You Bring? contribution flow — 2026-10-14
+
+- Replaced the `/strengths` placeholder with a concise introduction and one
+  contribution form. Visitors select one of the 24 canonical character
+  strengths, may add a short reflection, choose Anonymous or first name, pick
+  an optional country, and must consent before submitting.
+- Added `strengths_entries` with one row per contribution and a new D1 migration.
+  The public API returns approved entries plus only the requesting visitor's
+  pending entries. Visitor token hashes are never returned.
+- Added Strengths submissions to the existing protected admin queue with
+  country-aware display and approve/reject actions. Both moderation decisions
+  clear visitor ownership; approval records its timestamp.
+- Pending contributions remain visible to their submitting browser and are
+  described as awaiting approval. No shelter artwork, placement fields, or
+  impact integration were added. `/api/impact` remains unchanged.
+- Verified the migration SQL in SQLite, checked all 24 canonical labels and
+  Drizzle snapshot/journal links, checked API privacy/filtering and moderation
+  source boundaries, and received no editor diagnostics or diff whitespace
+  errors. Lint/build and live API checks could not run because Node.js is not
+  available in this environment.
+
+## What Do You Bring? grouped contribution — 2026-10-14
+
+- Updated the Strengths experience to require exactly three distinct choices
+  from the existing 24 labels. One submission, optional reflection, identity,
+  consent, visitor ownership, and moderation remain one logical contribution.
+- The three labels are serialized in the existing `strengths_entries.strength`
+  text column; no schema or migration change was needed. Historical
+  single-strength rows are read as one-item groups and remain unmodified.
+- The public API returns sanitized approved contributions and only the
+  requesting visitor's pending contributions. The protected admin queue shows
+  the group's three labels as one moderation card.
+- Read-only local verification found one pre-existing pending Strengths row.
+  Its content was not reported, and it was not changed. Invalid API requests
+  (one selection, duplicates, or missing consent) returned HTTP 400 and the
+  pending count remained unchanged. The admin API returned HTTP 200 and
+  decoded the legacy row as one strength.
+- Targeted ESLint passed with two existing raw-image warnings. The production
+  build passed. Full TypeScript checking still reports existing errors in
+  admin, Nature, impact, and shared files; none point to the changed Strengths
+  code. `git diff --check` passed. No contribution was submitted or moderated.
+
+## Kindness Tree shell — 2026-10-14
+
+- `/kindness` now presents The Kindness Tree. Removed the rendered wall, bricks, building labels, and wall-specific consent/confirmation copy. Existing WHY, research, nuance, and sources remain unchanged.
+- Added a responsive placeholder and temporary approved-story disclosures before the WHY section. The original form follows the WHY section, with a separate own-pending story list. Story disclosures open with Enter/Space and closing restores focus to the trigger.
+- The shared AdventureShell has an optional discovery slot; other callers retain their previous structure. The discovery and form sections each read the existing visitor-filtered Kindness API. Selection is reusable through KindnessStories.
+- Verified build and lint (zero errors, four existing raw-image warnings elsewhere), `/kindness` and `/api/kindness` HTTP 200, approved-story keyboard selection, local form submission, tree-specific pending confirmation, pending persistence after refresh, and exclusion of that pending story from a request without its owner's cookie.
+- Browser QA used a separate local test database and a synthetic approved story. Checked 1280px desktop, 768px tablet, and 390px mobile; tablet/mobile had no horizontal overflow. Captured desktop/mobile screenshots. Stopped the QA server and removed its disposable database afterward; normal local data was untouched.
+- Full TypeScript checking still fails in unchanged admin, Nature, Gratitude, impact, and library files. No remaining Kindness type errors were reported after correcting response typings. Vinext build does not replace full TypeScript checking.
+- No API, schema, migration, admin, moderation, impact, homepage, or other-adventure source changed for this task. No commit or deployment.
+- Still to do: supply/approve the final tree image, integrate artwork, then design story discovery through the tree. No hotspots, leaves, tree growth, permanent positions, or “Show me a kindness” action were implemented.
+
+## Gratitude garden continuation — 2026-10-14
+
+- Restored the missing planting-layout module with nine deliberate positions (3 background, 4 middle, 2 foreground), including mobile coordinates, depth, scale, rotation, and layering.
+- Added a registry containing only the current clearing and a pure cumulative-capacity mapping helper. Sequences beyond registered capacity return no location; no future backgrounds or navigation are fabricated.
+- Removed the development bluebell and its preview CSS. All six flower PNGs and the variant registry remain intact. The scene reads its background from the clearing registry.
+- Verified production build, lint (zero errors, three existing image warnings), mapping boundaries including synthetic unequal capacities, invalid sequence handling, presence of all six assets, and HTTP 200 for `/gratitude`, `/api/gratitudes`, and `/api/impact` using a local built preview on port 5174. Browser inspection confirmed the empty clearing background and absence of the preview flower.
+- The nine reconstructed positions have not yet been visually tested with flowers on desktop and mobile. Copilot's nine-plant capacity assessment is reported context, not new visual verification. Permanent contribution sequences, real plant rendering, additional clearing photographs, and walking navigation remain to do.
+- No API, database, moderation, ownership, impact, other-adventure, or public homepage changes were made in this continuation. No commit, push, or deployment occurred.
 
 ## Authoritative website
 

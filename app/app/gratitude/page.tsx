@@ -1,21 +1,16 @@
 import Link from "next/link";
+import SiteFooter from "../../components/site-footer";
+import SiteHeader from "../../components/site-header";
 import GratitudePractice from "../../components/gratitude-practice";
 import PhysicalImpact from "../../components/physical-impact";
 
 export default function GratitudePage() {
   return (
     <>
-      <header className="site-header">
-        <nav className="shell nav" aria-label="Main navigation">
-          <Link className="brand" href="/">
-            You Matter.
-          </Link>
-          <div className="nav-links">
-            <a href="#practice">The practice</a>
-            <Link href="/#adventures">All adventures</Link>
-          </div>
-        </nav>
-      </header>
+      <SiteHeader />
+      <nav className="shell adventure-local-nav" aria-label="Gratitude Garden">
+        <a href="#practice">The practice</a>
+      </nav>
 
       <main className="gratitude-clearing">
         <section
@@ -70,15 +65,7 @@ export default function GratitudePage() {
         </section>
       </main>
 
-      <footer className="site-footer">
-        <div className="shell footer-inner">
-          <Link className="brand" href="/">
-            You Matter.
-          </Link>
-          <span>A reflective wellbeing experiment—not therapy or medical advice.</span>
-          <Link href="/#adventures">Return to the forest trail</Link>
-        </div>
-      </footer>
+      <SiteFooter />
     </>
   );
 }

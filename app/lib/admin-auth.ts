@@ -1,4 +1,5 @@
 import { env } from "cloudflare:workers";
+import { verifyLocalAdminProof } from "./local-admin-auth-proof";
 
 type AccessJwk = JsonWebKey & {
   alg: "RS256";
@@ -28,8 +29,17 @@ const jwksCache = new Map<
 >();
 
 export async function authorizeAdmin(
-  assertion: string | null
+  assertion: string | null,
+  localAdminProof: string | null
 ): Promise<AdminAuthorization> {
+  const localAdminSecret = env.LOCAL_ADMIN_MARKER_SECRET;
+  if (
+    localAdminSecret &&
+    (await verifyLocalAdminProof(localAdminProof, localAdminSecret))
+  ) {
+    return { authorized: true, email: "local-admin@youmatter.test" };
+  }
+
   const issuer = getTeamIssuer(env.CF_ACCESS_TEAM_DOMAIN);
   const audience = env.CF_ACCESS_AUD?.trim();
   const allowedEmails = (env.ADMIN_EMAILS ?? "")

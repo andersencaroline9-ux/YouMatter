@@ -1,8 +1,18 @@
 # ADVENTURES
 
-The recovered deployed-baseline application in `app/` contains these three
-adventures. Their original design and content are preserved from the recovered
-source.
+The active application in `app/` contains the adventures below.
+
+## Homepage community check-in
+- The check-in infrastructure supports a human 1–10 response to “How are you
+  doing today?” with an optional short comment, Anonymous/first-name identity,
+  optional country, consent, visitor ownership, and moderation. It is not a
+  psychological assessment, scientific measure, or wellbeing score.
+- The public API exposes approved check-ins only; pending check-ins are
+  retrievable only by their submitting visitor and protected admin reviewers.
+- Check-ins remain separate from adventure contributions and do not count
+  toward the 50-contribution tree-funding commitment. The product model is
+  Share → Witness, with no public replies, likes, or messaging.
+- The homepage form and future community-tree visual are not implemented yet.
 
 ## Gratitude Garden
 - Visitors enter three gratitudes and may choose a display name.
@@ -18,12 +28,39 @@ source.
   the shared mosaic for everyone.
 - Uses D1 for submission records and R2 for image storage.
 
-## Built From Kindness
+## The Kindness Tree
 - Visitors share a kind act they gave, received, or witnessed.
 - Contributions are saved for moderation and remain visible only to the
-  submitting browser while pending. Approved acts appear on the shared wall
-  for everyone.
+  submitting browser while pending. Approved acts appear in temporary shared
+  story discovery beside the supplied Kindness Tree image.
+- Visitors can ask to be shown one approved kindness story at a time.
 - Uses D1-backed persistence.
+
+## What Do You Bring?
+- Visitors select three distinct labels from the 24 canonical character
+  strengths they recognise in themselves; this is not a test or assessment.
+- One submission stores the three strengths together as one contribution, with
+  one optional combined reflection, identity/country choice, and moderation
+  decision. Existing single-strength rows remain readable.
+- An optional short reflection, Anonymous/first-name identity, optional
+  country, consent, moderation, and visitor-owned pending visibility are
+  supported.
+- Contributions use the shared D1/admin moderation architecture. The supplied
+  woodland shelter photograph is installed as the collective visual; individual
+  contributions are not yet placed on it. Impact integration is not
+  implemented.
+
+## Live Adventure — 30 Days in Nature
+- The public page collects first name and email for a no-commitment waiting
+  list; it takes no payment and is not newsletter signup.
+- The participant page explains the daily 30-minute nature practice, the
+  opening call, optional WhatsApp check-ins, closing call, cautious nature
+  context, pilot price, and what happens after joining the list.
+- D1 stores up to 20 unique normalized email addresses. The public endpoint
+  returns only safe aggregate counts capped at the 15-person cohort target.
+- The protected admin page separates the first 15 interested people from
+  reserve entries. Interest is not payment or confirmed participation; cohort
+  and payment management remain manual.
 
 The local app uses isolated Cloudflare-compatible storage emulation. Admin
 moderation remains protected by Cloudflare Access and is not available without

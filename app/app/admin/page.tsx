@@ -25,10 +25,39 @@ type NatureEntry = {
   createdAt: string;
   imageUrl: string;
 };
+type StrengthsEntry = {
+  id: number;
+  strengths: string[];
+  reflection: string | null;
+  displayName: string;
+  status: string;
+  createdAt: string;
+  approvedAt: string | null;
+  countryCode: string | null;
+};
+type CheckinEntry = {
+  id: number;
+  rating: number;
+  comment: string | null;
+  displayName: string;
+  status: string;
+  createdAt: string;
+  approvedAt: string | null;
+  countryCode: string | null;
+};
+type LiveAdventureInterest = {
+  id: number;
+  name: string;
+  email: string;
+  createdAt: string;
+  reserve: boolean;
+};
 type Data = {
   gratitude: GratitudeEntry[];
   kindness: TextEntry[];
   nature: NatureEntry[];
+  strengths: StrengthsEntry[];
+  checkins: CheckinEntry[];
 };
 
 export default function AdminPage() {
@@ -36,12 +65,20 @@ export default function AdminPage() {
     gratitude: [],
     kindness: [],
     nature: [],
+    strengths: [],
+    checkins: [],
   });
   const [note, setNote] = useState("Loading submissions…");
+  const [liveInterests, setLiveInterests] = useState<
+    LiveAdventureInterest[]
+  >([]);
+  const [liveInterestNote, setLiveInterestNote] = useState(
+    "Loading the waiting list…"
+  );
 
   useEffect(() => {
     fetch("/api/admin/submissions")
-      .then((response) => response.json())
+      .then(async (response) => (await response.json()) as Data & { error?: string })
       .then((result) => {
         if (result.error) setNote(result.error);
         else {
@@ -50,6 +87,31 @@ export default function AdminPage() {
         }
       })
       .catch(() => setNote("Unable to load submissions."));
+  }, []);
+
+  useEffect(() => {
+    fetch("/api/admin/live-adventure")
+      .then(async (response) => {
+        const result = (await response.json()) as {
+          entries?: LiveAdventureInterest[];
+          error?: string;
+        };
+        if (!response.ok) {
+          throw new Error(result.error ?? "Unable to load the waiting list.");
+        }
+        return result;
+      })
+      .then((result) => {
+        setLiveInterests(result.entries ?? []);
+        setLiveInterestNote("");
+      })
+      .catch((error: unknown) => {
+        setLiveInterestNote(
+          error instanceof Error
+            ? error.message
+            : "Unable to load the waiting list."
+        );
+      });
   }, []);
 
   async function decide(
@@ -63,7 +125,7 @@ export default function AdminPage() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ type, id, submissionId, status }),
     });
-    const result = await response.json();
+    const result = (await response.json()) as { error?: string };
     if (!response.ok) {
       setNote(result.error ?? "Unable to update.");
       return;
@@ -85,15 +147,22 @@ export default function AdminPage() {
   const actions = (
     type: keyof Data,
     id: number,
+    status: string,
     submissionId?: string | null
   ) => (
     <div className="admin-actions">
-      <button
-        className="approve"
-        onClick={() => decide(type, id, "approved", submissionId)}
-      >
-        Approve
-      </button>
+      {status === "approved" ? (
+        <span role="status">
+          <strong>Approved ✓</strong>
+        </span>
+      ) : (
+        <button
+          className="approve"
+          onClick={() => decide(type, id, "approved", submissionId)}
+        >
+          Approve
+        </button>
+      )}
       <button
         onClick={() => decide(type, id, "rejected", submissionId)}
       >
@@ -121,6 +190,49 @@ export default function AdminPage() {
         {note && <p className="form-note">{note}</p>}
 
         <section className="admin-section">
+          <h2>30 Days in Nature — Waiting List</h2>
+          <p className="muted">
+            Interest only—not paid or confirmed participation. The first 15
+            entries are the initial group; later entries are reserves.
+          </p>
+          {liveInterestNote && (
+            <p className="form-note">{liveInterestNote}</p>
+          )}
+          {!liveInterestNote && liveInterests.length === 0 && (
+            <p className="muted">No one has joined the waiting list yet.</p>
+          )}
+          {(["group", "reserve"] as const).map((section) => {
+            const entries = liveInterests.filter(
+              (entry) =>
+                entry.reserve === (section === "reserve")
+            );
+            if (entries.length === 0) return null;
+            return (
+              <div className="admin-waitlist-group" key={section}>
+                <h3>
+                  {section === "group"
+                    ? "First 15 interested people"
+                    : "Reserve list (entries 16–20)"}
+                </h3>
+                <ol>
+                  {entries.map((entry) => (
+                    <li key={entry.id}>
+                      <strong>{entry.name}</strong>
+                      {" · "}
+                      <a href={`mailto:${entry.email}`}>{entry.email}</a>
+                      {" · Joined "}
+                      {new Date(
+                        `${entry.createdAt.replace(" ", "T")}Z`
+                      ).toLocaleDateString()}
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            );
+          })}
+        </section>
+
+        <section className="admin-section">
           <h2>
             Nature photographs{" "}
             <span>
@@ -140,7 +252,7 @@ export default function AdminPage() {
                   <span className="muted">
                     {item.displayName} · {item.status}
                   </span>
-                  {actions("nature", item.id)}
+                  {actions("nature", item.id, item.status)}
                 </div>
               </article>
             ))}
@@ -167,10 +279,94 @@ export default function AdminPage() {
                     {item.displayName} · {item.kind} · {item.status}
                   </span>
                 </div>
-                {actions("kindness", item.id)}
+                {actions("kindness", item.id, item.status)}
               </article>
             ))}
           </div>
+        </section>
+
+        <section className="admin-section">
+          <h2>
+            What Do You Bring?{" "}
+            <span>
+              {data.strengths.filter((item) => item.status === "pending").length}{" "}
+              pending
+            </span>
+          </h2>
+          <div className="admin-table">
+            {data.strengths.map((item) => {
+              const country = item.countryCode
+                ? getCountryDisplay(item.countryCode)
+                : null;
+              return (
+                <article className="admin-row card" key={item.id}>
+                  <div>
+                    <p className="serif">
+                      <strong>{item.strengths.join(", ")}</strong>
+                    </p>
+                    {item.reflection && <p>“{item.reflection}”</p>}
+                    <span className="muted">
+                      {item.displayName}
+                      {country && (
+                        <>
+                          {" · "}
+                          {country.name}{" "}
+                          <span aria-hidden="true">{country.flag}</span>
+                        </>
+                      )}{" "}
+                      · {item.status}
+                    </span>
+                  </div>
+                  {actions("strengths", item.id, item.status)}
+                </article>
+              );
+            })}
+          </div>
+          {!note && data.strengths.length === 0 && (
+            <p className="muted">No strengths contributions yet.</p>
+          )}
+        </section>
+
+        <section className="admin-section">
+          <h2>
+            Homepage check-ins{" "}
+            <span>
+              {data.checkins.filter((item) => item.status === "pending").length}{" "}
+              pending
+            </span>
+          </h2>
+          <div className="admin-table">
+            {data.checkins.map((item) => {
+              const country = item.countryCode
+                ? getCountryDisplay(item.countryCode)
+                : null;
+              return (
+                <article className="admin-row card" key={item.id}>
+                  <div>
+                    <p className="serif">
+                      <strong>{item.rating}/10</strong>
+                    </p>
+                    {item.comment && <p>“{item.comment}”</p>}
+                    <span className="muted">
+                      {item.displayName}
+                      {country && (
+                        <>
+                          {" · "}
+                          {country.name}{" "}
+                          <span aria-hidden="true">{country.flag}</span>
+                        </>
+                      )}{" "}
+                      · {item.status}
+                    </span>
+                  </div>
+                  {actions("checkins", item.id, item.status)}
+                </article>
+              );
+            })}
+          </div>
+          {!note && data.checkins.length === 0 && (
+            <p className="muted">No homepage check-ins yet.</p>
+          )}
         </section>
 
         <section className="admin-section">
@@ -208,7 +404,7 @@ export default function AdminPage() {
                       · {item.status}
                     </span>
                   </div>
-                  {actions("gratitude", item.id, item.submissionId)}
+                  {actions("gratitude", item.id, item.status, item.submissionId)}
                 </article>
               );
             })}

@@ -33,7 +33,7 @@ const countryNames = new Intl.DisplayNames(["en"], { type: "region" });
 export const countries = COUNTRY_CODES.map((code) => ({
   code,
   name: countryNames.of(code) ?? code,
-})).sort((left, right) => left.name.localeCompare(right.name));
+})).sort((left, right) => left.name.localeCompare(right.name, "en"));
 
 export function normalizeCountryCode(
   value: unknown

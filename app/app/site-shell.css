@@ -1,0 +1,215 @@
+.site-nav {
+  position: relative;
+  display: flex;
+  min-height: 74px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.site-nav__links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.site-nav__link,
+.site-nav__adventures-toggle {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 7px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+}
+
+.site-nav__link:hover,
+.site-nav__adventures-toggle:hover,
+.site-nav__adventures-menu a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.site-nav__adventures {
+  position: relative;
+}
+
+.site-nav__adventures-menu {
+  position: absolute;
+  z-index: 2;
+  top: calc(100% + 8px);
+  left: 0;
+  display: grid;
+  min-width: 250px;
+  gap: 2px;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--paper);
+  box-shadow: 0 12px 32px rgba(20, 49, 38, 0.16);
+  color: var(--ink);
+}
+
+.site-nav__adventures-menu[hidden] {
+  display: none;
+}
+
+.site-nav__adventures-menu a {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.site-nav__adventures-menu a[data-active="true"] {
+  background: var(--sage);
+  font-weight: 800;
+}
+
+.site-nav__mobile-toggle {
+  display: none;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.site-nav a:focus-visible,
+.site-nav button:focus-visible,
+.site-footer a:focus-visible,
+.adventure-local-nav a:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 4px;
+}
+
+.site-footer__content {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 38px;
+}
+
+.site-footer__identity p {
+  margin: 8px 0 0;
+  color: #68786f;
+}
+
+.site-footer__identity .site-footer__disclaimer {
+  max-width: 390px;
+  margin-top: 18px;
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+
+.site-footer__links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px 22px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.site-footer__links a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.adventure-local-nav {
+  display: flex;
+  min-height: 50px;
+  align-items: center;
+  gap: 22px;
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.adventure-local-nav a {
+  text-decoration: underline;
+  text-decoration-color: rgba(32, 56, 45, 0.32);
+  text-underline-offset: 4px;
+}
+
+.forest-home__header .brand,
+.forest-home__header .site-nav__link,
+.forest-home__header .site-nav__adventures-toggle,
+.forest-home__header .site-nav__mobile-toggle {
+  color: #fff;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.55);
+}
+
+.forest-home__header .site-nav__mobile-toggle {
+  border-color: rgba(255, 255, 255, 0.75);
+}
+
+@media (max-width: 700px) {
+  .site-nav__mobile-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .site-nav__links {
+    position: absolute;
+    z-index: 3;
+    top: calc(100% - 1px);
+    right: 0;
+    left: 0;
+    display: none;
+    align-items: stretch;
+    gap: 4px;
+    padding: 12px;
+    border: 1px solid var(--line);
+    border-radius: 0 0 16px 16px;
+    background: var(--paper);
+    box-shadow: 0 12px 24px rgba(20, 49, 38, 0.12);
+    color: var(--ink);
+  }
+
+  .site-nav__links[data-open="true"] {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .site-nav__links .site-nav__link,
+  .site-nav__adventures-toggle {
+    width: 100%;
+    justify-content: space-between;
+    padding: 0 12px;
+    text-align: left;
+  }
+
+  .site-nav__adventures-menu {
+    position: static;
+    min-width: 0;
+    margin: 0 4px 6px;
+    border: 0;
+    border-radius: 10px;
+    background: #f4f6ef;
+    box-shadow: none;
+  }
+
+  .site-footer__content {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .site-footer__links {
+    justify-content: flex-start;
+    gap: 12px 18px;
+  }
+}

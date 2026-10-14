@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import "./adventures.css";
+import "./site-shell.css";
 
 export const metadata: Metadata = {
   title: "You Matter — Choose Your Adventure",

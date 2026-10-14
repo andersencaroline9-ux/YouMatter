@@ -3,10 +3,12 @@ import { getDb } from "../../../../db";
 import { gratitudes } from "../../../../db/schema";
 import { authorizeAdmin } from "../../../../lib/admin-auth";
 import { groupGratitudeRows } from "../../../../lib/gratitude-submissions";
+import { LOCAL_ADMIN_PROOF_HEADER } from "../../../../lib/local-admin-auth-proof";
 
 export async function GET(request: Request) {
   const authorization = await authorizeAdmin(
-    request.headers.get("cf-access-jwt-assertion")
+    request.headers.get("cf-access-jwt-assertion"),
+    request.headers.get(LOCAL_ADMIN_PROOF_HEADER)
   );
   if (!authorization.authorized) {
     return Response.json(
@@ -48,7 +50,8 @@ export async function GET(request: Request) {
 
 export async function PATCH(request: Request) {
   const authorization = await authorizeAdmin(
-    request.headers.get("cf-access-jwt-assertion")
+    request.headers.get("cf-access-jwt-assertion"),
+    request.headers.get(LOCAL_ADMIN_PROOF_HEADER)
   );
   if (!authorization.authorized) {
     return Response.json(

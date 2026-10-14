@@ -1,8 +1,9 @@
 "use client";
 
 import { FormEvent, useEffect, useState } from "react";
+import KindnessStories from "./kindness-stories";
 
-type Entry = {
+export type KindnessEntry = {
   id: number;
   message: string;
   kind: "gave" | "received" | "witnessed";
@@ -11,19 +12,23 @@ type Entry = {
 };
 
 export default function KindnessPractice() {
-  const [entries, setEntries] = useState<Entry[]>([]);
+  const [entries, setEntries] = useState<KindnessEntry[]>([]);
   const [message, setMessage] = useState("");
-  const [kind, setKind] = useState<Entry["kind"]>("witnessed");
+  const [kind, setKind] = useState<KindnessEntry["kind"]>("witnessed");
   const [name, setName] = useState("");
   const [consent, setConsent] = useState(false);
   const [note, setNote] = useState("");
   const [busy, setBusy] = useState(false);
-  const [selected, setSelected] = useState<Entry | null>(null);
 
   useEffect(() => {
     fetch("/api/kindness")
-      .then((response) => response.json())
-      .then((data) => setEntries(data.entries ?? []));
+      .then(async (response) => {
+        const data = (await response.json()) as { entries?: KindnessEntry[] };
+        if (!response.ok) throw new Error();
+        return data;
+      })
+      .then((data) => setEntries(data.entries ?? []))
+      .catch(() => setNote("The kindness wall is temporarily unavailable."));
   }, []);
 
   async function submit(event: FormEvent) {
@@ -33,35 +38,43 @@ export default function KindnessPractice() {
       return;
     }
     if (!consent) {
-      setNote("Please confirm that the words may join the shared wall.");
+      setNote("Please confirm that the words may join the Kindness Tree.");
       return;
     }
 
     setBusy(true);
-    const response = await fetch("/api/kindness", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message, kind, displayName: name, consent }),
-    });
-    const data = await response.json();
-    setBusy(false);
-    if (!response.ok) {
-      setNote(data.error ?? "The brick could not be added.");
-      return;
-    }
+    try {
+      const response = await fetch("/api/kindness", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message, kind, displayName: name, consent }),
+      });
+      const data = (await response.json()) as {
+        error?: string;
+        entry: KindnessEntry;
+      };
+      if (!response.ok) {
+        setNote(data.error ?? "This kindness could not be shared.");
+        return;
+      }
 
-    setEntries((current) => [{ ...data.entry, status: "pending" }, ...current]);
-    setMessage("");
-    setNote(
-      "Thank you. Your kindness brick is saved and visible to you here as Awaiting approval. It will join the shared wall after review."
-    );
+      setEntries((current) => [{ ...data.entry, status: "pending" }, ...current]);
+      setMessage("");
+      setNote(
+        "Thank you for sharing this kindness. It’s saved and visible to you here as Awaiting approval. It will join the Kindness Tree after review."
+      );
+    } catch {
+      setNote("This kindness could not be shared right now. Please try again.");
+    } finally {
+      setBusy(false);
+    }
   }
 
   return (
-    <div className="practice-grid">
-      <div className="practice card">
+    <div className="kindness-practice-layout">
+      <div className="practice card" aria-labelledby="kindness-form-title">
         <p className="eyebrow">Your daily experiment · one small act</p>
-        <h2>Notice kindness in motion.</h2>
+        <h2 id="kindness-form-title">Notice kindness in motion.</h2>
         <p>
           Share one kind action you gave, received or witnessed today. Ordinary
           kindness counts: holding a door, making tea, checking in.
@@ -72,7 +85,7 @@ export default function KindnessPractice() {
             <select
               value={kind}
               onChange={(event) =>
-                setKind(event.target.value as Entry["kind"])
+                setKind(event.target.value as KindnessEntry["kind"])
               }
             >
               <option value="gave">gave kindness</option>
@@ -104,11 +117,11 @@ export default function KindnessPractice() {
               checked={consent}
               onChange={(event) => setConsent(event.target.checked)}
             />
-            These words may appear in the shared wall after review. I have
+            These words may appear in the Kindness Tree after review. I have
             removed identifying details.
           </label>
           <button className="button" disabled={busy}>
-            {busy ? "Building…" : "Add one brick"}
+            {busy ? "Sharing…" : "Share a kindness"}
           </button>
           <p className="form-note" role="status">
             {note}
@@ -116,48 +129,15 @@ export default function KindnessPractice() {
         </form>
       </div>
 
-      <div className="wall-panel">
-        <div className="creation-heading">
-          <div>
-            <p className="eyebrow">Our collective creation</p>
-            <h2>The wall we are building</h2>
-          </div>
-          <span>{entries.length} kind actions</span>
-        </div>
-        <div className="kindness-wall">
-          {entries.length === 0 && (
-            <p className="empty-wall">One small kindness can lay the first brick.</p>
-          )}
-          {entries.slice(0, 48).map((entry, index) => (
-            <button
-              key={`${entry.status}-${entry.id}`}
-              className={`kindness-brick row-${index % 3}`}
-              onClick={() => setSelected(entry)}
-              style={{ opacity: entry.status === "pending" ? 0.72 : 1 }}
-            >
-              <small>{entry.kind}</small>
-              {entry.status === "pending" && (
-                <small className="approval-status">Awaiting approval</small>
-              )}
-              <span>{entry.message}</span>
-            </button>
-          ))}
-        </div>
-        {selected && (
-          <div className="wall-note">
-            <button onClick={() => setSelected(null)}>×</button>
-            <p>“{selected.message}”</p>
-            <span>
-              — {selected.displayName} · kindness {selected.kind}
-              {selected.status === "pending" ? " · Awaiting approval" : ""}
-            </span>
-          </div>
-        )}
-        <p className="creation-caption">
-          A single brick can feel small. Together, these actions become visible
-          evidence of the kind of world people are already helping to build.
-        </p>
-      </div>
+      <section className="kindness-pending" aria-labelledby="kindness-pending-title">
+        <h2 id="kindness-pending-title">Your kindness stories</h2>
+        <p>After review, approved stories will join the Kindness Tree.</p>
+        <KindnessStories
+          entries={entries.filter((entry) => entry.status === "pending")}
+          emptyMessage="Your stories awaiting approval will appear here after you share."
+          id="kindness-pending"
+        />
+      </section>
     </div>
   );
 }

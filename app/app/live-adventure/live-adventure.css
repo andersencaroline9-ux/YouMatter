@@ -1,0 +1,61 @@
+.live-adventure-page{background:#e8efe4}
+.live-adventure-hero{display:flex;min-height:min(70svh,680px);align-items:center;color:#fff;background:linear-gradient(90deg,rgba(13,25,17,.76),rgba(13,25,17,.43) 68%,rgba(13,25,17,.16)),linear-gradient(0deg,rgba(13,25,17,.3),transparent 60%),url("/forest-live-trailhead-temporary.jpg") center 58%/cover;background-color:#263b2d}
+.live-adventure-hero__content{padding-block:76px;text-shadow:0 2px 14px rgba(0,0,0,.55)}
+.live-adventure-hero .eyebrow{margin:0 0 18px;color:#e4d5a9}
+.live-adventure-hero h1{max-width:900px;margin:0;font:500 clamp(3rem,7vw,6.4rem)/.98 Georgia,"Times New Roman",serif;letter-spacing:-.05em}
+.live-adventure-tagline{max-width:700px;margin:18px 0 0;font:500 clamp(1.25rem,2.4vw,1.8rem)/1.35 Georgia,"Times New Roman",serif}
+.live-adventure-hero__intro{max-width:650px;margin:14px 0 0;color:rgba(255,255,255,.93);font-size:1.02rem;line-height:1.65}
+.live-adventure-details{display:flex;flex-wrap:wrap;gap:12px 0;margin:28px 0 0;padding:0;list-style:none}
+.live-adventure-details li{padding:0 18px;border-left:1px solid rgba(255,255,255,.6);font-size:.95rem;line-height:1.5}
+.live-adventure-details li:first-child{padding-left:0;border-left:0}
+.live-adventure-hero__link{display:inline-flex;min-height:48px;align-items:center;margin-top:28px;padding:4px 0;border-bottom:1px solid rgba(255,255,255,.8);color:#fff;font-weight:700}
+.live-adventure-hero__link:focus-visible,.live-adventure-bottom-link:focus-visible{outline:3px solid #a98239;outline-offset:5px}
+.live-adventure-signup{display:grid;grid-template-columns:minmax(0,.9fr) minmax(300px,1.1fr);gap:clamp(28px,7vw,84px);align-items:start;padding-block:clamp(48px,8vw,88px)}
+.live-adventure-invitation{max-width:540px}
+.live-adventure-invitation .eyebrow{margin:0 0 12px;color:var(--moss)}
+.live-adventure-invitation h2{margin:0;font:500 clamp(2rem,4vw,3.5rem)/1.08 Georgia,"Times New Roman",serif;letter-spacing:-.035em}
+.live-adventure-invitation>p:not(.eyebrow){color:#526a5d;font:1.05rem/1.7 Georgia,"Times New Roman",serif}
+.live-adventure-invitation .live-adventure-aim{font-size:.94rem}
+.live-adventure-waitlist{min-width:0}
+.live-adventure-count{margin:0 0 8px;color:#314b3b;font:500 1.35rem/1.4 Georgia,"Times New Roman",serif}
+.live-adventure-reserve-note,.live-adventure-status-error{margin:0 0 14px;color:#526a5d;font-size:.9rem;line-height:1.6}
+.live-adventure-full{padding:18px 20px;border:1px solid var(--line);border-radius:18px;background:#fffdf7;color:#314b3b;line-height:1.6}
+.live-adventure-form{display:grid;gap:10px;padding:clamp(20px,4vw,32px)}
+.live-adventure-form label{margin-top:5px;font-size:.88rem;font-weight:800}
+.live-adventure-form input{width:100%;min-height:48px;border:1px solid rgba(32,56,45,.2);border-radius:12px;padding:11px 13px;background:#fffdf7;color:var(--ink)}
+.live-adventure-form input:focus{outline:3px solid rgba(81,112,95,.2);border-color:var(--moss)}
+.live-adventure-form .button{margin-top:10px}
+.live-adventure-form-note{min-height:1.5em;margin:0;color:#40594a;font-size:.9rem;line-height:1.55}
+.live-adventure-section{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(28px,7vw,84px);align-items:start;padding-block:clamp(48px,7vw,76px)}
+.live-adventure-section--soft{max-width:none;background:#f4f0e4}
+.live-adventure-section--soft>.shell{grid-column:1/-1;width:min(1160px,calc(100% - 40px));margin-inline:auto}
+.live-adventure-section__intro{max-width:520px}
+.live-adventure-section__intro .eyebrow,.live-adventure-practical .eyebrow,.live-adventure-next .eyebrow{margin:0 0 12px;color:var(--moss)}
+.live-adventure-section h2{margin:0;font:500 clamp(1.9rem,4vw,3.1rem)/1.1 Georgia,"Times New Roman",serif;letter-spacing:-.035em}
+.live-adventure-section__intro>p:last-child,.live-adventure-why>div:last-child>p,.live-adventure-practical p,.live-adventure-next>p{color:#526a5d;font:1rem/1.7 Georgia,"Times New Roman",serif}
+.live-adventure-practice{padding:clamp(22px,4vw,34px)}
+.live-adventure-practice h3,.live-adventure-stages h3{margin:0;font:500 1.35rem/1.25 Georgia,"Times New Roman",serif}
+.live-adventure-practice ul{display:grid;gap:8px;padding-left:22px;color:#40594a;line-height:1.6}
+.live-adventure-practice p{color:#526a5d;line-height:1.7}
+.live-adventure-practice p:last-child{margin-bottom:0}
+.live-adventure-stages{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.live-adventure-stages article{padding:20px;border-top:2px solid #9aab91;background:rgba(255,253,247,.65)}
+.live-adventure-stage-label{margin:0 0 10px;color:#65766b;font-size:.75rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.live-adventure-stages article>p:last-child{margin-bottom:0;color:#526a5d;font-size:.9rem;line-height:1.65}
+.live-adventure-why{align-items:center}
+.live-adventure-sources{display:grid;gap:8px;margin:18px 0 0;padding-left:18px;color:#526a5d;font-size:.83rem;line-height:1.5}
+.live-adventure-sources a{text-decoration:underline;text-underline-offset:3px}
+.live-adventure-sources a:focus-visible{outline:2px solid var(--moss);outline-offset:3px}
+.live-adventure-practical{display:grid;grid-template-columns:1.2fr .8fr;gap:clamp(28px,7vw,84px)}
+.live-adventure-practical>div:last-child{padding-left:clamp(0px,4vw,44px);border-left:1px solid var(--line)}
+.live-adventure-practical>div:last-child h2{font-size:clamp(2.4rem,5vw,4rem)}
+.live-adventure-practical p strong{color:var(--deep)}
+.live-adventure-next{display:grid;grid-template-columns:.8fr 1.2fr;gap:14px 56px;padding-block:clamp(48px,7vw,76px)}
+.live-adventure-next h2{margin:0;font:500 clamp(1.9rem,4vw,3.1rem)/1.1 Georgia,"Times New Roman",serif;letter-spacing:-.035em}
+.live-adventure-next ol{display:grid;gap:10px;margin:0;padding-left:22px;color:#40594a;line-height:1.65}
+.live-adventure-next>p{grid-column:2;margin:0}
+.live-adventure-bottom-link{grid-column:2;justify-self:start;display:inline-flex;min-height:44px;align-items:center;border-bottom:1px solid var(--deep);color:var(--deep);font-weight:700}
+@media(max-width:760px){.live-adventure-signup{grid-template-columns:1fr;gap:24px}.live-adventure-hero{min-height:64svh}}
+@media(max-width:900px){.live-adventure-section{grid-template-columns:1fr;gap:22px}.live-adventure-stages{grid-template-columns:1fr}.live-adventure-stages article{padding:18px 20px}.live-adventure-why{gap:12px}}
+@media(max-width:760px){.live-adventure-practical,.live-adventure-next{grid-template-columns:1fr;gap:22px}.live-adventure-practical>div:last-child{padding:22px 0 0;border-left:0;border-top:1px solid var(--line)}.live-adventure-next>p,.live-adventure-bottom-link{grid-column:1}}
+@media(max-width:560px){.live-adventure-hero{min-height:72svh;background-position:center,center,58% center}.live-adventure-hero__content{padding-block:64px}.live-adventure-details{display:grid;grid-template-columns:1fr 1fr;gap:10px 0}.live-adventure-details li{padding-left:12px}.live-adventure-details li:nth-child(odd){padding-left:0;border-left:0}.live-adventure-signup{padding-block:42px}.live-adventure-section{padding-block:42px}.live-adventure-section--soft>.shell{width:min(100% - 40px,1160px)}}

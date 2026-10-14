@@ -2,12 +2,25 @@ import { and, desc, eq } from "drizzle-orm";
 import { getDb } from "../../../db";
 import { gratitudes } from "../../../db/schema";
 import { normalizeCountryCode } from "../../../lib/countries";
-import { groupGratitudeRows } from "../../../lib/gratitude-submissions";
+import {
+  groupGratitudeRows,
+  type GratitudeSubmission,
+} from "../../../lib/gratitude-submissions";
 import {
   createVisitorSubmissionIdentity,
   getVisitorTokenHash,
   privateVisitorJson,
 } from "../../../lib/visitor-submissions";
+
+function publicSubmissions(submissions: GratitudeSubmission[]) {
+  return submissions.map(
+    ({ messages, displayName, countryCode }) => ({
+      messages,
+      displayName,
+      countryCode,
+    })
+  );
+}
 
 export async function GET(request: Request) {
   try {
@@ -52,25 +65,19 @@ export async function GET(request: Request) {
           .limit(180)
       : [];
 
-    const entries = [
-      ...groupGratitudeRows(approved)
-        .filter(
-          (submission) =>
-            !submission.submissionId || submission.messages.length === 3
-        )
-        .slice(0, 60),
-      ...groupGratitudeRows(ownPending),
-    ].sort(
-      (left, right) =>
-        right.createdAt.localeCompare(left.createdAt) || right.id - left.id
-    );
-    return privateVisitorJson({ gratitudes: entries });
-  } catch (error) {
+    const approvedEntries = groupGratitudeRows(approved)
+      .filter(
+        (submission) =>
+          !submission.submissionId || submission.messages.length === 3
+      )
+      .slice(0, 60);
+    return privateVisitorJson({
+      gratitudes: publicSubmissions(approvedEntries),
+      pending: publicSubmissions(groupGratitudeRows(ownPending)),
+    });
+  } catch {
     return Response.json(
-      {
-        error:
-          error instanceof Error ? error.message : "The garden is unavailable.",
-      },
+      { error: "The garden is temporarily unavailable." },
       { status: 500 }
     );
   }
@@ -142,18 +149,13 @@ export async function POST(request: Request) {
       });
 
     return privateVisitorJson(
-      { gratitudes: groupGratitudeRows(rows) },
+      { gratitudes: publicSubmissions(groupGratitudeRows(rows)) },
       { status: 201 },
       identity.setCookie
     );
-  } catch (error) {
+  } catch {
     return Response.json(
-      {
-        error:
-          error instanceof Error
-            ? error.message
-            : "The seeds could not be planted.",
-      },
+      { error: "The seeds could not be planted right now. Please try again." },
       { status: 500 }
     );
   }

@@ -8,7 +8,8 @@ does not replace the separate GitHub Pages homepage at the repository root.
 From this directory, run `pnpm dev` and open <http://localhost:5173/>.
 
 The adventures are at `/gratitude` (Gratitude Garden), `/nature` (Nature
-Mosaic), and `/kindness` (Built From Kindness). Header and back links return to
+Mosaic), `/kindness` (The Kindness Tree), `/strengths` (What Do You Bring?),
+and `/live-adventure` (30 Days in Nature). Header and back links return to
 this app's homepage. The development server binds to loopback.
 
 ## First-time local database setup
@@ -24,6 +25,9 @@ node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1
 node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0002_visitor-submission-ownership.sql
 node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0003_gratitude_country.sql
 node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0004_gratitude_submission_groups.sql
+node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0005_strengths_contributions.sql
+node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0006_live_adventure_waiting_list.sql
+node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0007_homepage_checkins.sql
 ```
 
 Apply these migrations once in order. Do not replay them against an already
@@ -32,6 +36,12 @@ existing pending records have no owner association and remain moderator-only.
 Migration `0003` adds an optional ISO 3166-1 alpha-2 country code to gratitude
 entries. Migration `0004` groups the three messages from each new Gratitude
 submission so moderation and public garden display treat them as one contribution.
+Migration `0005` creates the independent `strengths_entries` table for one
+pending, visitor-owned Strengths contribution per row. Migration `0006` creates
+the separate Live Adventure waiting list with unique normalized email addresses.
+Migration `0007` creates the moderated homepage check-in table. Check-ins are
+separate from adventure contributions and never count toward the
+50-contribution tree-funding commitment.
 
 ## Local features and data
 
@@ -57,6 +67,10 @@ submission so moderation and public garden display treat them as one contributio
 - `/admin` and admin APIs verify Cloudflare Access JWTs and the administrator
   email allowlist. Do not bypass this protection; local admin use requires a
   trusted local identity/JWT setup.
+- The Live Adventure public API returns only aggregate interest counts and
+  signup outcomes. Names and email addresses are exposed only through its
+  separately protected admin endpoint; the waiting list is not newsletter
+  signup.
 - No production database, bucket, account, or Cloudflare settings are used.
 
 Run `pnpm build` or `pnpm lint` from this directory as needed.

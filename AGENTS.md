@@ -51,9 +51,10 @@ private to their submitter and moderators. Moderation removes visitor ownership
 when approving or rejecting.
 
 Admin routes must continue validating Cloudflare Access JWTs and the
-administrator email allowlist. Do not weaken or bypass these checks to make
-local moderation easier. Local moderation requires a trusted local identity
-configuration.
+administrator email allowlist outside genuine local development. Local
+development may use only the server-established, loopback-verified signed
+identity; never accept a browser-selected flag or marker. Production admin
+access remains Cloudflare Access plus the administrator email allowlist.
 
 ## Working rules
 

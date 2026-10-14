@@ -52,12 +52,9 @@ export async function GET(request: Request) {
         right.createdAt.localeCompare(left.createdAt) || right.id - left.id
     );
     return privateVisitorJson({ entries });
-  } catch (error) {
+  } catch {
     return Response.json(
-      {
-        error:
-          error instanceof Error ? error.message : "Unable to load the wall.",
-      },
+      { error: "The kindness wall is temporarily unavailable." },
       { status: 500 }
     );
   }
@@ -127,12 +124,9 @@ export async function POST(request: Request) {
       { status: 201 },
       identity.setCookie
     );
-  } catch (error) {
+  } catch {
     return Response.json(
-      {
-        error:
-          error instanceof Error ? error.message : "The kindness could not be added.",
-      },
+      { error: "This kindness could not be shared right now. Please try again." },
       { status: 500 }
     );
   }

@@ -1,0 +1,248 @@
+.what-is-this {
+  overflow: hidden;
+}
+
+.what-is-this__hero {
+  padding: clamp(76px, 11vw, 148px) 0 clamp(68px, 9vw, 120px);
+  background:
+    radial-gradient(circle at 82% 18%, rgba(215, 166, 74, 0.19), transparent 28%),
+    linear-gradient(135deg, #f8f3e7 0%, #e9efe5 100%);
+}
+
+.what-is-this__hero-content {
+  max-width: 940px;
+}
+
+.what-is-this__hero h1 {
+  margin: 14px 0 28px;
+  font: 500 clamp(3.3rem, 9vw, 7.4rem) / 0.98 Georgia, "Times New Roman", serif;
+  letter-spacing: -0.06em;
+}
+
+.what-is-this__hero h1 span {
+  display: block;
+  margin-top: 12px;
+  color: var(--moss);
+  font-size: 0.56em;
+  letter-spacing: -0.04em;
+}
+
+.what-is-this__opening {
+  max-width: 680px;
+  margin: 0;
+  color: #496055;
+  font: 500 clamp(1.25rem, 2.5vw, 1.75rem) / 1.55 Georgia, "Times New Roman", serif;
+}
+
+.what-is-this__section {
+  padding-block: clamp(68px, 9vw, 112px);
+}
+
+.what-is-this__intro {
+  max-width: 900px;
+}
+
+.what-is-this h2 {
+  margin: 0 0 22px;
+  font: 500 clamp(2.1rem, 5vw, 3.9rem) / 1.06 Georgia, "Times New Roman", serif;
+  letter-spacing: -0.045em;
+}
+
+.what-is-this__intro p,
+.what-is-this__two-column p,
+.what-is-this__movement p,
+.what-is-this__why-content > p:not(.eyebrow),
+.what-is-this__forest-content > p:not(.eyebrow),
+.what-is-this__invitation > .shell > p:not(.eyebrow) {
+  color: #53695e;
+  font-size: 1.06rem;
+  line-height: 1.8;
+}
+
+.what-is-this__intro p {
+  max-width: 760px;
+}
+
+.what-is-this__soft {
+  background: #e9efe5;
+}
+
+.what-is-this__two-column {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: clamp(32px, 8vw, 110px);
+}
+
+.what-is-this__two-column p:first-child {
+  margin-top: 0;
+}
+
+.what-is-this__section-heading {
+  max-width: 780px;
+  margin-bottom: 44px;
+}
+
+.what-is-this__movement {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 30px;
+}
+
+.what-is-this__movement article {
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+
+.what-is-this__step {
+  color: #ae8437;
+  font: 500 1.7rem Georgia, "Times New Roman", serif;
+}
+
+.what-is-this__movement h3 {
+  margin: 18px 0 10px;
+  font: 500 clamp(1.35rem, 2.5vw, 1.8rem) / 1.2 Georgia, "Times New Roman", serif;
+}
+
+.what-is-this__movement p {
+  margin-bottom: 0;
+  font-size: 0.98rem;
+}
+
+.what-is-this__why {
+  background: var(--deep);
+  color: #fff;
+}
+
+.what-is-this__why-content {
+  max-width: 850px;
+}
+
+.what-is-this__why-content .eyebrow {
+  color: #e6cc8f;
+}
+
+.what-is-this__why-lead {
+  margin: 0;
+  color: #f0d18a !important;
+  font: 500 clamp(1.5rem, 3vw, 2.25rem) / 1.4 Georgia, "Times New Roman", serif !important;
+}
+
+.what-is-this__why-content > p:not(.eyebrow) {
+  color: #d6e3dc;
+}
+
+.what-is-this__adventures {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.what-is-this__adventures a {
+  position: relative;
+  display: flex;
+  min-height: 140px;
+  flex-direction: column;
+  justify-content: center;
+  gap: 9px;
+  padding: 24px 54px 24px 24px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(255, 253, 247, 0.7);
+  transition: background 0.16s ease, transform 0.16s ease;
+}
+
+.what-is-this__adventures a:hover {
+  transform: translateY(-2px);
+  background: var(--paper);
+}
+
+.what-is-this__adventures a span:first-child {
+  font: 500 1.4rem Georgia, "Times New Roman", serif;
+}
+
+.what-is-this__adventures a span:nth-child(2) {
+  color: #53695e;
+  font-size: 0.94rem;
+  line-height: 1.5;
+}
+
+.what-is-this__arrow {
+  position: absolute;
+  top: 50%;
+  right: 22px;
+  color: var(--moss);
+  font-size: 1.3rem;
+  transform: translateY(-50%);
+}
+
+.what-is-this__forest {
+  padding-block: clamp(68px, 9vw, 112px);
+  background: #e9efe5;
+}
+
+.what-is-this__forest-content {
+  max-width: 850px;
+}
+
+.what-is-this__invitation {
+  padding-block: clamp(70px, 10vw, 120px);
+  text-align: center;
+}
+
+.what-is-this__invitation h2 {
+  margin-bottom: 12px;
+}
+
+.what-is-this__invitation nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.what-is-this a:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 4px;
+}
+
+@media (max-width: 700px) {
+  .what-is-this__two-column,
+  .what-is-this__movement,
+  .what-is-this__adventures {
+    grid-template-columns: 1fr;
+  }
+
+  .what-is-this__section-heading {
+    margin-bottom: 30px;
+  }
+
+  .what-is-this__adventures a {
+    min-height: 116px;
+  }
+}
+
+@media (max-width: 560px) {
+  .what-is-this__hero h1 {
+    font-size: clamp(3rem, 14vw, 4.4rem);
+  }
+
+  .what-is-this__hero h1 span {
+    max-width: 12ch;
+    line-height: 1.05;
+  }
+
+  .what-is-this__invitation nav {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .what-is-this__adventures a {
+    transition: none;
+  }
+}
