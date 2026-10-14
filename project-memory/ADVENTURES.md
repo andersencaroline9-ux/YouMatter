@@ -32,8 +32,10 @@ The active application in `app/` contains the adventures below.
 - Visitors share a kind act they gave, received, or witnessed.
 - Contributions are saved for moderation and remain visible only to the
   submitting browser while pending. Approved acts appear in temporary shared
-  story discovery beside the supplied Kindness Tree image.
-- Visitors can ask to be shown one approved kindness story at a time.
+  story discovery as interactive leaves on the supplied Kindness Tree image.
+- The tree shows a bounded sample of approved stories, while its displayed
+  kindness total comes from the exact aggregate impact endpoint. “Show me a
+  kindness” remains available, and pending stories are never shown as leaves.
 - Uses D1-backed persistence. Each approved story counts as one impact contribution and one kindness noticed.
 
 ## What Do You Bring?

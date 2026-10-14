@@ -92,3 +92,8 @@
 - Cloudflare Workers is the chosen hosting platform for the full application; production resources have not yet been connected or configured.
 - Keep the existing root GitHub Pages homepage (`index.html` and `assets/style.css`) intact until the app is safely deployed, verified, and Caroline explicitly approves changing the public entry point.
 - No production connection, deployment, publication, or live Cloudflare settings change is authorized by this decision.
+
+## 2026-10-14 — Task 13A: Kindness Tree story leaves
+- Keep approved Kindness story discovery on the supplied tree photograph using a bounded set of 18 interactive, keyboard-accessible leaf buttons. Leaves represent only approved stories from the existing API response; pending stories remain visitor-private and are not rendered on the tree.
+- Preserve “Show me a kindness” as a separate way to discover any approved story in the API response. The displayed category total comes from the exact `/api/impact` aggregate, not the number of visible leaves.
+- Do not change the Kindness data contract: it currently has no country/flag field. Do not change the API, database, moderation, submission, or impact accounting for this visual task.
