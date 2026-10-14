@@ -25,7 +25,7 @@ export default function LiveAdventurePage() {
               <li>30 days</li>
               <li>30 minutes in nature each day</li>
               <li>15 people</li>
-              <li>$11 pilot price</li>
+              <li>$44 pilot price</li>
             </ul>
             <a
               className="live-adventure-hero__link"
@@ -181,7 +181,7 @@ export default function LiveAdventurePage() {
             </div>
             <div>
               <p className="eyebrow">The pilot</p>
-              <h2>$11</h2>
+              <h2>$44</h2>
               <p>
                 The pilot price covers the opening call, the 30-day guided
                 experience, the private group space, and the closing call.

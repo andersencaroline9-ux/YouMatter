@@ -96,7 +96,7 @@ export default function Home() {
               <li><strong>30 days</strong></li>
               <li><strong>30 minutes a day</strong></li>
               <li><strong>15 people</strong></li>
-              <li><strong>$11</strong></li>
+              <li><strong>$44</strong></li>
             </ul>
             <a className="forest-live-trailhead__link" href="/live-adventure">
               Join the adventure <span aria-hidden="true">→</span>
