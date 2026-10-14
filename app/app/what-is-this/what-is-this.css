@@ -1,248 +1,426 @@
 .what-is-this {
   overflow: hidden;
+  background: var(--cream);
 }
 
 .what-is-this__hero {
-  padding: clamp(76px, 11vw, 148px) 0 clamp(68px, 9vw, 120px);
-  background:
-    radial-gradient(circle at 82% 18%, rgba(215, 166, 74, 0.19), transparent 28%),
-    linear-gradient(135deg, #f8f3e7 0%, #e9efe5 100%);
+  position: relative;
+  display: flex;
+  min-height: clamp(340px, 42vw, 540px);
+  align-items: center;
+  overflow: hidden;
+  isolation: isolate;
+  color: var(--paper);
+  background: #263c2d;
+}
+
+.what-is-this__hero-image,
+.what-is-this__hero-shade {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.what-is-this__hero-image {
+  object-fit: cover;
+  object-position: center 56%;
+}
+
+.what-is-this__hero-shade {
+  background: linear-gradient(90deg, rgba(15, 31, 22, .72), rgba(15, 31, 22, .30) 62%, rgba(15, 31, 22, .08));
 }
 
 .what-is-this__hero-content {
-  max-width: 940px;
+  padding-block: 76px;
 }
 
 .what-is-this__hero h1 {
-  margin: 14px 0 28px;
-  font: 500 clamp(3.3rem, 9vw, 7.4rem) / 0.98 Georgia, "Times New Roman", serif;
-  letter-spacing: -0.06em;
+  max-width: 800px;
+  margin: 0 0 22px;
+  font: 500 clamp(3.5rem, 8vw, 6.5rem)/.98 Georgia, "Times New Roman", serif;
+  letter-spacing: -.055em;
 }
 
-.what-is-this__hero h1 span {
-  display: block;
-  margin-top: 12px;
-  color: var(--moss);
-  font-size: 0.56em;
-  letter-spacing: -0.04em;
-}
-
-.what-is-this__opening {
+.what-is-this__hero-content p {
   max-width: 680px;
   margin: 0;
-  color: #496055;
-  font: 500 clamp(1.25rem, 2.5vw, 1.75rem) / 1.55 Georgia, "Times New Roman", serif;
+  font: 500 clamp(1.2rem, 2.3vw, 1.65rem)/1.5 Georgia, "Times New Roman", serif;
+  text-wrap: pretty;
 }
 
-.what-is-this__section {
-  padding-block: clamp(68px, 9vw, 112px);
-}
-
-.what-is-this__intro {
-  max-width: 900px;
-}
-
-.what-is-this h2 {
-  margin: 0 0 22px;
-  font: 500 clamp(2.1rem, 5vw, 3.9rem) / 1.06 Georgia, "Times New Roman", serif;
-  letter-spacing: -0.045em;
-}
-
-.what-is-this__intro p,
-.what-is-this__two-column p,
-.what-is-this__movement p,
-.what-is-this__why-content > p:not(.eyebrow),
-.what-is-this__forest-content > p:not(.eyebrow),
-.what-is-this__invitation > .shell > p:not(.eyebrow) {
-  color: #53695e;
-  font-size: 1.06rem;
-  line-height: 1.8;
-}
-
-.what-is-this__intro p {
-  max-width: 760px;
-}
-
-.what-is-this__soft {
-  background: #e9efe5;
-}
-
-.what-is-this__two-column {
-  display: grid;
-  grid-template-columns: 0.85fr 1.15fr;
-  gap: clamp(32px, 8vw, 110px);
-}
-
-.what-is-this__two-column p:first-child {
-  margin-top: 0;
-}
-
-.what-is-this__section-heading {
-  max-width: 780px;
-  margin-bottom: 44px;
-}
-
-.what-is-this__movement {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 30px;
-}
-
-.what-is-this__movement article {
-  padding-top: 20px;
-  border-top: 1px solid var(--line);
-}
-
-.what-is-this__step {
-  color: #ae8437;
-  font: 500 1.7rem Georgia, "Times New Roman", serif;
-}
-
-.what-is-this__movement h3 {
-  margin: 18px 0 10px;
-  font: 500 clamp(1.35rem, 2.5vw, 1.8rem) / 1.2 Georgia, "Times New Roman", serif;
-}
-
-.what-is-this__movement p {
-  margin-bottom: 0;
-  font-size: 0.98rem;
-}
-
-.what-is-this__why {
-  background: var(--deep);
-  color: #fff;
-}
-
-.what-is-this__why-content {
-  max-width: 850px;
-}
-
-.what-is-this__why-content .eyebrow {
-  color: #e6cc8f;
-}
-
-.what-is-this__why-lead {
-  margin: 0;
-  color: #f0d18a !important;
-  font: 500 clamp(1.5rem, 3vw, 2.25rem) / 1.4 Georgia, "Times New Roman", serif !important;
-}
-
-.what-is-this__why-content > p:not(.eyebrow) {
-  color: #d6e3dc;
-}
-
-.what-is-this__adventures {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.what-is-this__adventures a {
-  position: relative;
-  display: flex;
-  min-height: 140px;
-  flex-direction: column;
-  justify-content: center;
-  gap: 9px;
-  padding: 24px 54px 24px 24px;
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  background: rgba(255, 253, 247, 0.7);
-  transition: background 0.16s ease, transform 0.16s ease;
-}
-
-.what-is-this__adventures a:hover {
-  transform: translateY(-2px);
-  background: var(--paper);
-}
-
-.what-is-this__adventures a span:first-child {
-  font: 500 1.4rem Georgia, "Times New Roman", serif;
-}
-
-.what-is-this__adventures a span:nth-child(2) {
-  color: #53695e;
-  font-size: 0.94rem;
-  line-height: 1.5;
-}
-
-.what-is-this__arrow {
-  position: absolute;
-  top: 50%;
-  right: 22px;
-  color: var(--moss);
-  font-size: 1.3rem;
-  transform: translateY(-50%);
-}
-
-.what-is-this__forest {
-  padding-block: clamp(68px, 9vw, 112px);
-  background: #e9efe5;
-}
-
-.what-is-this__forest-content {
-  max-width: 850px;
-}
-
-.what-is-this__invitation {
-  padding-block: clamp(70px, 10vw, 120px);
+.what-is-this__idea {
+  padding: clamp(48px, 7vw, 76px) 0 clamp(38px, 5vw, 58px);
   text-align: center;
 }
 
-.what-is-this__invitation h2 {
-  margin-bottom: 12px;
+.what-is-this__idea-content {
+  max-width: 930px;
 }
 
-.what-is-this__invitation nav {
+.what-is-this h2 {
+  margin: 0;
+  color: var(--ink);
+  font: 500 clamp(1.9rem, 4vw, 2.8rem)/1.13 Georgia, "Times New Roman", serif;
+  letter-spacing: -.035em;
+  text-wrap: balance;
+}
+
+.what-is-this__psychology {
+  margin: 16px auto 0;
+  color: #455c50;
+  font: 1rem/1.55 Georgia, "Times New Roman", serif;
+}
+
+.what-is-this__ideas {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 12px;
-  margin-top: 30px;
+  gap: 8px 26px;
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+  color: #40594b;
+  font: 1rem/1.45 Georgia, "Times New Roman", serif;
 }
 
-.what-is-this a:focus-visible {
+.what-is-this__ideas li {
+  padding-inline: 2px;
+}
+
+.what-is-this__ideas li + li::before {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  margin: 0 17px 3px 0;
+  border-radius: 50%;
+  background: #899976;
+  content: "";
+}
+
+.what-is-this__try {
+  margin: 30px 0 10px;
+  color: var(--ink);
+  font: 500 clamp(1.55rem, 3.5vw, 2.25rem)/1.2 Georgia, "Times New Roman", serif;
+  letter-spacing: -.025em;
+}
+
+.what-is-this__try strong {
+  font-weight: 600;
+}
+
+.what-is-this__supporting {
+  max-width: 810px;
+  margin: 0 auto;
+  color: #455c50;
+  font: 1rem/1.55 Georgia, "Times New Roman", serif;
+}
+
+.what-is-this__adventures {
+  padding: 4px 0 clamp(36px, 5vw, 54px);
+}
+
+.what-is-this__adventure-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(18px, 3vw, 34px);
+}
+
+.what-is-this__adventure {
+  min-width: 0;
+  text-align: center;
+}
+
+.what-is-this__adventure-image {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 1.62;
+  border-radius: 10px;
+  background: #dfe9dc;
+}
+
+.what-is-this__adventure-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .25s ease;
+}
+
+.what-is-this__adventure-image .what-is-this__adventure-flower {
+  position: absolute;
+  left: 23%;
+  bottom: -7%;
+  width: 47%;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 3px 5px rgba(25, 39, 23, .32));
+}
+
+.what-is-this__adventure-image:hover img {
+  transform: scale(1.035);
+}
+
+.what-is-this__adventure h3 {
+  margin: 12px 0 4px;
+  font: 600 1.16rem/1.25 Georgia, "Times New Roman", serif;
+}
+
+.what-is-this__adventure h3 a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.what-is-this__adventure-idea {
+  margin: 0 0 4px !important;
+  color: var(--ink) !important;
+  font: italic 1rem/1.4 Georgia, "Times New Roman", serif !important;
+}
+
+.what-is-this__adventure > p:last-child {
+  max-width: 330px;
+  margin: 0 auto;
+  color: #526a5d;
+  font-size: .9rem;
+  line-height: 1.45;
+}
+
+.what-is-this__adventure a:focus-visible,
+.what-is-this__cta:focus-visible {
   outline: 3px solid var(--gold);
   outline-offset: 4px;
 }
 
-@media (max-width: 700px) {
-  .what-is-this__two-column,
-  .what-is-this__movement,
-  .what-is-this__adventures {
-    grid-template-columns: 1fr;
-  }
-
-  .what-is-this__section-heading {
-    margin-bottom: 30px;
-  }
-
-  .what-is-this__adventures a {
-    min-height: 116px;
-  }
+.what-is-this__model {
+  padding: 8px 0 clamp(42px, 6vw, 68px);
 }
 
-@media (max-width: 560px) {
+.what-is-this__model-steps {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto 1fr;
+  align-items: center;
+  gap: clamp(12px, 3vw, 34px);
+  max-width: 930px;
+  text-align: center;
+}
+
+.what-is-this__model-step > span {
+  display: inline-flex;
+  min-width: 114px;
+  min-height: 68px;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 20px;
+  border-radius: 46% 54% 48% 52% / 58% 42% 58% 42%;
+  color: #20382d;
+  background: #dfe8d4;
+  font: 600 1.35rem Georgia, "Times New Roman", serif;
+}
+
+.what-is-this__model-step:nth-child(3) > span {
+  background: #f0ddd0;
+  transform: rotate(2deg);
+}
+
+.what-is-this__model-step:nth-child(5) > span {
+  background: #efdfb5;
+  transform: rotate(-2deg);
+}
+
+.what-is-this__model-step p {
+  margin: 8px 0 0;
+  color: #344c3c;
+  font: 500 .96rem/1.35 Georgia, "Times New Roman", serif;
+}
+
+.what-is-this__model-arrow {
+  color: var(--moss);
+  font: 2rem/1 Georgia, "Times New Roman", serif;
+}
+
+.what-is-this__impact {
+  padding: 4px 0 clamp(42px, 6vw, 68px);
+  text-align: center;
+}
+
+.what-is-this__impact-content {
+  max-width: 820px;
+}
+
+.what-is-this__impact-content h2 {
+  font-size: clamp(1.55rem, 3.2vw, 2.2rem);
+}
+
+.what-is-this__impact-equation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(18px, 5vw, 58px);
+  margin: 22px 0 14px;
+}
+
+.what-is-this__impact-equation p {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 130px;
+  margin: 0;
+  color: #40594b;
+  font: 500 .9rem/1.35 Georgia, "Times New Roman", serif;
+}
+
+.what-is-this__impact-equation strong {
+  color: var(--deep);
+  font: 500 clamp(2.8rem, 7vw, 4.5rem)/1 Georgia, "Times New Roman", serif;
+  font-variant-numeric: tabular-nums;
+}
+
+.what-is-this__impact-arrow {
+  color: var(--moss);
+  font: 2rem/1 Georgia, "Times New Roman", serif;
+}
+
+.what-is-this__impact-detail {
+  max-width: 760px;
+  margin: 0 auto;
+  color: #526a5d;
+  font: .9rem/1.5 Georgia, "Times New Roman", serif;
+}
+
+.what-is-this__closing {
+  padding: 0 0 clamp(58px, 8vw, 92px);
+  text-align: center;
+}
+
+.what-is-this__closing-content {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.what-is-this__closing h2 {
+  font-size: clamp(1.65rem, 3.5vw, 2.35rem);
+}
+
+.what-is-this__motto {
+  margin: 22px 0 16px;
+  padding: 8px 20px;
+  color: var(--deep);
+  background: #e4e8d8;
+  font: 600 clamp(1.3rem, 3vw, 2rem)/1.35 Georgia, "Times New Roman", serif;
+  text-wrap: balance;
+}
+
+.what-is-this__closing-content > p:not(.what-is-this__motto) {
+  margin: 0;
+  color: #455c50;
+  font: 1rem/1.5 Georgia, "Times New Roman", serif;
+}
+
+.what-is-this__closing-content .what-is-this__curious {
+  margin-top: 2px !important;
+  font-style: italic !important;
+  font-weight: 600 !important;
+}
+
+.what-is-this__cta {
+  gap: 8px;
+  margin-top: 22px;
+  font: 500 1rem Georgia, "Times New Roman", serif;
+}
+
+@media (max-width: 700px) {
+  .what-is-this__hero {
+    min-height: 370px;
+  }
+
+  .what-is-this__hero-image {
+    object-position: 54% center;
+  }
+
+  .what-is-this__hero-shade {
+    background: linear-gradient(90deg, rgba(15, 31, 22, .72), rgba(15, 31, 22, .24));
+  }
+
+  .what-is-this__hero-content {
+    padding-block: 58px;
+  }
+
   .what-is-this__hero h1 {
-    font-size: clamp(3rem, 14vw, 4.4rem);
+    font-size: clamp(3.2rem, 12vw, 5rem);
   }
 
-  .what-is-this__hero h1 span {
-    max-width: 12ch;
-    line-height: 1.05;
+  .what-is-this__hero-content p {
+    max-width: 560px;
+    font-size: clamp(1.12rem, 4.7vw, 1.4rem);
   }
 
-  .what-is-this__invitation nav {
-    align-items: stretch;
-    flex-direction: column;
+  .what-is-this__idea {
+    padding-top: 44px;
+  }
+
+  .what-is-this__ideas {
+    gap: 8px 17px;
+  }
+
+  .what-is-this__ideas li + li::before {
+    margin-right: 11px;
+  }
+
+  .what-is-this__adventure-list {
+    grid-template-columns: 1fr;
+    max-width: 500px;
+    gap: 26px;
+  }
+
+  .what-is-this__adventure-image {
+    aspect-ratio: 1.9;
+  }
+
+  .what-is-this__model-steps {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .what-is-this__model-step > span {
+    min-width: 120px;
+    min-height: 58px;
+  }
+
+  .what-is-this__model-arrow {
+    transform: rotate(90deg);
+    font-size: 1.7rem;
+    line-height: 1.1;
+  }
+
+  .what-is-this__model-step p {
+    margin-top: 5px;
+  }
+
+  .what-is-this__impact-equation {
+    gap: 10px;
+  }
+
+  .what-is-this__impact-equation p {
+    min-width: 0;
+    flex: 1;
+    font-size: .82rem;
+  }
+
+  .what-is-this__impact-equation strong {
+    font-size: 3.3rem;
+  }
+
+  .what-is-this__impact-arrow {
+    font-size: 1.6rem;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .what-is-this__adventures a {
+  .what-is-this__adventure-image img {
     transition: none;
   }
 }
