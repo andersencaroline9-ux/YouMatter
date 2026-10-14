@@ -1,0 +1,157 @@
+.how-are-you-doing {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.how-are-you-doing__checkin {
+  position: relative;
+  isolation: isolate;
+  padding: clamp(44px, 7vw, 88px) 0;
+  background:
+    linear-gradient(90deg, rgba(18, 43, 31, .74), rgba(18, 43, 31, .2)),
+    url("/homepage-banner-path.png") center 57% / cover no-repeat;
+}
+
+.how-are-you-doing__checkin-inner {
+  display: grid;
+  grid-template-columns: minmax(0, .9fr) minmax(340px, 1.1fr);
+  gap: clamp(30px, 6vw, 78px);
+  align-items: center;
+}
+
+.how-are-you-doing__opening-copy {
+  margin: 12px auto 20px;
+  max-width: 520px;
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+.how-are-you-doing__opening-copy p {
+  margin: 0 0 12px;
+}
+
+.how-are-you-doing .home-checkin {
+  padding: clamp(22px, 3vw, 36px);
+  border-radius: 34px 25px 32px 22px;
+  background: rgba(255, 253, 247, .94);
+  color: var(--ink);
+}
+
+.how-are-you-doing .home-checkin::before {
+  inset: 0;
+  border-radius: inherit;
+  background: transparent;
+  transform: none;
+}
+
+.how-are-you-doing .home-checkin::after {
+  display: none;
+}
+
+.how-are-you-doing .home-checkin h1 {
+  margin: 0 0 10px;
+  font-size: clamp(2rem, 3.4vw, 3rem);
+}
+
+.how-are-you-doing .home-checkin h1 span {
+  display: block;
+  margin-top: 8px;
+  font-size: clamp(2.1rem, 3.5vw, 2.8rem);
+}
+
+.how-are-you-doing .home-checkin__skip {
+  max-width: 350px;
+  margin: 16px auto 0;
+  line-height: 1.45;
+}
+
+.how-are-you-doing .home-community {
+  width: min(1050px, calc(100% - 40px));
+  margin-inline: auto;
+  padding: clamp(48px, 7vw, 82px) 0;
+  border: 0;
+  text-align: center;
+}
+
+.how-are-you-doing .home-community__heading h2 {
+  font-size: clamp(2.1rem, 4vw, 3.25rem);
+}
+
+.how-are-you-doing .home-community__intro {
+  max-width: 660px;
+  margin: 14px auto 0;
+  font-size: 1.1rem;
+  line-height: 1.55;
+}
+
+.how-are-you-doing .home-community__intro p {
+  margin: 8px 0;
+}
+
+.how-are-you-doing .home-community__scene {
+  width: min(820px, 100%);
+  aspect-ratio: 1.8;
+  margin: 24px auto 0;
+  background-position: center bottom;
+  background-size: cover;
+}
+
+.how-are-you-doing .home-community__belonging {
+  margin-top: 18px;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 760px) {
+  .how-are-you-doing__checkin {
+    padding: 42px 0;
+    background-position: 58% center;
+  }
+
+  .how-are-you-doing__checkin-inner {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+    max-width: 560px;
+  }
+
+  .how-are-you-doing__opening-copy {
+    font-size: .98rem;
+  }
+
+  .how-are-you-doing .home-checkin {
+    padding: 24px 18px;
+  }
+
+  .how-are-you-doing .home-checkin__numbers {
+    grid-template-columns: repeat(5, minmax(44px, 1fr));
+    gap: 8px;
+  }
+
+  .how-are-you-doing .home-checkin__number span {
+    aspect-ratio: auto;
+    min-height: 46px;
+  }
+
+  .how-are-you-doing .home-checkin__endpoints {
+    font-size: .68rem;
+  }
+
+  .how-are-you-doing .home-community {
+    width: min(560px, calc(100% - 40px));
+  }
+
+  .how-are-you-doing .home-community__scene {
+    aspect-ratio: 1.3;
+  }
+}
+
+@media (max-width: 380px) {
+  .how-are-you-doing .home-checkin__endpoints {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .how-are-you-doing .home-checkin__endpoints span:last-child {
+    text-align: left;
+  }
+}

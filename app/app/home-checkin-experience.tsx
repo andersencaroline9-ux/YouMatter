@@ -2,14 +2,13 @@
 
 import { type FormEvent, useState } from "react";
 import { countries } from "../lib/countries";
-import ImpactBarometer from "../components/impact-barometer";
 import HomeCommunityTree from "./home-community-tree";
 
 type IdentityChoice = "anonymous" | "firstName";
 
 const COMMENT_MAX_LENGTH = 240;
 
-export default function HomeWelcome() {
+export default function HomeCheckinExperience() {
   const [rating, setRating] = useState<number | null>(null);
   const [comment, setComment] = useState("");
   const [identityChoice, setIdentityChoice] =
@@ -66,33 +65,21 @@ export default function HomeWelcome() {
   }
 
   return (
-    <section
-      className="home-front-door"
-      aria-labelledby="forest-title"
-      id="welcome"
-    >
-      <div className="forest-entrance">
-        <div className="shell forest-entrance__content">
-          <div className="home-banner-identity">
-            <h1 id="forest-title">YOU MATTER.</h1>
-            <p className="forest-entrance__subtitle">You matter. We matter. What we do matters.</p>
-          </div>
-          <ImpactBarometer />
-        </div>
-      </div>
-      <div className="home-welcome" data-checkin-open={rating !== null && !shared}>
-        <div className="shell home-welcome__inner">
-          <section
-            className="home-checkin"
-            aria-labelledby="home-welcome-title"
-          >
+    <div className="how-are-you-doing__experience">
+      <section className="how-are-you-doing__checkin" aria-labelledby="home-welcome-title">
+        <div className="shell how-are-you-doing__checkin-inner">
+          <div className="home-checkin" data-checkin-open={rating !== null && !shared}>
             {!shared ? (
               <>
-                <h2 id="home-welcome-title">
+                <h1 id="home-welcome-title">
                   How are you doing today?
                   <span>Really.</span>
-                </h2>
+                </h1>
 
+                <div className="how-are-you-doing__opening-copy">
+                  <p>Life isn’t always wonderful. Sometimes we’re thriving. Sometimes we’re struggling. Most of the time, we’re somewhere in between.</p>
+                  <p>Whatever today looks like for you, you’re welcome here.</p>
+                </div>
                 <form className="home-checkin__form" onSubmit={submit}>
                   <fieldset className="home-checkin__rating">
                     <legend className="visually-hidden">
@@ -109,6 +96,7 @@ export default function HomeWelcome() {
                             <input
                               type="radio"
                               name="home-checkin-rating"
+                              aria-describedby="home-checkin-endpoints"
                               value={value}
                               checked={rating === value}
                               onChange={() => setRating(value)}
@@ -118,7 +106,7 @@ export default function HomeWelcome() {
                         )
                       )}
                     </div>
-                    <div className="home-checkin__endpoints" aria-hidden="true">
+                    <div className="home-checkin__endpoints" id="home-checkin-endpoints">
                       <span>1 = having a really hard day</span>
                       <span>10 = having a really good day</span>
                     </div>
@@ -129,7 +117,7 @@ export default function HomeWelcome() {
                       <label htmlFor="home-checkin-comment">
                         <span>Want to tell us why?</span>
                         <span className="home-checkin__optional">
-                          You don’t have to.
+                          Optional
                         </span>
                       </label>
                       <textarea
@@ -140,7 +128,7 @@ export default function HomeWelcome() {
                         placeholder="Anything you feel like sharing…"
                       />
                       <p className="home-checkin__privacy">
-                        Keep it short; please don’t include identifying details.
+                        Your comment may be shared publicly after moderation, as you’ve consented. Keep it short and please don’t include identifying details.
                       </p>
 
                       <fieldset className="home-checkin__identity">
@@ -245,57 +233,24 @@ export default function HomeWelcome() {
               role="status"
               aria-live="polite"
             >
-              <h2 id="home-welcome-title">Thanks for telling us.</h2>
+              <h1 id="home-welcome-title">Thanks for telling us.</h1>
               <p>However you’re doing today, you’re welcome here.</p>
               <p className="home-checkin__privacy">
                 Your check-in will join the others once it’s been reviewed.
               </p>
-              <a href="#forest-invitation">Or just wander on →</a>
+              <a href="#community-tree">Or just have a look around →</a>
             </div>
           )}
 
           {!shared && (
-            <a className="home-checkin__skip" href="#forest-invitation">
-              Or just wander on →
+            <a className="home-checkin__skip" href="#community-tree">
+              Or just have a look around. You don’t have to share anything.
             </a>
           )}
-          </section>
-
-          <HomeCommunityTree />
-
-          <section
-            className="home-welcome__why"
-            aria-labelledby="home-welcome-why-title"
-          >
-            <h2 id="home-welcome-why-title">
-              What if a few small things could make life feel a little better?
-            </h2>
-            <p>
-              Life can be a lot. We get busy, overwhelmed, disconnected —
-              sometimes rushing through the very life we&apos;re trying to enjoy.
-            </p>
-            <p>But research into human wellbeing has found something interesting:</p>
-            <p><strong>
-              Some of the things that help us live well are surprisingly simple.
-            </strong></p>
-            <p>Gratitude. Kindness. Strengths. Connection. Nature. Meaning.</p>
-            <p><strong>This is a place to actually try them.</strong></p>
-            <p>
-              Choose something that speaks to you. Give it a go. Add your
-              experience to what other people are creating. And see what you notice.
-            </p>
-            <p>
-              Everything here is inspired by positive psychology — the science
-              of what helps people and communities thrive.
-            </p>
-            <p><strong>You might discover something that helps.</strong></p>
-            <p className="home-welcome__closing">
-              No promises of a perfect life. Just some interesting science, a
-              little curiosity and an invitation to give something a go.
-            </p>
-          </section>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+      <HomeCommunityTree />
+    </div>
   );
 }

@@ -1,5 +1,27 @@
 # Project status
 
+## Final homepage presentation — 2026-10-14
+
+- Caroline’s final review removes the “Explore the adventures” button from the main hero; adventure entry remains in the primary dropdown and the four cards.
+- Implemented the latest approved shorter reference: cream navigation, forest-path hero and note, Together, so far with real tally/tree progress, two-column WHY and six organic ideas, experiential transition, four photographic adventure cards, You → Us → World, and photographic closing. Removed check-in/tree and the separate large impact section from homepage rendering.
+- Both Daily Check-in and Community Tree are preserved for the future How Are You Doing? page/tab. Their source/CSS, prior decorative artwork and all API/database/impact/sequence code remain byte-for-byte unchanged from this revision's starting point. No future page or wellbeing measure was built.
+- Navigation shows the brand/home link, non-interactive How are you doing? label, working Adventures dropdown and non-interactive About label. This follows Caroline’s clarification: no coming-soon messages, pretend links or placeholder pages. `/what-is-this` and its pending CSS adjustment remain untouched.
+- Together, so far uses `/api/impact`: current local data is 2 Gratitude + 1 Kindness + 1 Strengths = 4 contributions, 4/50, 46 remaining; funded/planted are zero and not invented. Caroline’s review narrowed desktop tally content to 78% (1040px cap). Her requested reminder under Build something together uses accurate funding wording rather than claiming automatic confirmed planting.
+- Desktop, tablet and mobile were compared to the reference and refined, including cropping decoration away from illustrative numbers/text, responsive WHY/cards, 44px controls, the narrower tally, native progress and equal section order. No homepage check-in/tree controls remain in the DOM. Navigation retains Escape/focus behavior; future labels have no links or tab stops.
+- Targeted ESLint, production build, existing impact-helper boundary/accounting tests and `git diff --check` pass. Full TypeScript checking retains the same 10 unrelated baseline diagnostics; none point to changed files. Incremental output is disabled to preserve excluded tsconfig.tsbuildinfo.
+- Pending Caroline’s final visual review. No contribution/check-in records created, deleted or changed; no migrations, staging, commits, pushes, deployments or infrastructure changes. Remaining differences are the real low/zero counts, the complete approved copy/safe commitment wording, available handwriting fonts and responsive stacking. Reference photo fragments inherit the supplied image resolution.
+
+
+## Approved homepage rebuild — 2026-10-14
+
+- Rebuilt the app homepage around the supplied approved visual, with cream botanical framing, photographic path hero, real tally beneath it, paired check-in/tree, botanical divider, complete approved WHY copy, six ideas, experiential transition, four photographic adventure cards, YOU → US → WORLD and tree funding. Closing tagline remains exact.
+- “About” in primary navigation temporarily points to `/#why`; `/about` has not been created. `/what-is-this` and its unrelated pending CSS adjustment are untouched. Adventure routes and all backend/accounting/sequence logic are unchanged.
+- Preserved optional form expansion after rating selection, Anonymous default, optional name/country/comment, required consent, submit handler and confirmation. Browser checks exercised controls without submitting. Existing approved tree leaves open real check-ins, remain 44×44 with equal appearance across ratings, and restore focus on Escape. Added the explicit belonging line.
+- Browser comparison and iteration covered 1280px desktop, 820px tablet and 390px mobile, with no horizontal overflow. Verified navigation menus, field reveal, real tally (2 Gratitude + 1 Kindness + 1 Strengths = 4; 46 until first tree), tree opening/closing, adventure links, funding details and responsive order. The reference's fake mood counts were not implemented. No records were created, modified or deleted for QA.
+- Targeted ESLint, production build and `git diff --check` pass. No TypeScript errors point to changed files. Full checking retains the same 10 diagnostics as the original HEAD, in existing Nature/R2, admin-auth and Gratitude helper code. The check ran with incremental output disabled to preserve the excluded `app/tsconfig.tsbuildinfo`.
+- Remaining differences: real controls and complete approved copy increase page height; the existing photographic Community Tree replaces the illustrated tree/mood statistics; real aggregate numbers replace reference numbers; funded/planted totals remain absent while zero. Notes use an available handwriting font with a fallback. Artwork fragments inherit the reference PNG’s resolution. Ready for Caroline’s visual review; not committed, pushed or deployed.
+
+
 Last reviewed: 2026-10-14
 
 ## Counting clarification — one per form

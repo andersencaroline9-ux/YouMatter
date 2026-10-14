@@ -2,7 +2,7 @@
 
 The active application in `app/` contains the adventures below.
 
-## Homepage community check-in
+## How Are You Doing? — preserved check-in and Community Tree
 - The check-in infrastructure supports a human 1–10 response to “How are you
   doing today?” with an optional short comment, Anonymous/first-name identity,
   optional country, consent, visitor ownership, and moderation. It is not a
@@ -12,7 +12,8 @@ The active application in `app/` contains the adventures below.
 - Check-ins remain separate from adventure contributions and do not count
   toward the 50-contribution tree-funding commitment. The product model is
   Share → Witness, with no public replies, likes, or messaging.
-- The homepage form and approved-check-in community tree are implemented. They remain separate from the collective impact tally.
+- The existing check-in form and approved-check-in Community Tree are implemented and preserved, but no longer rendered on the homepage. BOTH are intended for the future dedicated How Are You Doing? tab/page, which is not yet built. They remain separate from the collective impact tally.
+- Future links/tools for evidence-based wellbeing or happiness measures require separate research and licensing review. No measures or placeholder page are added by the final homepage task.
 
 ## Gratitude Garden
 - Visitors enter three gratitudes and may choose a display name.

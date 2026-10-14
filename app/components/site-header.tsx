@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 
 const adventures = [
   { href: "/gratitude", label: "Gratitude Garden" },
-  { href: "/kindness", label: "The Kindness Tree" },
+  { href: "/kindness", label: "Built From Kindness" },
   { href: "/strengths", label: "What Do You Bring?" },
   { href: "/live-adventure", label: "30 Days in Nature — Live" },
 ];
@@ -69,7 +69,7 @@ export default function SiteHeader({ home = false }: { home?: boolean }) {
           aria-current={pathname === "/" ? "page" : undefined}
           onClick={closeMenus}
         >
-          You Matter.
+          You Matter.{home && <span className="final-brand-leaf" aria-hidden="true" />}
         </Link>
 
         <button
@@ -91,6 +91,14 @@ export default function SiteHeader({ home = false }: { home?: boolean }) {
           id="site-navigation"
           data-open={mobileOpen}
         >
+          <Link
+            className="site-nav__link"
+            href="/how-are-you-doing"
+            aria-current={pathname === "/how-are-you-doing" ? "page" : undefined}
+            onClick={closeMenus}
+          >
+            How are you doing?
+          </Link>
           <div className="site-nav__adventures">
             <button
               ref={adventuresToggleRef}
@@ -100,7 +108,7 @@ export default function SiteHeader({ home = false }: { home?: boolean }) {
               aria-controls="adventures-menu"
               onClick={() => setAdventuresOpen((open) => !open)}
             >
-              Go straight to the adventures <span aria-hidden="true">⌄</span>
+              Adventures <span aria-hidden="true">⌄</span>
             </button>
             <div
               className="site-nav__adventures-menu"
@@ -120,14 +128,7 @@ export default function SiteHeader({ home = false }: { home?: boolean }) {
               ))}
             </div>
           </div>
-          <Link
-            className="site-nav__link"
-            href="/what-is-this"
-            aria-current={pathname === "/what-is-this" ? "page" : undefined}
-            onClick={closeMenus}
-          >
-            What is this?
-          </Link>
+          <span className="site-nav__label" aria-disabled="true">About</span>
         </div>
       </nav>
     </header>

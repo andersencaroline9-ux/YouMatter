@@ -6,7 +6,7 @@
 .what-is-this__hero {
   position: relative;
   display: flex;
-  min-height: clamp(340px, 42vw, 540px);
+  min-height: clamp(260px, 22vw, 310px);
   align-items: center;
   overflow: hidden;
   isolation: isolate;
@@ -25,7 +25,7 @@
 
 .what-is-this__hero-image {
   object-fit: cover;
-  object-position: center 56%;
+  object-position: center 62%;
 }
 
 .what-is-this__hero-shade {
@@ -33,20 +33,20 @@
 }
 
 .what-is-this__hero-content {
-  padding-block: 76px;
+  padding-block: 42px;
 }
 
 .what-is-this__hero h1 {
   max-width: 800px;
-  margin: 0 0 22px;
-  font: 500 clamp(3.5rem, 8vw, 6.5rem)/.98 Georgia, "Times New Roman", serif;
+  margin: 0 0 16px;
+  font: 500 clamp(3rem, 6vw, 5rem)/.98 Georgia, "Times New Roman", serif;
   letter-spacing: -.055em;
 }
 
 .what-is-this__hero-content p {
   max-width: 680px;
   margin: 0;
-  font: 500 clamp(1.2rem, 2.3vw, 1.65rem)/1.5 Georgia, "Times New Roman", serif;
+  font: 500 clamp(1.1rem, 1.7vw, 1.35rem)/1.45 Georgia, "Times New Roman", serif;
   text-wrap: pretty;
 }
 
@@ -334,11 +334,11 @@
 
 @media (max-width: 700px) {
   .what-is-this__hero {
-    min-height: 370px;
+    min-height: 275px;
   }
 
   .what-is-this__hero-image {
-    object-position: 54% center;
+    object-position: 54% 62%;
   }
 
   .what-is-this__hero-shade {
@@ -346,16 +346,17 @@
   }
 
   .what-is-this__hero-content {
-    padding-block: 58px;
+    padding-block: 36px;
   }
 
   .what-is-this__hero h1 {
-    font-size: clamp(3.2rem, 12vw, 5rem);
+    font-size: clamp(2.8rem, 11vw, 3.7rem);
+    margin-bottom: 14px;
   }
 
   .what-is-this__hero-content p {
     max-width: 560px;
-    font-size: clamp(1.12rem, 4.7vw, 1.4rem);
+    font-size: clamp(1.05rem, 4.4vw, 1.2rem);
   }
 
   .what-is-this__idea {

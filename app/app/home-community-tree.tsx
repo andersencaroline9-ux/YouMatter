@@ -96,13 +96,14 @@ export default function HomeCommunityTree() {
     <section
       className="home-community"
       aria-labelledby="home-community-title"
+      id="community-tree"
     >
       <div className="home-community__heading">
-        <p className="home-welcome__eyebrow">Together, as we are</p>
-        <h3 id="home-community-title">How we’re doing</h3>
-        <p className="home-community__intro">
-          A little glimpse of how we’re all doing.
-        </p>
+        <h2 id="home-community-title">How we’re doing</h2>
+        <div className="home-community__intro">
+          <p>Every leaf represents someone who stopped for a moment and told us how they were doing.</p>
+          <p>Different people. Different days. Different experiences. All part of the same tree.</p>
+        </div>
       </div>
 
       <div className="home-community__scene">
@@ -185,6 +186,7 @@ export default function HomeCommunityTree() {
           )}
         </section>
       </div>
+      <p className="home-community__belonging">You don’t have to be flourishing to belong here.</p>
     </section>
   );
 }
