@@ -28,6 +28,7 @@ node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1
 node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0005_strengths_contributions.sql
 node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0006_live_adventure_waiting_list.sql
 node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0007_homepage_checkins.sql
+node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0008_impact_accounting.sql
 ```
 
 Apply these migrations once in order. Do not replay them against an already
@@ -74,6 +75,13 @@ separate from adventure contributions and never count toward the
 - No production database, bucket, account, or Cloudflare settings are used.
 
 Run `pnpm build` or `pnpm lint` from this directory as needed.
+
+Impact uses 50 approved eligible grouped Gratitude/Strengths submissions or
+Kindness stories per earned tree. Each approved form counts once in both its
+category tally and the combined total, even when it contains three items. Check-ins, the waiting list, and Nature Mosaic
+are excluded. Run `node scripts/test-impact.mjs` for the counting boundaries.
+Record confirmed cumulative funded and planted totals separately in `/admin`;
+neither is inferred from earned trees. Migration `0008` initializes these at zero.
 
 ---
 

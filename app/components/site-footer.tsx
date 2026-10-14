@@ -15,7 +15,7 @@ export default function SiteFooter() {
           <Link className="brand" href="/">
             You Matter.
           </Link>
-          <p>But this isn’t about you.</p>
+          <p>You matter. We matter. What we do matters.</p>
           <p className="site-footer__disclaimer">
             A reflective wellbeing experience—not therapy or medical advice.
           </p>

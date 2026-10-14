@@ -37,7 +37,7 @@ export default function WhatIsThisPage() {
             <p className="eyebrow">The idea</p>
             <h1>
               You Matter.
-              <span>But this isn’t about you.</span>
+              <span>You matter. We matter. What we do matters.</span>
             </h1>
             <p className="what-is-this__opening">
               You matter. Of course you do. And none of us exists in isolation.

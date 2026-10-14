@@ -1,5 +1,14 @@
 # DECISIONS
 
+## 2026-10-14 — Task 12B: identity and authoritative collective impact
+- Website identity is “You Matter. You matter. We matter. What we do matters.” The former tagline may remain the book title; it is no longer the primary website tagline. This supersedes the tagline in the earlier banner decision, while retaining its forest image and the current WHY copy.
+- Caroline approved the reference hero composition: “Together, so far” sits directly on the forest image beneath the identity, with navigation at the upper right. Final tally polish removes icons/dividers, shows only positive statistics, uses “We’re just getting started.” at zero, and shortens the dynamic next-tree progress caption to “n / 50”. The approved hero and welcome composition remain unchanged.
+- One fully approved Gratitude form of exactly three rows counts as one contribution and one gratitude shared in the tally. One approved Kindness story is one contribution/kindness noticed. One approved Strengths form containing three distinct canonical strengths counts as one contribution and one strength recognised in the tally. Caroline explicitly confirmed one per form, so the category counts sum to total contributions. Historical ungrouped Gratitude and single-strength records remain unchanged and are excluded from this grouped impact calculation.
+- Exclude Daily Check-ins, Live Adventure waiting-list entries, Nature Mosaic, pending/rejected/incomplete/mixed/invalid groups, and all other activity. Exact counts come from database aggregates, independently of visual sampling.
+- The single shared impact helper/API uses 50 approved eligible contributions per earned/owed tree. Earned trees use floor(total/50); progress is total modulo 50; remaining is 50 minus progress, including 50 remaining at exact thresholds.
+- Keep earned trees separate from manually confirmed funded/planted totals. A singleton D1 accounting record stores cumulative funded and planted totals, initially zero, with non-negative integer constraints and planted no greater than funded. Protected admin controls maintain it using the existing authorizer. Public “trees planted” uses only the stored planted count; confirmed funding is labelled separately. No partner API, planting dates, certificates, or external IDs are invented.
+- Task 12B authorises local migration/testing only, with no commit, remote migration, publication, or deployment.
+
 ## 2026-10-14 — Homepage reference composition
 - Preserve the original forest “You Matter. / But this isn’t about you.” banner above the welcome. Caroline explicitly confirmed it must remain.
 - Match Caroline's supplied reference beneath it: cream background, serif WHY on the left, check-in and community tree on the right; mobile keeps check-in and community before the WHY. Use clean background artwork derived from the reference, with real HTML text/controls and approved-only leaves layered separately.

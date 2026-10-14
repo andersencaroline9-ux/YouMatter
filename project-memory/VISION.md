@@ -1,7 +1,7 @@
 # VISION
 
 ## Philosophy
-The project is inspired by positive psychology, connection, contribution, belonging, and collective wellbeing. Its guiding philosophy is "You Matter. But this isn't about you."
+The project is inspired by positive psychology, connection, contribution, belonging, and collective wellbeing. Its website identity is "You Matter. You matter. We matter. What we do matters." The book may retain the title "You Matter. But this isn’t about you."
 
 ## Audience
 The audience is anyone interested in small daily practices that contribute to personal and collective wellbeing.

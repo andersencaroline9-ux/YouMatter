@@ -12,14 +12,14 @@ The active application in `app/` contains the adventures below.
 - Check-ins remain separate from adventure contributions and do not count
   toward the 50-contribution tree-funding commitment. The product model is
   Share → Witness, with no public replies, likes, or messaging.
-- The homepage form and future community-tree visual are not implemented yet.
+- The homepage form and approved-check-in community tree are implemented. They remain separate from the collective impact tally.
 
 ## Gratitude Garden
 - Visitors enter three gratitudes and may choose a display name.
 - Contributions are saved for moderation and remain visible only to the
   submitting browser while pending. Approved contributions appear in the shared
   garden for everyone.
-- Uses D1-backed persistence.
+- Uses D1-backed persistence. A complete approved group of three gratitudes counts as one impact contribution and one gratitude shared in the tally.
 
 ## Nature Mosaic
 - Visitors submit a nature photograph, caption, and optional display name.
@@ -34,7 +34,7 @@ The active application in `app/` contains the adventures below.
   submitting browser while pending. Approved acts appear in temporary shared
   story discovery beside the supplied Kindness Tree image.
 - Visitors can ask to be shown one approved kindness story at a time.
-- Uses D1-backed persistence.
+- Uses D1-backed persistence. Each approved story counts as one impact contribution and one kindness noticed.
 
 ## What Do You Bring?
 - Visitors select three distinct labels from the 24 canonical character
@@ -47,8 +47,8 @@ The active application in `app/` contains the adventures below.
   supported.
 - Contributions use the shared D1/admin moderation architecture. The supplied
   woodland shelter photograph is installed as the collective visual; individual
-  contributions are not yet placed on it. Impact integration is not
-  implemented.
+  contributions are not yet placed on it. Each valid approved group of three
+  strengths counts as one impact contribution and one strength recognised in the tally.
 
 ## Live Adventure — 30 Days in Nature
 - The public page collects first name and email for a no-commitment waiting

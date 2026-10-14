@@ -7,6 +7,17 @@ import {
   uniqueIndex,
 } from "drizzle-orm/sqlite-core";
 
+// Manually confirmed cumulative totals; never inferred from contributions.
+export const impactAccounting = sqliteTable("impact_accounting", {
+  id: integer("id").primaryKey(),
+  treesFunded: integer("trees_funded").notNull().default(0),
+  treesPlanted: integer("trees_planted").notNull().default(0),
+  updatedAt: text("updated_at").notNull().default(sql`CURRENT_TIMESTAMP`),
+}, (table) => ({
+  singleton: check("impact_accounting_singleton", sql`${table.id} = 1`),
+  validTotals: check("impact_accounting_valid_totals", sql`typeof(${table.treesFunded}) = 'integer' AND typeof(${table.treesPlanted}) = 'integer' AND ${table.treesFunded} BETWEEN 0 AND 9007199254740991 AND ${table.treesPlanted} BETWEEN 0 AND ${table.treesFunded}`),
+}));
+
 export const gratitudes = sqliteTable("gratitudes", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   message: text("message").notNull(),

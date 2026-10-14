@@ -2,6 +2,7 @@
 
 import { type FormEvent, useState } from "react";
 import { countries } from "../lib/countries";
+import ImpactBarometer from "../components/impact-barometer";
 import HomeCommunityTree from "./home-community-tree";
 
 type IdentityChoice = "anonymous" | "firstName";
@@ -72,8 +73,11 @@ export default function HomeWelcome() {
     >
       <div className="forest-entrance">
         <div className="shell forest-entrance__content">
-          <h1 id="forest-title">You Matter.</h1>
-          <p className="forest-entrance__subtitle">But this isn’t about you.</p>
+          <div className="home-banner-identity">
+            <h1 id="forest-title">YOU MATTER.</h1>
+            <p className="forest-entrance__subtitle">You matter. We matter. What we do matters.</p>
+          </div>
+          <ImpactBarometer />
         </div>
       </div>
       <div className="home-welcome" data-checkin-open={rating !== null && !shared}>
@@ -264,28 +268,30 @@ export default function HomeWelcome() {
             aria-labelledby="home-welcome-why-title"
           >
             <h2 id="home-welcome-why-title">
-              What actually<br className="home-welcome__desktop-break" /> helps us live well?
+              What if a few small things could make life feel a little better?
             </h2>
             <p>
-              Life can be a lot. Stress, uncertainty, loneliness, the feeling
-              that we’re constantly rushing somewhere.
+              Life can be a lot. We get busy, overwhelmed, disconnected —
+              sometimes rushing through the very life we&apos;re trying to enjoy.
             </p>
-            <p>I became fascinated by a different question:</p>
-            <p><strong>What actually helps human beings thrive?</strong></p>
-            <p>
-              Positive psychology has spent decades exploring exactly that —
-              things like gratitude, kindness, strengths, relationships, meaning
-              and our connection with nature.
-            </p>
-            <p>And here’s the interesting bit:</p>
+            <p>But research into human wellbeing has found something interesting:</p>
             <p><strong>
-              Many of these aren’t just things we can read about.<br />
-              They’re things we can actually try.
+              Some of the things that help us live well are surprisingly simple.
             </strong></p>
-            <p>That’s what this place is for.</p>
+            <p>Gratitude. Kindness. Strengths. Connection. Nature. Meaning.</p>
+            <p><strong>This is a place to actually try them.</strong></p>
+            <p>
+              Choose something that speaks to you. Give it a go. Add your
+              experience to what other people are creating. And see what you notice.
+            </p>
+            <p>
+              Everything here is inspired by positive psychology — the science
+              of what helps people and communities thrive.
+            </p>
+            <p><strong>You might discover something that helps.</strong></p>
             <p className="home-welcome__closing">
-              No promises of a perfect life. Just some interesting science,
-              a little curiosity and an invitation to give something a go.
+              No promises of a perfect life. Just some interesting science, a
+              little curiosity and an invitation to give something a go.
             </p>
           </section>
         </div>

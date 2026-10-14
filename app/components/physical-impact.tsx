@@ -1,3 +1,22 @@
 "use client";
-import { useEffect,useState } from "react";
-export default function PhysicalImpact(){const[progress,setProgress]=useState({gratitudeTotal:0,towardNextTree:0,treesUnlocked:0});useEffect(()=>{fetch("/api/impact").then(r=>r.json()).then(d=>{if(typeof d.gratitudeTotal==="number")setProgress(d)})},[]);const percent=Math.min(100,progress.towardNextTree);return <section className="impact-section"><div className="impact-copy"><p className="eyebrow">From digital seeds to real roots</p><h2>Every 100 approved gratitudes help plant one real tree.</h2><p>Your words grow the garden you can see here. Together, they will also become something physical in the world. Each completed tree will be documented with its date, location, planting partner and photograph.</p><div className="impact-actions"><button className="button" disabled title="A transparent planting partner and payment route will be connected before support is accepted.">Help plant the next tree · coming soon</button><span>{progress.treesUnlocked} trees unlocked so far</span></div></div><div className="impact-meter" aria-label={`${progress.towardNextTree} of 100 approved gratitudes toward the next tree`}><div className="impact-ring" style={{["--progress" as string]:`${percent*3.6}deg`}}><strong>{progress.towardNextTree}</strong><span>of 100</span></div><p>approved gratitude seeds toward the next real tree</p></div></section>}
+import { CONTRIBUTIONS_PER_TREE } from "../lib/impact";
+import { useImpact } from "../lib/use-impact";
+
+export default function PhysicalImpact() {
+  const { impact, unavailable } = useImpact();
+  return <section className="impact-section">
+    <div className="impact-copy">
+      <p className="eyebrow">From digital seeds to real roots</p>
+      <h2>Every {CONTRIBUTIONS_PER_TREE} approved contributions help fund one tree.</h2>
+      <p>Across Gratitude, Kindness and Strengths, each approved contribution becomes part of something larger. We commit to funding one tree for every {CONTRIBUTIONS_PER_TREE} eligible contributions.</p>
+      <p>Contributions earn a commitment. Trees are counted as planted only after planting has been confirmed.</p>
+    </div>
+    <div className="impact-meter" aria-live="polite">
+      {impact ? <>
+        <p>{impact.totalApprovedContributions} approved {impact.totalApprovedContributions === 1 ? "contribution" : "contributions"} together</p>
+        <p>{impact.treesActuallyPlanted} {impact.treesActuallyPlanted === 1 ? "tree planted" : "trees planted"}</p>
+        <p>{impact.contributionsUntilNextTree} more {impact.contributionsUntilNextTree === 1 ? "contribution" : "contributions"} until the next tree we commit to fund</p>
+      </> : <p role="status">{unavailable ? "Our collective tally is temporarily unavailable." : "Gathering our collective tally…"}</p>}
+    </div>
+  </section>;
+}

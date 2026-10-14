@@ -1,34 +1,29 @@
-import { count } from "drizzle-orm";
+import { count, eq } from "drizzle-orm";
 import { getDb } from "../../../db";
-import { gratitudes } from "../../../db/schema";
-import { countApprovedGratitudeContributions } from "../../../lib/gratitude-submissions";
+import { gratitudes, impactAccounting, kindnessEntries, strengthsEntries } from "../../../db/schema";
+import { calculateImpact, countEligibleGratitudeGroups, countEligibleStrengthsGroups } from "../../../lib/impact";
 
 export async function GET() {
   try {
-    const rows = await getDb()
-      .select({
-        submissionId: gratitudes.submissionId,
-        status: gratitudes.status,
-        count: count(),
-      })
-      .from(gratitudes)
-      .groupBy(gratitudes.submissionId, gratitudes.status);
-    const total = countApprovedGratitudeContributions(rows);
-
-    return Response.json({
-      gratitudeTotal: total,
-      towardNextTree: total % 100,
-      treesUnlocked: Math.floor(total / 100),
-    });
+    const db = getDb();
+    // One D1 batch provides a consistent snapshot. No feed limits or visual sampling.
+    const [gratitude, kindness, strengths, accounting] = await db.batch([
+      db.select({ submissionId: gratitudes.submissionId, status: gratitudes.status, count: count() })
+        .from(gratitudes).groupBy(gratitudes.submissionId, gratitudes.status),
+      db.select({ count: count() }).from(kindnessEntries).where(eq(kindnessEntries.status, "approved")),
+      db.select({ strength: strengthsEntries.strength, count: count() }).from(strengthsEntries)
+        .where(eq(strengthsEntries.status, "approved")).groupBy(strengthsEntries.strength),
+      db.select({ treesFunded: impactAccounting.treesFunded, treesPlanted: impactAccounting.treesPlanted })
+        .from(impactAccounting).where(eq(impactAccounting.id, 1)),
+    ]);
+    if (!accounting[0]) throw new Error("Tree accounting has not been initialised.");
+    return Response.json(calculateImpact(
+      countEligibleGratitudeGroups(gratitude), kindness[0].count,
+      countEligibleStrengthsGroups(strengths), accounting[0].treesFunded, accounting[0].treesPlanted,
+    ), { headers: { "Cache-Control": "no-store" } });
   } catch (error) {
-    return Response.json(
-      {
-        error:
-          error instanceof Error
-            ? error.message
-            : "Unable to load impact progress.",
-      },
-      { status: 500 }
-    );
+    console.error("Unable to load aggregate impact.", error);
+    return Response.json({ error: "Our collective tally is temporarily unavailable." },
+      { status: 503, headers: { "Cache-Control": "no-store" } });
   }
 }

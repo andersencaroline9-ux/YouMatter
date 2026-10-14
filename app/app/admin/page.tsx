@@ -1,5 +1,6 @@
 "use client";
 
+import AdminTreeAccounting from "../../components/admin-tree-accounting";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { getCountryDisplay } from "../../lib/countries";
@@ -174,6 +175,7 @@ export default function AdminPage() {
   return (
     <main className="admin">
       <div className="shell">
+        <AdminTreeAccounting />
         <Link className="back-link" href="/#adventures">
           ← Back to the adventures
         </Link>
