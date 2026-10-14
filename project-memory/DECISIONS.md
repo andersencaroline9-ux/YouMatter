@@ -43,7 +43,18 @@
 ## 2026-10-14 — Grouped What Do You Bring? contributions
 - Supersedes the one-strength selection rule above: a visitor now selects exactly three distinct canonical strengths, submitted together as one contribution with one optional combined reflection.
 - Preserve one D1 row and one moderation decision per contribution. Store the group in the existing text field as JSON; interpret historical single-strength rows as one-item groups. Do not backfill or discard historical rows.
-- Keep the existing visitor-owned pending visibility, identity/country handling, and shelter visual. Do not add individual shelter placements or impact integration.
+- Preserve visitor-owned pending visibility, identity/country handling, and impact integration. The shelter visual noted in the original implementation was later replaced by the Strengths woodland wall (Task 14A).
+
+## 2026-10-14 — Task 14A: Strengths woodland wall
+- One eligible approved form containing three distinct canonical strengths represents one contribution and one photorealistic stone, not three stones. Pending contributions never appear in the public wall.
+- The wall begins as the supplied empty woodland image and uses 20 deliberate, ordered image positions with the 12 supplied transparent stone assets. The exact approved eligible Strengths tally remains sourced from `/api/impact`, independently of the rendered stones.
+- At the time of Task 14A, the API had no permanent sequence and the first 20 slots were mapped by response order. This limitation was resolved by the Strengths permanent homes decision below.
+
+## 2026-10-14 — Strengths permanent homes and WHY
+- Supersedes Task 14A's temporary response-order placement: eligible approved Strengths forms receive a unique, persistent contribution sequence. Historical eligible approved forms are backfilled by approval time, then creation time when approval time is absent, with the private row ID as deterministic tie-breaker.
+- Future first approvals allocate `MAX(contribution_sequence) + 1` inside the same atomic SQLite update that approves the form. A unique index prevents duplicate sequence values; concurrent writes serialize in D1, and re-approval preserves the original position. Pending and ineligible historical records remain unsequenced. The public API exposes the position only, never the database ID.
+- The existing first 20 wall positions are selected by permanent sequence. The exact aggregate still comes from `/api/impact`; sequence positions after 20 remain counted but are not yet rendered. Expanding beyond 20 is a separate visual extension.
+- Explain the 24 VIA character strengths without administering the VIA survey or implying a psychological assessment. Offer the official VIA Institute survey only as an optional external link.
 
 ## 2026-10-14 — Kindness Tree visual shell
 - Caroline authorised Task 7B: replace the public brick-wall experience at `/kindness` with The Kindness Tree. Preserve the existing WHY/research/nuance copy and submission, ownership, moderation, and backend behaviour.

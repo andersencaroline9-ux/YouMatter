@@ -254,6 +254,65 @@ Last reviewed: 2026-10-14
   admin, Nature, impact, and shared files; none point to the changed Strengths
   code. `git diff --check` passed. No contribution was submitted or moderated.
 
+## What Do You Bring? woodland stone wall — 2026-10-14
+
+- Replaced the temporary shelter visual with the supplied woodland background
+  and 12 transparent stone variants. The wall has 20 deliberate visual
+  positions; only approved entries containing three distinct canonical
+  strengths can appear. The desktop positions use three depth bands; on narrow
+  screens the hit targets reflow into a five-column by four-row layout.
+  Visitor-owned pending entries remain separate.
+- The public total comes from `/api/impact`, not the number of stones rendered.
+  The scene renders up to 20 of the API's approved feed entries and explains
+  when the total exceeds the displayed sample.
+- Stone selection opens an accessible detail card with the three strengths,
+  optional reflection, and permitted display identity/country only. Escape and
+  the close button restore focus to the selected stone.
+- At the time this section was written, placements followed API response order
+  and could shift after approvals. This temporary limitation was resolved in
+  the permanent-home continuation below.
+- Installed the 13 supplied image assets without changing API, database,
+  moderation, form, or impact behavior. The production build and targeted
+  ESLint passed (with the existing raw-image warnings); `git diff --check`
+  passed. Browser QA used the existing local approved contribution only:
+  selection opens the detail card, Escape closes it and restores focus, and
+  desktop/mobile geometry has no horizontal overflow. No contributions were
+  inserted, changed, or moderated.
+
+## What Do You Bring? permanent stone homes and WHY — 2026-10-14
+
+- Added nullable `strengths_entries.contribution_sequence` with a unique index.
+  Migration `0009_strengths_permanent_sequence.sql` backfills only approved,
+  valid, three-distinct-canonical-strength submissions, in deterministic
+  approval/creation/row-id order.
+- The admin approval path assigns the next sequence atomically with approval.
+  Re-approval retains an existing sequence; rejection does not clear it.
+  Public Strengths responses include the sequence as a position but never
+  expose the private database ID. Pending contributions remain unsequenced.
+- The wall maps sequence 1–20 to its existing deliberate positions; later
+  positions are not rendered yet, while the exact `/api/impact` tally remains
+  visible. Extending the wall beyond 20 needs an additional visual layout, not
+  a change to sequence assignment.
+- Added the reflective Strengths WHY, a collapsed VIA science explanation and
+  optional official survey link, and the requested reflection label. The page
+  explicitly distinguishes this activity from the VIA Survey and assessment.
+- Verified the official survey destination
+  `https://www.viacharacter.org/survey/account/register` on the VIA Institute
+  website.
+- Applied the migration to local D1 only. Before migration: one eligible
+  approved Strengths contribution. After migration: one eligible contribution
+  sequenced at position 1, with no duplicate sequence values. The local API
+  returns the position without an ID. No contribution was inserted, deleted,
+  or had its moderation state changed.
+- Browser-checked the WHY/science flow, official survey URL, three-selection
+  form state, optional reflection label, one existing approved stone and its
+  detail card, and Escape/focus restoration. Desktop and mobile widths have no
+  horizontal overflow. The zero state was not forced because local D1 contains
+  one real approved contribution; no fake records were created.
+- Production build passed; targeted ESLint reported zero errors and two
+  `<img>` optimization warnings; changed-file TypeScript/editor diagnostics
+  found no errors; `git diff --check` passed.
+
 ## Kindness Tree shell — 2026-10-14
 
 - `/kindness` now presents The Kindness Tree. Removed the rendered wall, bricks, building labels, and wall-specific consent/confirmation copy. Existing WHY, research, nuance, and sources remain unchanged.

@@ -1,4 +1,4 @@
-import { and, desc, eq } from "drizzle-orm";
+import { and, asc, desc, eq, isNotNull } from "drizzle-orm";
 import { getDb } from "../../../db";
 import { strengthsEntries } from "../../../db/schema";
 import { normalizeCountryCode } from "../../../lib/countries";
@@ -21,29 +21,34 @@ export async function GET(request: Request) {
     const db = getDb();
     const approved = await db
       .select({
-        id: strengthsEntries.id,
         strength: strengthsEntries.strength,
         reflection: strengthsEntries.reflection,
         displayName: strengthsEntries.displayName,
         countryCode: strengthsEntries.countryCode,
+        sequence: strengthsEntries.contributionSequence,
         status: strengthsEntries.status,
         createdAt: strengthsEntries.createdAt,
         approvedAt: strengthsEntries.approvedAt,
       })
       .from(strengthsEntries)
-      .where(eq(strengthsEntries.status, "approved"))
-      .orderBy(desc(strengthsEntries.approvedAt), desc(strengthsEntries.id))
+      .where(
+        and(
+          eq(strengthsEntries.status, "approved"),
+          isNotNull(strengthsEntries.contributionSequence)
+        )
+      )
+      .orderBy(asc(strengthsEntries.contributionSequence))
       .limit(100);
 
     const ownerTokenHash = await getVisitorTokenHash(request);
     const ownPending = ownerTokenHash
       ? await db
           .select({
-            id: strengthsEntries.id,
             strength: strengthsEntries.strength,
             reflection: strengthsEntries.reflection,
             displayName: strengthsEntries.displayName,
             countryCode: strengthsEntries.countryCode,
+            sequence: strengthsEntries.contributionSequence,
             status: strengthsEntries.status,
             createdAt: strengthsEntries.createdAt,
             approvedAt: strengthsEntries.approvedAt,
@@ -63,11 +68,13 @@ export async function GET(request: Request) {
       reflection,
       displayName,
       countryCode,
+      sequence,
     }: (typeof approved)[number]) => ({
       strengths: parseStoredCharacterStrengths(strength),
       reflection,
       displayName,
       countryCode,
+      sequence,
     });
     return privateVisitorJson({
       contributions: approved.map(toPublicContribution),
@@ -179,6 +186,7 @@ export async function POST(request: Request) {
           reflection: contribution.reflection,
           displayName: contribution.displayName,
           countryCode: contribution.countryCode,
+          sequence: null,
           status: contribution.status,
         },
       },

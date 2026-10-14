@@ -1,12 +1,51 @@
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
-import { countries } from "../../lib/countries";
+import { FormEvent, useEffect, useRef, useState } from "react";
+import type { CSSProperties } from "react";
+import { getCountryDisplay, countries } from "../../lib/countries";
 import {
   characterStrengthGroups,
   isCharacterStrength,
   isCharacterStrengthSelection,
 } from "../../lib/character-strengths";
+import { useImpact } from "../../lib/use-impact";
+
+const STRENGTHS_WALL_POSITIONS = [
+  { left: 40, bottom: 8, width: 12, rotation: -2, depthBand: "foreground" },
+  { left: 53, bottom: 8, width: 12, rotation: 2, depthBand: "foreground" },
+  { left: 27, bottom: 8, width: 12, rotation: 1, depthBand: "foreground" },
+  { left: 66, bottom: 8, width: 12, rotation: -1, depthBand: "foreground" },
+  { left: 14, bottom: 8, width: 12, rotation: 2, depthBand: "foreground" },
+  { left: 79, bottom: 8, width: 12, rotation: -2, depthBand: "foreground" },
+  { left: 34, bottom: 18, width: 12, rotation: 1, depthBand: "foreground" },
+  { left: 47, bottom: 19, width: 12, rotation: -2, depthBand: "foreground" },
+  { left: 60, bottom: 18, width: 12, rotation: 2, depthBand: "foreground" },
+  { left: 73, bottom: 19, width: 12, rotation: -1, depthBand: "foreground" },
+  { left: 21, bottom: 18, width: 12, rotation: -2, depthBand: "foreground" },
+  { left: 28, bottom: 28, width: 11, rotation: 2, depthBand: "middle" },
+  { left: 42, bottom: 29, width: 11, rotation: -1, depthBand: "middle" },
+  { left: 56, bottom: 28, width: 11, rotation: 2, depthBand: "middle" },
+  { left: 70, bottom: 29, width: 11, rotation: -2, depthBand: "middle" },
+  { left: 84, bottom: 28, width: 11, rotation: 1, depthBand: "middle" },
+  { left: 35, bottom: 39, width: 10, rotation: -2, depthBand: "background" },
+  { left: 48, bottom: 40, width: 10, rotation: 1, depthBand: "background" },
+  { left: 61, bottom: 39, width: 10, rotation: -1, depthBand: "background" },
+  { left: 74, bottom: 40, width: 10, rotation: 2, depthBand: "background" },
+] as const;
+
+const STRENGTHS_WALL_DEPTH = {
+  background: 1,
+  middle: 2,
+  foreground: 3,
+} as const;
+
+type WallPositionStyle = CSSProperties & {
+  "--wall-left": `${number}%`;
+  "--wall-bottom": `${number}%`;
+  "--wall-width": `${number}%`;
+  "--wall-transform": string;
+  "--wall-layer": number;
+};
 
 type StrengthContribution = {
   key: string;
@@ -14,6 +53,7 @@ type StrengthContribution = {
   reflection: string | null;
   displayName: string;
   countryCode: string | null;
+  sequence: number | null;
   status: "pending" | "approved";
 };
 
@@ -40,6 +80,7 @@ export default function StrengthsPractice() {
     []
   );
   const [contributionsLoaded, setContributionsLoaded] = useState(false);
+  const [contributionsLoadError, setContributionsLoadError] = useState(false);
   const [selectedStrengths, setSelectedStrengths] = useState<string[]>([]);
   const [reflection, setReflection] = useState("");
   const [identityChoice, setIdentityChoice] =
@@ -49,6 +90,10 @@ export default function StrengthsPractice() {
   const [consent, setConsent] = useState(false);
   const [note, setNote] = useState("");
   const [busy, setBusy] = useState(false);
+  const [selectedContributionKey, setSelectedContributionKey] = useState<string | null>(null);
+  const stoneButtonRefs = useRef(new Map<string, HTMLButtonElement>());
+  const focusTargetRef = useRef<HTMLButtonElement | null>(null);
+  const { impact, unavailable: impactUnavailable } = useImpact();
 
   useEffect(() => {
     fetch("/api/strengths")
@@ -61,9 +106,9 @@ export default function StrengthsPractice() {
       })
       .then((data) => {
         setContributions([
-          ...(data.contributions ?? []).map((contribution, index) => ({
+          ...(data.contributions ?? []).map((contribution) => ({
             ...contribution,
-            key: `approved-${index}`,
+            key: `approved-${contribution.sequence}`,
             status: "approved" as const,
           })),
           ...(data.pending ?? []).map((contribution, index) => ({
@@ -76,8 +121,42 @@ export default function StrengthsPractice() {
       })
       .catch(() => {
         setNote("Your contributions are temporarily unavailable.");
+        setContributionsLoadError(true);
+        setContributionsLoaded(true);
       });
   }, []);
+
+  const approved = contributions.filter(
+    (contribution): contribution is StrengthContribution & {
+      sequence: number;
+    } =>
+      contribution.status === "approved" &&
+      contribution.sequence !== null &&
+      contribution.sequence > 0 &&
+      isCharacterStrengthSelection(contribution.strengths)
+  );
+  const visibleContributions = approved.filter(
+    (contribution) => contribution.sequence <= STRENGTHS_WALL_POSITIONS.length
+  );
+  const selectedContribution =
+    visibleContributions.find(({ key }) => key === selectedContributionKey) ?? null;
+
+  useEffect(() => {
+    if (!selectedContributionKey) return;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setSelectedContributionKey(null);
+        focusTargetRef.current?.focus();
+      }
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [selectedContributionKey]);
+
+  function closeContribution() {
+    setSelectedContributionKey(null);
+    focusTargetRef.current?.focus();
+  }
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -115,6 +194,7 @@ export default function StrengthsPractice() {
         {
           ...contribution,
           key: crypto.randomUUID(),
+          sequence: null,
         },
         ...current,
       ]);
@@ -144,29 +224,172 @@ export default function StrengthsPractice() {
           Choose three qualities you recognise in yourself. This is not a test
           or formal strengths assessment.
         </p>
+        <section className="strengths-why" aria-labelledby="strengths-why-title">
+          <h2 id="strengths-why-title">
+            What if we paid more attention to what’s strong?
+          </h2>
+          <p>
+            We’re often quite good at noticing what we’re not good at. The
+            things we struggle with. The things we wish we could change. The
+            things other people seem to do better.
+          </p>
+          <p>But what about the good things we already bring?</p>
+          <p>
+            Positive psychology researchers have identified 24 character
+            strengths — qualities such as curiosity, kindness, bravery, humour,
+            gratitude and perseverance. We all have the capacity to use these
+            strengths, although some come more naturally to us than others.
+            Research suggests that recognising and using our character
+            strengths can support wellbeing, meaning and stronger relationships.
+          </p>
+          <p className="strengths-why-question">
+            What might happen if you started noticing yours?
+          </p>
+          <details className="strengths-science">
+            <summary>Curious about the science?</summary>
+            <div>
+              <p>
+                The VIA Classification of Character Strengths was developed
+                through the work of Christopher Peterson, Martin Seligman and
+                other researchers. It describes 24 character strengths
+                organised under six broad virtues.
+              </p>
+              <p>
+                You Matter is not administering the VIA Survey, and this
+                reflective activity is not a psychological assessment. You can
+                take part without taking VIA. If you’re curious, you can take
+                the official VIA Character Strengths Survey separately.
+              </p>
+              <a
+                href="https://www.viacharacter.org/survey/account/register"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Visit the official VIA Character Strengths Survey
+              </a>
+            </div>
+          </details>
+        </section>
       </section>
 
-      <section
-        className="strengths-shelter"
-        aria-labelledby="strengths-shelter-caption"
-      >
-        <figure>
+      <section className="strengths-wall" aria-labelledby="strengths-wall-title">
+        <h2 id="strengths-wall-title" className="strengths-wall-heading">
+          None of us brings everything. Together, we bring a lot.
+        </h2>
+        <p className="strengths-wall-intro">
+          Your three strengths stay together as one contribution. Each eligible
+          approved contribution becomes one stone.
+        </p>
+        <div
+          className="strengths-wall-scene"
+          role="group"
+          aria-labelledby="strengths-wall-title"
+        >
           <img
-            src="/strengths-shelter.png"
-            alt="A rough woodland shelter made from branches, standing among trees and leaf-covered ground."
+            className="strengths-wall-background"
+            src="/strengths-woodland-base.png"
+            alt="A sunlit Northern European woodland floor with ferns, moss and mature trees."
           />
-          <figcaption id="strengths-shelter-caption">
-            None of us brings everything. Together, we bring a lot.
-          </figcaption>
-        </figure>
-        {contributionsLoaded &&
-          !contributions.some(
-            (contribution) => contribution.status === "approved"
-          ) && (
-            <p className="strengths-shelter-empty">
-              The shelter is waiting for what people bring.
+          {visibleContributions.map((contribution) => {
+            const slot = contribution.sequence - 1;
+            const position = STRENGTHS_WALL_POSITIONS[slot];
+            const wallPositionStyle: WallPositionStyle = {
+              "--wall-left": `${position.left}%`,
+              "--wall-bottom": `${position.bottom}%`,
+              "--wall-width": `${position.width}%`,
+              "--wall-transform": `translate(-50%, 50%) rotate(${position.rotation}deg)`,
+              "--wall-layer": STRENGTHS_WALL_DEPTH[position.depthBand],
+            };
+            return (
+              <button
+                key={contribution.key}
+                ref={(element) => {
+                  if (element) stoneButtonRefs.current.set(contribution.key, element);
+                  else stoneButtonRefs.current.delete(contribution.key);
+                }}
+                className={`strengths-wall-stone${selectedContributionKey === contribution.key ? " is-selected" : ""}`}
+                data-mobile-row={Math.floor(slot / 5)}
+                data-mobile-column={slot % 5}
+                style={wallPositionStyle}
+                type="button"
+                aria-label={`Read contribution by ${contribution.displayName || "Anonymous"}: ${contribution.strengths.join(", ")}`}
+                aria-pressed={selectedContributionKey === contribution.key}
+                onClick={(event) => {
+                  focusTargetRef.current = event.currentTarget;
+                  setSelectedContributionKey(contribution.key);
+                }}
+              >
+                <img
+                  src={`/strengths-stones/stone-${String((slot % 12) + 1).padStart(2, "0")}.png`}
+                  alt=""
+                />
+              </button>
+            );
+          })}
+          {contributionsLoaded && visibleContributions.length === 0 && (
+            <p className="strengths-wall-empty" role={contributionsLoadError ? "status" : undefined}>
+              {contributionsLoadError
+                ? "The woodland contributions are temporarily unavailable."
+                : approved.length === 0
+                  ? "Nothing has been built here yet. What will you bring?"
+                  : "Approved contributions have permanent places beyond the stones shown here. Their count remains included below."}
             </p>
           )}
+          {!contributionsLoaded && (
+            <p className="strengths-wall-loading" role="status">
+              Finding what people have brought…
+            </p>
+          )}
+        </div>
+        {impact ? (
+          <p className="strengths-wall-count" role="status">
+            {impact.strengthsRecognised} approved {impact.strengthsRecognised === 1 ? "contribution" : "contributions"}
+          </p>
+        ) : impactUnavailable ? (
+          <p className="strengths-wall-count" role="status">
+            The approved contribution total is temporarily unavailable.
+          </p>
+        ) : (
+          <p className="strengths-wall-count" role="status">
+            Loading the approved contribution total…
+          </p>
+        )}
+        {(impact?.strengthsRecognised ?? 0) > STRENGTHS_WALL_POSITIONS.length && (
+          <p className="strengths-wall-sample">
+            The first {STRENGTHS_WALL_POSITIONS.length} places are shown here.
+            Later contributions keep their place and are included in the total.
+          </p>
+        )}
+        {selectedContribution && (
+          <article
+            className="strengths-contribution-card"
+            aria-live="polite"
+            aria-atomic="true"
+            aria-label="Strengths contribution"
+          >
+            <h3>{selectedContribution.strengths.join(" · ")}</h3>
+            {selectedContribution.reflection && (
+              <p className="strengths-contribution-reflection">
+                “{selectedContribution.reflection}”
+              </p>
+            )}
+            <p className="strengths-contribution-identity">
+              {selectedContribution.displayName || "Anonymous"}
+              {selectedContribution.countryCode && (
+                <>
+                  {" · "}
+                  {getCountryDisplay(selectedContribution.countryCode).name}{" "}
+                  <span aria-hidden="true">
+                    {getCountryDisplay(selectedContribution.countryCode).flag}
+                  </span>
+                </>
+              )}
+            </p>
+            <button type="button" onClick={closeContribution}>
+              Close contribution
+            </button>
+          </article>
+        )}
       </section>
 
       <section
@@ -226,7 +449,7 @@ export default function StrengthsPractice() {
           </fieldset>
 
           <label htmlFor="strength-reflection">
-            What do these qualities look like in you?{" "}
+            What does this combination look like in you?{" "}
             <span className="muted">(optional)</span>
           </label>
           <p className="strengths-helper">

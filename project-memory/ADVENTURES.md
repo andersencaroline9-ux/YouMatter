@@ -47,10 +47,16 @@ The active application in `app/` contains the adventures below.
 - An optional short reflection, Anonymous/first-name identity, optional
   country, consent, moderation, and visitor-owned pending visibility are
   supported.
-- Contributions use the shared D1/admin moderation architecture. The supplied
-  woodland shelter photograph is installed as the collective visual; individual
-  contributions are not yet placed on it. Each valid approved group of three
-  strengths counts as one impact contribution and one strength recognised in the tally.
+- Contributions use the shared D1/admin moderation architecture. Each valid
+  approved group of three strengths counts as one impact contribution and one
+  strength recognised in the tally, and appears as one stone in the woodland
+  wall. Only approved valid three-strength contributions are shown; pending
+  submissions remain private to their visitor. A database-backed sequence is
+  assigned on approval so a contribution retains its numbered place; the first
+  20 sequence positions use the wall's deliberate placements.
+- The page explains the reflective (non-assessment) practice and the VIA
+  Classification. Visitors can join without taking VIA; the official survey
+  link is optional and separate.
 
 ## Live Adventure — 30 Days in Nature
 - The public page collects first name and email for a no-commitment waiting

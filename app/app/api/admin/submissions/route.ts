@@ -9,7 +9,10 @@ import {
   strengthsEntries,
 } from "../../../../db/schema";
 import { authorizeAdmin } from "../../../../lib/admin-auth";
-import { parseStoredCharacterStrengths } from "../../../../lib/character-strengths";
+import {
+  isCharacterStrengthSelection,
+  parseStoredCharacterStrengths,
+} from "../../../../lib/character-strengths";
 import { groupGratitudeRows } from "../../../../lib/gratitude-submissions";
 import { LOCAL_ADMIN_PROOF_HEADER } from "../../../../lib/local-admin-auth-proof";
 
@@ -171,9 +174,37 @@ export async function PATCH(request: Request) {
       return Response.json({ entry });
     }
     if (body.type === "strengths") {
+      const [current] = await db
+        .select({
+          strength: strengthsEntries.strength,
+        })
+        .from(strengthsEntries)
+        .where(eq(strengthsEntries.id, id))
+        .limit(1);
+      if (!current) {
+        return Response.json({ error: "Submission not found." }, { status: 404 });
+      }
+      const sequenceEligible = isCharacterStrengthSelection(
+        parseStoredCharacterStrengths(current.strength)
+      );
       const [entry] = await db
         .update(strengthsEntries)
-        .set({ status, approvedAt, ownerTokenHash: null })
+        .set({
+          status,
+          approvedAt,
+          ownerTokenHash: null,
+          ...(status === "approved" && sequenceEligible
+            ? {
+                contributionSequence: sql`COALESCE(
+                  ${strengthsEntries.contributionSequence},
+                  (
+                    SELECT COALESCE(MAX(contribution_sequence), 0) + 1
+                    FROM strengths_entries
+                  )
+                )`,
+              }
+            : {}),
+        })
         .where(eq(strengthsEntries.id, id))
         .returning({
           id: strengthsEntries.id,

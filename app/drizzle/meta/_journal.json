@@ -64,6 +64,13 @@
       "when": 1792002929203,
       "tag": "0008_impact_accounting",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "6",
+      "when": 1792009181753,
+      "tag": "0009_strengths_permanent_sequence",
+      "breakpoints": true
     }
   ]
 }

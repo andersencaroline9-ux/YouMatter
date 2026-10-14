@@ -66,7 +66,12 @@ export const strengthsEntries = sqliteTable("strengths_entries", {
     .default("pending"),
   createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
   approvedAt: text("approved_at"),
-});
+  contributionSequence: integer("contribution_sequence"),
+}, (table) => ({
+  contributionSequenceUnique: uniqueIndex(
+    "strengths_entries_contribution_sequence_unique"
+  ).on(table.contributionSequence),
+}));
 
 export const homepageCheckins = sqliteTable("homepage_checkins", {
   id: integer("id").primaryKey({ autoIncrement: true }),
