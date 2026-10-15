@@ -1,0 +1,529 @@
+.writing-page {
+  --writing-ink: #18382e;
+  --writing-muted: #586a60;
+  --writing-rule: rgba(32, 56, 45, 0.17);
+  width: min(1160px, calc(100% - 48px));
+  margin-inline: auto;
+  padding-block: clamp(38px, 5vw, 68px) clamp(56px, 8vw, 96px);
+  color: #24352d;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.writing-page a:focus-visible,
+.writing-page button:focus-visible,
+.writing-page summary:focus-visible {
+  outline: 3px solid #a67a2e;
+  outline-offset: 4px;
+}
+
+.writing-index-page {
+  width: 100%;
+  margin: 0;
+  padding: 0 0 clamp(56px, 8vw, 96px);
+}
+
+.writing-hero {
+  position: relative;
+  display: flex;
+  min-height: clamp(260px, 21vw, 320px);
+  align-items: center;
+  overflow: hidden;
+  background-color: #1b2c20;
+  background-image:
+    linear-gradient(90deg, rgba(12, 25, 17, 0.48) 0%, rgba(12, 25, 17, 0.3) 42%, rgba(12, 25, 17, 0.05) 100%),
+    linear-gradient(0deg, rgba(12, 25, 17, 0.12), transparent 48%),
+    url("/forest-live-trailhead-temporary.jpg");
+  background-position: center, center, 52% 48%;
+  background-size: cover;
+  color: #fffdf7;
+}
+
+.writing-hero__content {
+  position: relative;
+  z-index: 2;
+  width: min(1160px, calc(100% - 48px));
+  margin-inline: auto;
+  padding-block: clamp(32px, 3vw, 44px);
+}
+
+.writing-hero h1 {
+  margin: 0;
+  color: #fffdf7;
+  font: 500 clamp(4rem, 8vw, 6.6rem) / 0.96 Georgia, "Times New Roman", serif;
+  letter-spacing: -0.055em;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.22);
+}
+
+.writing-hero__lead {
+  max-width: 700px;
+  margin: 12px 0 8px;
+  color: #fffdf7;
+  font-size: clamp(1.25rem, 2.3vw, 1.65rem);
+  line-height: 1.3;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.35);
+}
+
+.writing-hero__copy {
+  max-width: 640px;
+  margin: 0;
+  color: rgba(255, 253, 247, 0.96);
+  font-size: clamp(1rem, 1.5vw, 1.13rem);
+  line-height: 1.55;
+  text-shadow: 0 1px 9px rgba(0, 0, 0, 0.4);
+}
+
+.writing-index-content {
+  width: min(1160px, calc(100% - 48px));
+  margin-inline: auto;
+}
+
+.writing-eyebrow {
+  margin: 0 0 10px;
+  color: #746442;
+  font: 700 0.68rem / 1.4 Arial, Helvetica, sans-serif;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.writing-article__themes {
+  margin: 12px 0 0;
+  color: #756446;
+  font: 700 0.65rem / 1.5 Arial, Helvetica, sans-serif;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.writing-collection {
+  padding-top: clamp(20px, 2.5vw, 32px);
+}
+
+.writing-section-heading {
+  max-width: 820px;
+  padding-bottom: 16px;
+}
+
+.writing-section-heading .writing-eyebrow {
+  margin-bottom: 4px;
+}
+
+.writing-section-heading h2 {
+  margin: 0;
+  color: var(--writing-ink);
+  font: 500 clamp(1.85rem, 3.6vw, 2.65rem) / 1.12 Georgia, "Times New Roman", serif;
+  letter-spacing: -0.025em;
+}
+
+.writing-collection-intro__copy {
+  max-width: 740px;
+  margin: 8px 0 0;
+  color: #46574d;
+  font-size: clamp(1rem, 1.5vw, 1.12rem);
+  line-height: 1.6;
+}
+
+.writing-collection-intro__copy em {
+  font-style: italic;
+}
+
+.writing-chapters {
+  display: grid;
+  gap: clamp(58px, 8vw, 92px);
+}
+
+.writing-chapter {
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr);
+  grid-template-areas: "image content";
+  column-gap: clamp(30px, 5.5vw, 72px);
+  min-width: 0;
+}
+
+.writing-chapter--2,
+.writing-chapter--4,
+.writing-chapter--6 {
+  grid-template-areas:
+    "content image";
+}
+
+.writing-chapter__content {
+  grid-area: content;
+  align-self: center;
+  min-width: 0;
+  padding-block: clamp(16px, 2.5vw, 30px);
+}
+
+.writing-chapter__heading {
+  margin-bottom: 15px;
+}
+
+.writing-chapter__number {
+  margin: 0 0 8px;
+  color: #756446;
+  font: 700 0.68rem / 1.4 Arial, Helvetica, sans-serif;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.writing-chapter__heading h3 {
+  max-width: 28ch;
+  margin: 0;
+  color: var(--writing-ink);
+  font: 500 clamp(1.85rem, 3.8vw, 2.8rem) / 1.08 Georgia, "Times New Roman", serif;
+  letter-spacing: 0.015em;
+  overflow-wrap: anywhere;
+}
+
+.writing-chapter__description {
+  max-width: 42ch;
+  margin: 12px 0 0;
+  color: #46574d;
+  font-size: 0.97rem;
+  line-height: 1.5;
+}
+
+.writing-chapter__image {
+  grid-area: image;
+  align-self: center;
+  min-width: 0;
+  min-height: 0;
+  aspect-ratio: 1.6;
+  margin: 0;
+  overflow: hidden;
+  background: #d9d5c4;
+}
+
+.writing-chapter__image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  object-fit: cover;
+}
+
+.writing-chapter__placeholder {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  place-items: center;
+  padding: 24px;
+  background:
+    radial-gradient(ellipse at 75% 24%, rgba(221, 210, 173, 0.32), transparent 42%),
+    linear-gradient(135deg, #e3dfd0, #d5d4c5 58%, #c8d0bf);
+  color: #516356;
+}
+
+.writing-chapter__placeholder span {
+  max-width: 16ch;
+  font: 700 0.68rem / 1.5 Arial, Helvetica, sans-serif;
+  letter-spacing: 0.13em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.writing-chapter__stories {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.writing-chapter__story {
+  min-width: 0;
+  border-bottom: 1px solid var(--writing-rule);
+}
+
+.writing-chapter__story:first-child {
+  border-top: 1px solid var(--writing-rule);
+}
+
+.writing-chapter__story a {
+  display: flex;
+  min-height: 78px;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 18px;
+  padding-block: 17px;
+  color: var(--writing-ink);
+}
+
+.writing-chapter__story a:hover .writing-chapter__story-title {
+  text-decoration: underline;
+  text-decoration-color: #9c8a62;
+  text-underline-offset: 4px;
+}
+
+.writing-chapter__story-title {
+  max-width: 32ch;
+  font-size: clamp(1.28rem, 2.05vw, 1.72rem);
+  line-height: 1.16;
+  overflow-wrap: anywhere;
+}
+
+.writing-chapter__story--lead .writing-chapter__story-title {
+  max-width: 26ch;
+  font-size: clamp(1.7rem, 2.8vw, 2.25rem);
+  letter-spacing: -0.025em;
+}
+
+.writing-chapter__story--quiet .writing-chapter__story-title {
+  max-width: 29ch;
+  font-size: clamp(1.35rem, 2.1vw, 1.75rem);
+  font-style: italic;
+}
+
+.writing-chapter__read {
+  display: inline-flex;
+  flex: none;
+  min-height: 30px;
+  align-items: center;
+  gap: 6px;
+  color: var(--writing-muted);
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+.writing-article-page {
+  max-width: 960px;
+}
+
+.writing-back {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  color: var(--writing-ink);
+  font-size: 0.88rem;
+}
+
+.writing-back:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.writing-article__image {
+  margin: 0 0 clamp(26px, 4vw, 42px);
+  overflow: hidden;
+  background: #51453e;
+}
+
+.writing-article__image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 540px;
+  object-fit: cover;
+}
+
+.writing-article__header {
+  max-width: 790px;
+  margin: 0 auto clamp(30px, 5vw, 50px);
+}
+
+.writing-provenance {
+  margin: 0 0 10px;
+  color: #786944;
+  font: 700 0.66rem / 1.5 Arial, Helvetica, sans-serif;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.writing-article__header h1 {
+  margin: 0;
+  color: var(--writing-ink);
+  font: 500 clamp(2.35rem, 5.3vw, 4.2rem) / 1.02 Georgia, "Times New Roman", serif;
+  letter-spacing: -0.045em;
+  overflow-wrap: anywhere;
+}
+
+.writing-article__themes {
+  margin-top: 15px;
+  line-height: 1.8;
+}
+
+.writing-translation-note {
+  margin: 13px 0 0;
+  color: var(--writing-muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.writing-article__body {
+  width: min(700px, 100%);
+  margin-inline: auto;
+  color: #293a31;
+  font-size: clamp(1.02rem, 1.4vw, 1.12rem);
+  line-height: 1.68;
+}
+
+.writing-article__body p {
+  margin: 0 0 0.45em;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.writing-article__body .writing-article__spacer {
+  min-height: 0.78em;
+  margin: 0;
+}
+
+.writing-article__body strong {
+  font-weight: 700;
+}
+
+.writing-article__body em {
+  font-style: italic;
+}
+
+.writing-danish {
+  width: min(700px, 100%);
+  margin: 42px auto 0;
+  padding-top: 14px;
+  border-top: 1px solid var(--writing-rule);
+}
+
+.writing-danish summary {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  color: var(--writing-ink);
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.writing-danish .writing-article__body {
+  padding-top: 12px;
+}
+
+.writing-explore {
+  width: min(700px, 100%);
+  margin: clamp(44px, 7vw, 76px) auto 0;
+  padding-top: 20px;
+  border-top: 1px solid var(--writing-rule);
+}
+
+.writing-explore .writing-eyebrow {
+  margin-bottom: 4px;
+}
+
+.writing-explore h2 {
+  margin: 0 0 10px;
+  color: var(--writing-ink);
+  font: 500 1.55rem / 1.2 Georgia, "Times New Roman", serif;
+}
+
+.writing-explore ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.writing-explore li a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 7px;
+  color: var(--writing-ink);
+  font-size: 0.9rem;
+}
+
+.writing-explore li a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+@media (max-width: 820px) {
+  .writing-chapter,
+  .writing-chapter--2,
+  .writing-chapter--4,
+  .writing-chapter--6 {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "image" "content";
+    row-gap: 18px;
+  }
+
+  .writing-chapter__image {
+    aspect-ratio: 1.8;
+  }
+
+  .writing-chapter__content {
+    padding-block: 0;
+  }
+
+  .writing-chapter__placeholder {
+    min-height: 0;
+  }
+}
+
+@media (max-width: 760px) {
+  .writing-article-page {
+    width: min(100% - 36px, 640px);
+  }
+}
+
+@media (max-width: 520px) {
+  .writing-article-page {
+    width: calc(100% - 32px);
+    padding-top: 34px;
+  }
+
+  .writing-hero {
+    min-height: 320px;
+  }
+
+  .writing-hero {
+    background-image:
+      linear-gradient(90deg, rgba(12, 25, 17, 0.42), rgba(12, 25, 17, 0.24)),
+      linear-gradient(0deg, rgba(12, 25, 17, 0.18), transparent 65%),
+      url("/forest-live-trailhead-temporary.jpg");
+    background-position: center, center, 50% 50%;
+  }
+
+  .writing-hero__content {
+    width: calc(100% - 36px);
+    padding-block: 40px;
+  }
+
+  .writing-hero h1 {
+    font-size: clamp(3.8rem, 17vw, 5.1rem);
+  }
+
+  .writing-chapter__heading h3 {
+    font-size: clamp(1.75rem, 7.2vw, 2.55rem);
+  }
+
+  .writing-chapter__story a {
+    gap: 10px;
+  }
+
+  .writing-chapter__story-title {
+    font-size: 1.35rem;
+  }
+
+  .writing-chapter__story--lead .writing-chapter__story-title {
+    font-size: 1.65rem;
+  }
+
+  .writing-chapter__story--quiet .writing-chapter__story-title {
+    font-size: 1.4rem;
+  }
+
+  .writing-chapter__read {
+    font-size: 0.75rem;
+  }
+
+  .writing-article__header h1 {
+    font-size: clamp(2.25rem, 10.8vw, 3.2rem);
+  }
+
+  .writing-article__body {
+    font-size: 1.02rem;
+    line-height: 1.68;
+  }
+}

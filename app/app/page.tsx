@@ -26,11 +26,11 @@ const adventures = [
     description: "Choose three strengths you recognise in yourself.",
   },
   {
-    title: "30 Days in Nature",
+    title: "RECONNECT",
     href: "/live-adventure",
     image: "nature",
-    tagline: "Reconnect with the world around you.",
-    description: "Join a small group spending 30 minutes in nature for 30 days.",
+    tagline: "30 days in nature.",
+    description: "Go outside alone. Come back with something to share.",
   },
 ];
 

@@ -192,10 +192,10 @@ export default function AdminPage() {
         {note && <p className="form-note">{note}</p>}
 
         <section className="admin-section">
-          <h2>30 Days in Nature — Waiting List</h2>
+          <h2>RECONNECT — Waiting List</h2>
           <p className="muted">
-            Interest only—not paid or confirmed participation. The first 15
-            entries are the initial group; later entries are reserves.
+            Interest only—not paid or confirmed participation. Entries 1–10
+            are the initial cohort; entries 11–20 are reserves.
           </p>
           {liveInterestNote && (
             <p className="form-note">{liveInterestNote}</p>
@@ -213,8 +213,8 @@ export default function AdminPage() {
               <div className="admin-waitlist-group" key={section}>
                 <h3>
                   {section === "group"
-                    ? "First 15 interested people"
-                    : "Reserve list (entries 16–20)"}
+                    ? "Initial cohort (entries 1–10)"
+                    : "Reserve list (entries 11–20)"}
                 </h3>
                 <ol>
                   {entries.map((entry) => (

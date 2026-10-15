@@ -4,7 +4,7 @@ const adventures = [
   { href: "/gratitude", label: "Gratitude Garden" },
   { href: "/kindness", label: "The Kindness Tree" },
   { href: "/strengths", label: "The Strengths We Bring" },
-  { href: "/live-adventure", label: "30 Days in Nature" },
+  { href: "/live-adventure", label: "RECONNECT — 30 Days in Nature" },
 ];
 
 export default function SiteFooter() {

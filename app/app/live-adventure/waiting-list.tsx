@@ -119,8 +119,8 @@ export default function LiveAdventureWaitingList() {
       {statusError && <p className="live-adventure-status-error">{statusError}</p>}
       {status?.reserveActive && (
         <p className="live-adventure-reserve-note">
-          New signups can join the reserve list; the group itself remains 15
-          people.
+          The first 10 interest places are filled. New signups can join the
+          reserve list.
         </p>
       )}
       {waitingListFull ? (

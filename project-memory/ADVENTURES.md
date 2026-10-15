@@ -2,6 +2,40 @@
 
 The active application in `app/` contains the adventures below.
 
+## Writing
+- Writing is a primary website section and a curated collection, not a blog or
+  publishing treadmill. Launch with 20 pieces in six editorial chapters; the
+  chapters form an editorial journey rather than a taxonomy. Each piece has
+  exactly one chapter home, public topic filters are removed, and detailed raw
+  theme strings are not shown on the index. Preserve the supplied original
+  writing, paragraph rhythm, supported emphasis, punctuation and Unicode.
+- The locked chapter assignments are: 01 — WHEN LIFE DOESN'T QUITE FIT (Life
+  Is Just 50 Shades of Grey; Money Really Isn’t Everything; When the Fire
+  Starts to Fade; Dearest Money, Fuck Ever So Much Off!); 02 — LOVE, HAPPINESS
+  & Other Complicated Things (It Was a BAD Morning; Are You Happy, Mommy?; Do
+  You Know That Feeling?; Oh How You Love Her. Your Mom.; Today We Choose to
+  Appreciate Each Other); 03 — NOTICE WHAT'S HERE (Take a Walk with Your
+  Toddler; There’s Gold for Everyone; I Am So Very Grateful; Cursing at Beauty
+  While Writing About Beauty); 04 — THE LITTLE CONNECTIONS BETWEEN US (The
+  Kindness of Strangers; The Little Conversations That Connect Us; The Little
+  Connections Between Us); 05 — THE PURSUIT OF FULFILMENT (By My Own
+  Definition, I Am Successful; And So You Leap); 06 — IS THERE SOMETHING
+  GREATER THAN US? (Meet Hilda: An Atheist Tries to Understand the Universe;
+  You Matter).
+- “There’s Gold for Everyone” uses the approved English translation and the
+  source document’s coastal sunset photograph; preserve the original Danish as
+  a separate version. On the landing page it appears only once, in its Chapter
+  03 home; there is no separate featured story.
+- Each chapter has one replaceable atmospheric image slot. Use the source
+  sunset in Chapter 03 and existing real project photography in Chapter 04;
+  Chapters 01, 02, 05, and 06 currently use explicit replaceable placeholders
+  until suitable real photographs are provided. These chapter images represent
+  chapters, not individual stories. Article pages use a quiet, reading-first
+  editorial layout and verified provenance only.
+- Writing appears in primary navigation. Keep restrained, genuinely relevant
+  links between Writing pieces and the Adventures; do not imply a continuing
+  content schedule.
+
 ## How Are You Doing? — preserved check-in and Community Tree
 - The check-in infrastructure supports a human 1–10 response to “How are you
   doing today?” with an optional short comment, Anonymous/first-name identity,
@@ -66,17 +100,21 @@ The active application in `app/` contains the adventures below.
   contributions may publicly show strengths, reflection, chosen name or
   Anonymous, and country when provided.
 
-## Live Adventure — 30 Days in Nature
-- The public page collects first name and email for a no-commitment waiting
-  list; it takes no payment and is not newsletter signup.
-- The participant page explains the daily 30-minute nature practice, the
-  opening call, optional WhatsApp check-ins, closing call, cautious nature
-  context, pilot price, and what happens after joining the list.
-- D1 stores up to 20 unique normalized email addresses. The public endpoint
-  returns only safe aggregate counts capped at the 15-person cohort target.
-- The protected admin page separates the first 15 interested people from
-  reserve entries. Interest is not payment or confirmed participation; cohort
-  and payment management remain manual.
+## RECONNECT — 30 Days in Nature
+- The public page presents a 30-day guided nature and community experience:
+  individual daily nature practice, daily sharing in a private WhatsApp group,
+  opening and closing online gatherings, and facilitation throughout the
+  month. Nature time is individual; participants do not meet physically for
+  the daily practice.
+- The pilot is for adults 18+, costs $44 per person, and has a maximum active
+  cohort of 10. Joining the waiting list is interest only; it takes no payment
+  and is not newsletter signup.
+- D1 stores up to 20 unique normalized email addresses. Entries 1–10 are the
+  initial cohort interest list; entries 11–20 are reserves. The public
+  endpoint returns only safe aggregate counts capped at 10. Existing signup
+  records are not changed when the cohort threshold changes.
+- Payment and cohort confirmation remain manual; no payment functionality is
+  implemented.
 
 The local app uses isolated Cloudflare-compatible storage emulation. Admin
 moderation remains protected by Cloudflare Access and is not available without

@@ -2,6 +2,7 @@ import { asc } from "drizzle-orm";
 import { getDb } from "../../../../db";
 import { liveAdventureInterests } from "../../../../db/schema";
 import { authorizeAdmin } from "../../../../lib/admin-auth";
+import { isLiveAdventureReservePosition } from "../../../../lib/live-adventure-cohort";
 import { LOCAL_ADMIN_PROOF_HEADER } from "../../../../lib/local-admin-auth-proof";
 
 export async function GET(request: Request) {
@@ -35,7 +36,7 @@ export async function GET(request: Request) {
       {
         entries: rows.map((entry, index) => ({
           ...entry,
-          reserve: index >= 15,
+          reserve: isLiveAdventureReservePosition(index + 1),
         })),
       },
       { headers: { "Cache-Control": "private, no-store" } }

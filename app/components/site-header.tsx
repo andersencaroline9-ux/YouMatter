@@ -8,7 +8,7 @@ const adventures = [
   { href: "/gratitude", label: "Gratitude Garden" },
   { href: "/kindness", label: "Built From Kindness" },
   { href: "/strengths", label: "The Strengths We Bring" },
-  { href: "/live-adventure", label: "30 Days in Nature — Live" },
+  { href: "/live-adventure", label: "RECONNECT — 30 Days in Nature" },
 ];
 
 export default function SiteHeader({ home = false }: { home?: boolean }) {
@@ -128,6 +128,14 @@ export default function SiteHeader({ home = false }: { home?: boolean }) {
               ))}
             </div>
           </div>
+          <Link
+            className="site-nav__link"
+            href="/writing"
+            aria-current={pathname.startsWith("/writing") ? "page" : undefined}
+            onClick={closeMenus}
+          >
+            Writing
+          </Link>
           <Link
             className="site-nav__link"
             href="/about"

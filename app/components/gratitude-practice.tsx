@@ -43,8 +43,8 @@ const currentClearing = gratitudeClearings[0];
 const plantVariants = [
   "woodAnemone",
   "bluebell",
-  "cowslip",
   "redCampion",
+  "cowslip",
   "oxeyeDaisy",
   "foxglove",
 ] as const satisfies readonly GratitudePlantVariant[];
@@ -210,8 +210,8 @@ export default function GratitudePractice({
           made today a little easier.
         </p>
         <p>
-          They need not be profound. A warm cup. A message. A moment when your
-          shoulders softened. Honest and specific is enough.
+          They need not be profound. A comforting drink. A message. A moment
+          when your shoulders softened. Honest and specific is enough.
         </p>
         <form className="gratitude-form" onSubmit={submit}>
           {messages.map((message, index) => (

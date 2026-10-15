@@ -1,226 +1,369 @@
+import {
+  Eye,
+  Leaf,
+  MessageCircle,
+  Sun,
+  UsersRound,
+} from "lucide-react";
+import Image from "next/image";
 import SiteFooter from "../../components/site-footer";
 import SiteHeader from "../../components/site-header";
 import LiveAdventureWaitingList from "./waiting-list";
 import "./live-adventure.css";
 
+const connections = [
+  {
+    title: "TO NATURE",
+    description: "Step outside and reconnect with the natural world.",
+    Icon: Leaf,
+  },
+  {
+    title: "TO YOURSELF",
+    description: "Notice what you see, hear and feel.",
+    Icon: Eye,
+  },
+  {
+    title: "TO OTHERS",
+    description: "Share your experience with a small, supportive group.",
+    Icon: UsersRound,
+  },
+  {
+    title: "TO SOMETHING LARGER",
+    description: "Explore the possibility of feeling part of something beyond yourself.",
+    Icon: Sun,
+  },
+];
+
+const dailySteps = [
+  {
+    title: "Go outside",
+    description:
+      "Spend at least 30 minutes in nature each day, on your own and without technology or other distractions such as scrolling, podcasts or work.",
+    note: "Your phone can come with you if you’re using it as a camera.",
+  },
+  {
+    title: "Notice",
+    description:
+      "Pay attention to what catches your eye, what you hear and what you feel.",
+    note: "There’s nothing you need to achieve.",
+  },
+  {
+    title: "Bring it back",
+    description:
+      "Share one photograph, observation or reflection with your group each day.",
+    note:
+      "Daily sharing is part of the experience. The photograph is not the activity; paying attention is.",
+  },
+  {
+    title: "Connect",
+    description:
+      "See what the other nine people noticed in their corner of the world.",
+    note:
+      "Respond, reflect and become part of a small community sharing this experience with you.",
+  },
+];
+
 export default function LiveAdventurePage() {
   return (
     <>
       <SiteHeader />
-      <main className="live-adventure-page">
-        <section className="live-adventure-hero">
-          <div className="shell live-adventure-hero__content">
-            <p className="eyebrow">
-              A small guided group experience · 18+ only
+      <main className="reconnect-page">
+        <section className="reconnect-hero" aria-labelledby="reconnect-title">
+          <div className="reconnect-hero-copy">
+            <p className="reconnect-eyebrow">
+              A 30-DAY NATURE &amp; CONNECTION EXPERIENCE
             </p>
-            <h1>30 Days in Nature</h1>
-            <p className="live-adventure-tagline">
-              15 people. One shared experience.
+            <h1 id="reconnect-title">RECONNECT</h1>
+            <p className="reconnect-subtitle">30 DAYS IN NATURE</p>
+            <p className="reconnect-promise">
+              Go outside alone. Come back with something to share.
             </p>
-            <p className="live-adventure-hero__intro">
-              Spend 30 minutes in nature every day for 30 days, with a little
-              structure and a small group alongside you.
+            <p className="reconnect-description">
+              For 30 days, spend 30 minutes a day in nature on your own. Then
+              bring something you noticed back to a small group of 10 people
+              doing the same in their own corner of the world.
             </p>
-            <ul className="live-adventure-details" aria-label="Pilot details">
-              <li>30 days</li>
-              <li>30 minutes in nature each day</li>
-              <li>15 people</li>
-              <li>$44 pilot price</li>
-            </ul>
-            <a
-              className="live-adventure-hero__link"
-              href="#live-adventure-signup"
-            >
-              Join the waiting list
+
+            <p className="reconnect-facts">
+              <strong>10 people</strong>
+              <span aria-hidden="true">·</span>
+              <strong>30 days</strong>
+              <span aria-hidden="true">·</span>
+              <strong>30 minutes a day</strong>
+              <span aria-hidden="true">·</span>
+              <strong>$44</strong>
+            </p>
+            <p className="reconnect-eligibility">
+              Adults 18+ <span aria-hidden="true">·</span> Online{" "}
+              <span aria-hidden="true">·</span> Participate wherever you live
+            </p>
+            <a className="reconnect-hero-cta" href="#reconnect-waitlist">
+              Join the waiting list <span aria-hidden="true">→</span>
             </a>
           </div>
-        </section>
 
-        <section
-          className="live-adventure-signup shell"
-          id="live-adventure-signup"
-          aria-labelledby="live-adventure-signup-title"
-        >
-          <div className="live-adventure-invitation">
-            <p className="eyebrow">Start with interest</p>
-            <h2 id="live-adventure-signup-title">Join the waiting list</h2>
-            <p>
-              Share your first name and email. Joining the waiting list doesn’t
-              commit you to anything, and you won’t be asked for payment yet.
-            </p>
-            <p className="live-adventure-aim">
-              We aim to begin within about a month, once there’s enough
-              interest.
-            </p>
-          </div>
-          <LiveAdventureWaitingList />
-        </section>
-
-        <section
-          className="live-adventure-section shell"
-          aria-labelledby="daily-practice-title"
-        >
-          <div className="live-adventure-section__intro">
-            <p className="eyebrow">The daily practice</p>
-            <h2 id="daily-practice-title">Thirty minutes. Outside. Noticing.</h2>
-            <p>
-              For 30 days, spend at least 30 minutes outside in nature each day.
-              It can be a local park, a garden, a tree-lined street, or
-              somewhere wilder.
-            </p>
-          </div>
-          <div className="live-adventure-practice card">
-            <h3>During that time</h3>
-            <ul>
-              <li>No podcast, scrolling, work, or multitasking.</li>
-              <li>No need to exercise or achieve anything.</li>
-              <li>Walking, sitting, or standing under a tree are all fine.</li>
-            </ul>
-            <p>
-              Bring your camera or phone to take a photograph if you like. It’s
-              a way to notice and check in—not a reason to scroll or consume
-              content.
-            </p>
-            <p>
-              This isn’t a photography challenge. There’s no expectation of
-              beautiful pictures. The point is being there, paying attention,
-              noticing.
-            </p>
-          </div>
-        </section>
-
-        <section
-          className="live-adventure-section live-adventure-section--soft"
-          aria-labelledby="group-experience-title"
-        >
-          <div className="shell">
-            <div className="live-adventure-section__intro">
-              <p className="eyebrow">The group experience</p>
-              <h2 id="group-experience-title">A little company along the way</h2>
+          <div className="reconnect-hero-image">
+            <Image
+              src="/forest-live-trailhead-temporary.jpg"
+              alt="A quiet path winding through a sunlit forest."
+              fill
+              priority
+              sizes="(max-width: 820px) 100vw, 49vw"
+            />
+            <div className="reconnect-people-mark" aria-label="A small community of 10 people">
+              <strong>10</strong>
+              <span>people</span>
+              <small>a small community</small>
             </div>
-            <div className="live-adventure-stages">
-              <article>
-                <p className="live-adventure-stage-label">Before we begin</p>
-                <h3>Opening group call</h3>
-                <p>
-                  Meet the other participants, hear how the practice works, and
-                  get ready for the month.
-                </p>
-              </article>
-              <article>
-                <p className="live-adventure-stage-label">During the 30 days</p>
-                <h3>Private WhatsApp group</h3>
-                <p>
-                  Share a daily photograph or brief check-in if you wish. No
-                  long reflections or performance—just connection and gentle
-                  accountability.
-                </p>
-              </article>
-              <article>
-                <p className="live-adventure-stage-label">At the end</p>
-                <h3>Closing group call</h3>
-                <p>
-                  A chance to look back together on what the month was like.
-                </p>
-              </article>
+
+            <div className="reconnect-image-offer">
+              <ul className="reconnect-offer-facts" aria-label="What the experience includes">
+                <li>
+                  <MessageCircle aria-hidden="true" size={23} strokeWidth={1.5} />
+                  <strong>Private WhatsApp</strong>
+                  <span>community</span>
+                </li>
+                <li>
+                  <UsersRound aria-hidden="true" size={23} strokeWidth={1.5} />
+                  <strong>Opening gathering</strong>
+                  <span>online</span>
+                </li>
+                <li>
+                  <Sun aria-hidden="true" size={23} strokeWidth={1.5} />
+                  <strong>Daily prompts</strong>
+                  <span>throughout the month</span>
+                </li>
+                <li>
+                  <span className="reconnect-screen-icon" aria-hidden="true">
+                    <UsersRound size={23} strokeWidth={1.5} />
+                  </span>
+                  <strong>Closing gathering</strong>
+                  <span>online</span>
+                </li>
+              </ul>
             </div>
           </div>
         </section>
 
-        <section className="live-adventure-section shell live-adventure-why">
-          <div className="live-adventure-section__intro">
-            <p className="eyebrow">Why nature?</p>
-            <h2>Make room to notice the natural world.</h2>
-          </div>
-          <div>
-            <p>
-              Research has associated contact with nature with aspects of
-              wellbeing. This adventure offers a simple structure for making
-              intentional time with nature part of everyday life. People’s
-              experiences differ, and this is not a promise of a particular
-              outcome.
-            </p>
-            <ul className="live-adventure-sources" aria-label="Further reading">
-              <li>
-                <a
-                  href="https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2014.00976/full"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Capaldi, Dopko &amp; Zelenski (2014), nature connectedness and
-                  happiness
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0149777"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Richardson et al. (2016), 30 Days Wild
-                </a>
-              </li>
+        <section
+          className="reconnect-connections-section"
+          aria-labelledby="reconnect-connections-title"
+        >
+          <div className="reconnect-connections-inner">
+            <div className="reconnect-connections-heading">
+              <p className="reconnect-eyebrow">The experience</p>
+              <h2 id="reconnect-connections-title">Four ways to reconnect.</h2>
+            </div>
+            <ul className="reconnect-connections" aria-label="Ways to reconnect">
+              {connections.map(({ title, description, Icon }) => (
+                <li key={title}>
+                  <span className="reconnect-connection-icon" aria-hidden="true">
+                    <Icon size={25} strokeWidth={1.6} />
+                  </span>
+                  <h3>{title}</h3>
+                  <p>{description}</p>
+                </li>
+              ))}
             </ul>
           </div>
         </section>
 
-        <section className="live-adventure-section live-adventure-section--soft">
-          <div className="shell live-adventure-practical">
-            <div>
-              <p className="eyebrow">A clear invitation</p>
-              <h2>What it is—and what it isn’t</h2>
+        <section className="reconnect-how-section" aria-labelledby="reconnect-how-title">
+          <div className="reconnect-how">
+            <p className="reconnect-eyebrow">Your daily rhythm</p>
+            <h2 id="reconnect-how-title">How it works</h2>
+            <ol>
+              {dailySteps.map(({ title, description, note }, index) => (
+                <li key={title}>
+                  <span className={`reconnect-step-number reconnect-step-number--${index + 1}`}>
+                    {index + 1}
+                  </span>
+                  <div>
+                    <h3>{title}</h3>
+                    <p>{description}</p>
+                    <p className="reconnect-step-note">{note}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+
+        <section
+          className="reconnect-section reconnect-small-group"
+          aria-labelledby="reconnect-small-group-title"
+        >
+          <div className="reconnect-section-heading">
+            <p className="reconnect-eyebrow">Small by design</p>
+            <h2 id="reconnect-small-group-title">Why only 10 people?</h2>
+          </div>
+          <div className="reconnect-section-copy">
+            <p>
+              Because this isn’t meant to feel like social media. Over 30 days,
+              you can begin to recognise the people you’re sharing the
+              experience with: where they go, what catches their attention, the
+              tree somebody keeps returning to, the beach another person walks
+              along, or the tiny things someone else notices.
+            </p>
+            <p className="reconnect-pull-quote">
+              You’re not joining an audience. You’re joining a small group.
+            </p>
+            <p>
+              Your daily contribution helps create the experience for everyone
+              else. Your time in nature is yours. The experience around it is
+              shared.
+            </p>
+          </div>
+        </section>
+
+        <section
+          className="reconnect-value"
+          aria-labelledby="reconnect-value-title"
+        >
+          <div className="reconnect-section reconnect-value-inner">
+            <div className="reconnect-section-heading">
+              <p className="reconnect-eyebrow">The experience around the practice</p>
+              <h2 id="reconnect-value-title">What the pilot includes</h2>
               <p>
-                A guided wellbeing experience informed by positive psychology,
-                and a small shared practice in everyday life. It isn’t therapy,
-                medical treatment, a formal research study, or a photography
-                course.
-              </p>
-              <p>
-                <strong>This pilot is for adults aged 18 and over.</strong>
+                Nature is free. The $44 pilot is for the shared structure and
+                support around making time for it.
               </p>
             </div>
+            <ul className="reconnect-inclusions">
+              <li>A clear 30-day rhythm and daily prompts from Caroline.</li>
+              <li>A deliberately small, private WhatsApp community.</li>
+              <li>An opening and a closing online gathering.</li>
+              <li>Facilitation and gentle support throughout the month.</li>
+              <li>
+                A daily practice done individually, then shared with the
+                group—and seeing nature through nine other people’s experiences.
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <section
+          className="reconnect-section reconnect-possibility"
+          aria-labelledby="reconnect-possibility-title"
+        >
+          <div className="reconnect-section-heading">
+            <p className="reconnect-eyebrow">An open question</p>
+            <h2 id="reconnect-possibility-title">What might 30 days change?</h2>
+          </div>
+          <div className="reconnect-section-copy">
+            <p>
+              Perhaps you notice more. Perhaps going outside becomes something
+              you look forward to. Perhaps seeing what somebody else notices
+              changes what you notice yourself.
+            </p>
+            <p>
+              Perhaps you feel more connected to nature, other people or
+              yourself. Everyone’s experience is different. That’s what we’re
+              going to explore.
+            </p>
+          </div>
+        </section>
+
+        <section
+          className="reconnect-evidence"
+          aria-labelledby="reconnect-evidence-title"
+        >
+          <div className="reconnect-section reconnect-evidence-inner">
             <div>
-              <p className="eyebrow">The pilot</p>
-              <h2>$44</h2>
+              <p className="reconnect-eyebrow">The thinking behind it</p>
+              <h2 id="reconnect-evidence-title">Evidence-informed, not a promise.</h2>
+            </div>
+            <div>
               <p>
-                The pilot price covers the opening call, the 30-day guided
-                experience, the private group space, and the closing call.
+                RECONNECT is partly inspired by Hamann and Ivtzan’s research
+                exploring a daily 30-minute nature practice over 30 days. This
+                experience is not a replication of that study, and it does not
+                promise the same outcomes.
               </p>
+              <p>
+                You Matter adds a deliberate community and connection
+                component: participants practise individually, then share what
+                they noticed with one another. Research on nature connection
+                and wellbeing is evolving; people’s experiences vary, and this
+                is not therapy or medical treatment.
+              </p>
+              <ul className="reconnect-sources" aria-label="Further reading">
+                <li>
+                  <a
+                    href="https://ojs-dev.mruni.eu/ojs/social-inquiry-into-well-being-a/article/view/4444"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Hamann &amp; Ivtzan (2016), nature experience and wellbeing
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2014.00976/full"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Capaldi, Dopko &amp; Zelenski (2014), nature connectedness
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0149777"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Richardson et al. (2016), 30 Days Wild
+                  </a>
+                </li>
+              </ul>
             </div>
           </div>
         </section>
 
         <section
-          className="live-adventure-next shell"
-          aria-labelledby="next-steps-title"
+          className="reconnect-section reconnect-faq"
+          aria-labelledby="reconnect-faq-title"
         >
-          <div>
-            <p className="eyebrow">After the waiting list</p>
-            <h2 id="next-steps-title">What happens next?</h2>
+          <div className="reconnect-section-heading">
+            <p className="reconnect-eyebrow">A gentle practice</p>
+            <h2 id="reconnect-faq-title">A few things you might be wondering.</h2>
           </div>
-          <ol>
-            <li>Join with your first name and email. There’s no commitment.</li>
-            <li>No payment is taken when you join the waiting list.</li>
-            <li>
-              Once there’s enough interest, Caroline will contact the first
-              group with the next step.
-            </li>
-            <li>Payment happens separately later; joining the list is not payment.</li>
-            <li>
-              The experience begins once 15 people are genuinely confirmed.
-            </li>
-          </ol>
-          <p>
-            The aim is to begin within about a month once there’s enough
-            interest. Adding your name means you’re interested, not that you
-            have a confirmed place.
-          </p>
-          <a
-            className="live-adventure-bottom-link"
-            href="#live-adventure-signup"
-          >
-            Return to the waiting list
-          </a>
+          <div className="reconnect-faq-answer">
+            <h3>What if I miss a day?</h3>
+            <p>Then you miss a day. Come back tomorrow.</p>
+            <p>
+              The intention is daily participation, but life happens. Missing
+              a day doesn’t erase the days you’ve already done, and it doesn’t
+              remove you from the group. This isn’t 75 Hard: Woodland Edition.
+            </p>
+          </div>
+        </section>
+
+        <section
+          className="reconnect-signup"
+          id="reconnect-waitlist"
+          aria-labelledby="reconnect-waitlist-title"
+        >
+          <div className="reconnect-section reconnect-signup-inner">
+            <div className="reconnect-signup-copy">
+              <p className="reconnect-eyebrow">A small group, wherever you are</p>
+              <h2 id="reconnect-waitlist-title">Make space to reconnect.</h2>
+              <p>
+                Join the interest list for the next RECONNECT group. It’s a
+                first step, not a commitment; no payment is taken when you
+                register.
+              </p>
+              <p>
+                Caroline will contact people in order as the 10-person group
+                takes shape. Entries 11–20 are held on the reserve list.
+              </p>
+              <p className="reconnect-signup-detail">
+                $44 pilot price <span aria-hidden="true">·</span> Adults 18+{" "}
+                <span aria-hidden="true">·</span> Online
+              </p>
+            </div>
+            <LiveAdventureWaitingList />
+          </div>
         </section>
       </main>
       <SiteFooter />

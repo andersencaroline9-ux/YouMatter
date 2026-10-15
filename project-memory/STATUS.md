@@ -1,5 +1,63 @@
 # Project status
 
+## Writing section — 2026-10-15
+
+- Added Writing as a primary section with a curated 20-piece launch collection,
+  six editorial chapters, and statically generated, reading-first article
+  routes. The landing page begins with the existing forest-path photograph and
+  overlays the Writing title and approved introductory copy. Its collection
+  introduction says “Twenty pieces. Six chapters.” and identifies the origins
+  as Caroline’s writing as The Mommy Poet and excerpts from *You Matter. But
+  This Isn't About You.* There is no separate featured story. The collection
+  is an editorial journey, not a taxonomy: each piece has exactly one chapter
+  home, public topic filters are removed, and detailed raw theme strings are
+  not shown on the index.
+- The locked chapter order and assignments are: 01 — WHEN LIFE DOESN'T QUITE
+  FIT (Life Is Just 50 Shades of Grey; Money Really Isn’t Everything; When the
+  Fire Starts to Fade; Dearest Money, Fuck Ever So Much Off!); 02 — LOVE,
+  HAPPINESS & OTHER COMPLICATED THINGS (It Was a BAD Morning; Are You Happy,
+  Mommy?; Do You Know That Feeling?; Oh How You Love Her. Your Mom.; Today We
+  Choose to Appreciate Each Other); 03 — NOTICE WHAT'S HERE (Take a Walk with
+  Your Toddler; There’s Gold for Everyone; I Am So Very Grateful; Cursing at
+  Beauty While Writing About Beauty); 04 — THE LITTLE CONNECTIONS BETWEEN US
+  (The Kindness of Strangers; The Little Conversations That Connect Us; The
+  Little Connections Between Us); 05 — THE PURSUIT OF FULFILMENT (By My Own
+  Definition, I Am Successful; And So You Leap); 06 — IS THERE SOMETHING
+  GREATER THAN US? (Meet Hilda: An Atheist Tries to Understand the Universe;
+  You Matter).
+- The supplied Word document remains the source for article text; typed source
+  paragraphs preserve paragraph breaks and supported bold/italic emphasis.
+  Piece 3 features its embedded sunset photograph and has the Danish original
+  separately available. No unsupported byline, stock/AI imagery, CMS, API, or
+  database was introduced. There is one replaceable atmospheric image slot per
+  chapter; the existing sunset is used in Chapter 03, existing real project
+  photography in Chapter 04, and the remaining chapter slots are explicit
+  placeholders for future suitable photographs. “There’s Gold for Everyone”
+  appears once in Chapter 03 on the landing page.
+- Cross-links are limited to related pieces and relevant existing Adventures;
+  no continuing content schedule is implied.
+
+## RECONNECT — 30 Days in Nature redesign — 2026-10-15
+
+- Repositioned the existing Live Adventure as RECONNECT: an editorial,
+  responsive 30-day community experience using the existing forest
+  photography. Participants practise in nature individually, then share
+  something they noticed with the private group each day.
+- The pilot is for adults 18+, has a maximum cohort size of 10, and is priced
+  at $44 per person. The experience includes a private WhatsApp group,
+  opening and closing online gatherings, and facilitation/prompts throughout
+  the month. No payment functionality was added.
+- Centralized the cohort threshold and reserve-position rule. Signup entries
+  1–10 are the initial cohort; entries 11–20 are reserves. The existing
+  capacity of 20 and signup data are preserved; no schema or migration changed.
+- Updated the protected admin grouping and current visitor-facing title
+  references. The historical 2026-10-14 waitlist note below records the prior
+  15-person target as it existed at that time.
+- Build passed; targeted lint passed with two existing raw-image warnings.
+  Browser checks found no horizontal overflow at 1440, 1024, 768, 390, or
+  320px; the waitlist GET and keyboard form navigation worked. No signup was
+  submitted and no database data was changed.
+
 ## The Strengths We Bring visitor experience — 2026-10-15
 
 - Updated the public Strengths adventure title while retaining “What do you

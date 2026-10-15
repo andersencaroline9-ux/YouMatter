@@ -1,17 +1,20 @@
 import { env } from "cloudflare:workers";
+import {
+  isLiveAdventureReservePosition,
+  LIVE_ADVENTURE_COHORT_SIZE,
+  LIVE_ADVENTURE_WAITLIST_CAPACITY,
+} from "../../../lib/live-adventure-cohort";
 
-const PUBLIC_TARGET = 15;
-const WAITING_LIST_CAPACITY = 20;
 const FIRST_NAME_MAX_LENGTH = 40;
 const EMAIL_MAX_LENGTH = 254;
 const PRIVATE_HEADERS = { "Cache-Control": "private, no-store" };
 
 function publicCount(total: number) {
   return {
-    interestCount: Math.min(total, PUBLIC_TARGET),
-    publicTarget: PUBLIC_TARGET,
-    waitingListFull: total >= WAITING_LIST_CAPACITY,
-    reserveActive: total >= PUBLIC_TARGET,
+    interestCount: Math.min(total, LIVE_ADVENTURE_COHORT_SIZE),
+    publicTarget: LIVE_ADVENTURE_COHORT_SIZE,
+    waitingListFull: total >= LIVE_ADVENTURE_WAITLIST_CAPACITY,
+    reserveActive: total >= LIVE_ADVENTURE_COHORT_SIZE,
   };
 }
 
@@ -90,7 +93,7 @@ export async function POST(request: Request) {
        ON CONFLICT(email) DO NOTHING
        RETURNING id`
     )
-      .bind(name, email, WAITING_LIST_CAPACITY)
+      .bind(name, email, LIVE_ADVENTURE_WAITLIST_CAPACITY)
       .first<{ id: number }>();
 
     if (!inserted) {
@@ -122,7 +125,7 @@ export async function POST(request: Request) {
     if (!position) throw new Error("Waiting-list position is unavailable.");
 
     return Response.json(
-      { reserve: position.position > PUBLIC_TARGET },
+      { reserve: isLiveAdventureReservePosition(position.position) },
       { status: 201, headers: PRIVATE_HEADERS }
     );
   } catch {
