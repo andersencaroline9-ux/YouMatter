@@ -1,34 +1,27 @@
 "use client";
 
 import { FormEvent, useEffect, useState } from "react";
+import type { KindnessCategory, PendingKindnessEntry } from "../lib/kindness";
 import KindnessStories from "./kindness-stories";
 
-export type KindnessEntry = {
-  id: number;
-  message: string;
-  kind: "gave" | "received" | "witnessed";
-  displayName: string;
-  status?: "pending" | "approved";
-};
-
 export default function KindnessPractice() {
-  const [entries, setEntries] = useState<KindnessEntry[]>([]);
+  const [entries, setEntries] = useState<PendingKindnessEntry[]>([]);
   const [message, setMessage] = useState("");
-  const [kind, setKind] = useState<KindnessEntry["kind"]>("witnessed");
+  const [kind, setKind] = useState<KindnessCategory>("witnessed");
   const [name, setName] = useState("");
   const [consent, setConsent] = useState(false);
   const [note, setNote] = useState("");
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
-    fetch("/api/kindness")
+    fetch("/api/kindness", { cache: "no-store" })
       .then(async (response) => {
-        const data = (await response.json()) as { entries?: KindnessEntry[] };
-        if (!response.ok) throw new Error();
+        const data = (await response.json()) as { entries?: PendingKindnessEntry[] };
+        if (!response.ok) throw new Error("Your kindness stories are temporarily unavailable.");
         return data;
       })
       .then((data) => setEntries(data.entries ?? []))
-      .catch(() => setNote("The kindness wall is temporarily unavailable."));
+      .catch(() => setNote("Your kindness stories are temporarily unavailable."));
   }, []);
 
   async function submit(event: FormEvent) {
@@ -51,17 +44,17 @@ export default function KindnessPractice() {
       });
       const data = (await response.json()) as {
         error?: string;
-        entry: KindnessEntry;
+        entry: PendingKindnessEntry;
       };
       if (!response.ok) {
         setNote(data.error ?? "This kindness could not be shared.");
         return;
       }
 
-      setEntries((current) => [{ ...data.entry, status: "pending" }, ...current]);
+      setEntries((current) => [data.entry, ...current]);
       setMessage("");
       setNote(
-        "Thank you for sharing this kindness. It’s saved and visible to you here as Awaiting approval. It will join the Kindness Tree after review."
+        "Thank you for noticing.\nYour kindness has been shared with us and is waiting for review.\nOnce approved, it can become another leaf on our tree.\nSmall moments. Many people. One growing story."
       );
     } catch {
       setNote("This kindness could not be shared right now. Please try again.");
@@ -73,28 +66,68 @@ export default function KindnessPractice() {
   return (
     <div className="kindness-practice-layout">
       <div className="practice card" aria-labelledby="kindness-form-title">
-        <p className="eyebrow">Your daily experiment · one small act</p>
-        <h2 id="kindness-form-title">Notice kindness in motion.</h2>
-        <p>
-          Share one kind action you gave, received or witnessed today. Ordinary
-          kindness counts: holding a door, making tea, checking in.
-        </p>
+        <p className="eyebrow">A moment between people</p>
+        <h2 id="kindness-form-title">What kindness have you noticed?</h2>
+        <div className="kindness-practice-intro">
+          <p>
+            Think about a moment of kindness. It doesn’t have to be
+            extraordinary.
+          </p>
+          <p>
+            Perhaps someone helped when they didn’t have to. Someone made you
+            feel seen. Or you noticed a small gesture between two strangers.
+          </p>
+          <p className="kindness-privacy-note">
+            You can share anonymously. Please avoid including identifying
+            details about other people. Every story is reviewed before
+            appearing on the Kindness Tree.
+          </p>
+        </div>
         <form className="gratitude-form" onSubmit={submit}>
+          <fieldset className="kindness-categories">
+            <legend>Was it something you…</legend>
+            <label>
+              <input
+                type="radio"
+                name="kindness-category"
+                value="gave"
+                checked={kind === "gave"}
+                onChange={() => setKind("gave")}
+              />
+              <span>
+                <strong>GAVE</strong>
+                <small>A kindness you showed someone else.</small>
+              </span>
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="kindness-category"
+                value="received"
+                checked={kind === "received"}
+                onChange={() => setKind("received")}
+              />
+              <span>
+                <strong>RECEIVED</strong>
+                <small>Something kind someone did for you.</small>
+              </span>
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="kindness-category"
+                value="witnessed"
+                checked={kind === "witnessed"}
+                onChange={() => setKind("witnessed")}
+              />
+              <span>
+                <strong>WITNESSED</strong>
+                <small>A kindness you saw between other people.</small>
+              </span>
+            </label>
+          </fieldset>
           <label>
-            I…
-            <select
-              value={kind}
-              onChange={(event) =>
-                setKind(event.target.value as KindnessEntry["kind"])
-              }
-            >
-              <option value="gave">gave kindness</option>
-              <option value="received">received kindness</option>
-              <option value="witnessed">witnessed kindness</option>
-            </select>
-          </label>
-          <label>
-            The kind action
+            Tell us what happened.
             <textarea
               maxLength={320}
               value={message}
@@ -117,8 +150,9 @@ export default function KindnessPractice() {
               checked={consent}
               onChange={(event) => setConsent(event.target.checked)}
             />
-            These words may appear in the Kindness Tree after review. I have
-            removed identifying details.
+            If approved, my kindness story and chosen display name or
+            pseudonym may appear publicly on the Kindness Tree. I have removed
+            identifying details about other people.
           </label>
           <button className="button" disabled={busy}>
             {busy ? "Sharing…" : "Share a kindness"}
@@ -129,9 +163,12 @@ export default function KindnessPractice() {
         </form>
       </div>
 
-      <section className="kindness-pending" aria-labelledby="kindness-pending-title">
+      <section
+        className="kindness-pending"
+        aria-labelledby="kindness-pending-title"
+      >
         <h2 id="kindness-pending-title">Your kindness stories</h2>
-        <p>After review, approved stories will join the Kindness Tree.</p>
+        <p>Stories are private to you here while they wait for review.</p>
         <KindnessStories
           entries={entries.filter((entry) => entry.status === "pending")}
           emptyMessage="Your stories awaiting approval will appear here after you share."

@@ -9,33 +9,15 @@ import {
 
 export async function GET(request: Request) {
   try {
-    const db = getDb();
-    const approved = await db
-      .select({
-        id: kindnessEntries.id,
-        message: kindnessEntries.message,
-        kind: kindnessEntries.kind,
-        displayName: kindnessEntries.displayName,
-        status: kindnessEntries.status,
-        createdAt: kindnessEntries.createdAt,
-        approvedAt: kindnessEntries.approvedAt,
-      })
-      .from(kindnessEntries)
-      .where(eq(kindnessEntries.status, "approved"))
-      .orderBy(desc(kindnessEntries.approvedAt), desc(kindnessEntries.id))
-      .limit(80);
-
     const ownerTokenHash = await getVisitorTokenHash(request);
     const ownPending = ownerTokenHash
-      ? await db
+      ? await getDb()
           .select({
             id: kindnessEntries.id,
             message: kindnessEntries.message,
             kind: kindnessEntries.kind,
             displayName: kindnessEntries.displayName,
             status: kindnessEntries.status,
-            createdAt: kindnessEntries.createdAt,
-            approvedAt: kindnessEntries.approvedAt,
           })
           .from(kindnessEntries)
           .where(
@@ -47,15 +29,12 @@ export async function GET(request: Request) {
           .orderBy(desc(kindnessEntries.id))
       : [];
 
-    const entries = [...approved, ...ownPending].sort(
-      (left, right) =>
-        right.createdAt.localeCompare(left.createdAt) || right.id - left.id
-    );
-    return privateVisitorJson({ entries });
-  } catch {
-    return Response.json(
-      { error: "The kindness wall is temporarily unavailable." },
-      { status: 500 }
+    return privateVisitorJson({ entries: ownPending });
+  } catch (error) {
+    console.error("Unable to load the visitor's kindness stories.", error);
+    return privateVisitorJson(
+      { error: "Your kindness stories are temporarily unavailable." },
+      { status: 503 }
     );
   }
 }
@@ -115,8 +94,6 @@ export async function POST(request: Request) {
         kind: kindnessEntries.kind,
         displayName: kindnessEntries.displayName,
         status: kindnessEntries.status,
-        createdAt: kindnessEntries.createdAt,
-        approvedAt: kindnessEntries.approvedAt,
       });
 
     return privateVisitorJson(
@@ -124,7 +101,8 @@ export async function POST(request: Request) {
       { status: 201 },
       identity.setCookie
     );
-  } catch {
+  } catch (error) {
+    console.error("Unable to save a kindness story.", error);
     return Response.json(
       { error: "This kindness could not be shared right now. Please try again." },
       { status: 500 }

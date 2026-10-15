@@ -1,25 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import type { KindnessEntry } from "./kindness-practice";
-
-export function kindnessCategoryLabel(kind: KindnessEntry["kind"]) {
-  switch (kind) {
-    case "gave":
-      return "A kindness I gave";
-    case "received":
-      return "A kindness I received";
-    case "witnessed":
-      return "A kindness I witnessed";
-  }
-}
+import { kindnessCategoryLabel, type PendingKindnessEntry } from "../lib/kindness";
 
 export default function KindnessStories({ entries, emptyMessage, id }: {
-  entries: KindnessEntry[];
+  entries: PendingKindnessEntry[];
   emptyMessage: string;
   id: string;
 }) {
-  const [selected, setSelected] = useState<KindnessEntry | null>(null);
+  const [selected, setSelected] = useState<PendingKindnessEntry | null>(null);
 
   return <>
     {entries.length === 0 && <p className="kindness-empty">{emptyMessage}</p>}

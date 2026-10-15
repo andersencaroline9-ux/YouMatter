@@ -4,7 +4,7 @@
 .kindness-tree-instructions{margin:0 0 14px;color:#40594b;line-height:1.55}
 .kindness-tree-scene{position:relative;overflow:hidden;border-radius:20px}
 .kindness-tree-scene img{display:block;width:100%;height:auto}
-.kindness-tree-leaf{position:absolute;z-index:1;display:grid;place-items:center;width:44px;height:44px;padding:0;border:0;border-radius:50%;background:transparent;transform:translate(-50%,-50%);cursor:pointer}
+.kindness-tree-leaf{position:absolute;left:var(--desktop-x);top:var(--desktop-y);z-index:1;display:grid;place-items:center;width:44px;height:44px;padding:0;border:0;border-radius:50%;background:transparent;transform:translate(-50%,-50%);cursor:pointer}
 .kindness-tree-leaf>span{position:relative;display:block;width:14px;height:24px;border-radius:90% 8% 90% 8%;background:linear-gradient(135deg,#b7cb73 0%,#6f9448 52%,#3f6945 100%);box-shadow:0 1px 4px #13230d88;transform:rotate(-35deg);transition:filter .15s,transform .15s}
 .kindness-tree-leaf>span::after{position:absolute;top:3px;left:6px;width:1px;height:17px;background:#e1e7a6aa;content:"";transform:rotate(9deg)}
 .kindness-tree-leaf:hover>span,.kindness-tree-leaf.is-selected>span{filter:brightness(1.2);transform:rotate(-35deg) scale(1.2)}
@@ -20,6 +20,30 @@
 .kindness-reveal-close:focus-visible{outline:3px solid #51705f;outline-offset:3px}
 .kindness-tree-sample-note,.kindness-tree-count{font-size:.86rem;line-height:1.5;color:#526a5d}
 .kindness-tree-count{font-weight:600}
+.kindness-hero-copy{max-width:720px}
+.kindness-hero-copy p{margin:0 0 10px;font:1.16rem/1.6 Georgia,serif;color:#526a5d}
+.kindness-hero-copy p:last-child{margin-bottom:0}
+.kindness-practice-intro{max-width:720px}
+.kindness-practice-intro p{line-height:1.65;color:#526a5d}
+.kindness-practice-intro .kindness-privacy-note{padding-top:10px;font-size:.9rem}
+.kindness-categories{display:grid;gap:0;border:0;margin:0;padding:0}
+.kindness-categories legend{margin-bottom:4px;font-weight:800;font-size:.86rem}
+.kindness-categories label{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.gratitude-form .kindness-categories input{flex:0 0 18px;width:18px;height:18px;margin:2px 0 0;padding:0;accent-color:var(--moss)}
+.kindness-categories span{display:grid;gap:4px}
+.kindness-categories strong{font-size:.76rem;letter-spacing:.1em}
+.kindness-categories small{font-size:.83rem;font-weight:400;line-height:1.45;color:#526a5d}
+.gratitude-form .checkbox input{flex:0 0 16px;padding:0}
+.form-note{white-space:pre-line;line-height:1.55}
+.kindness-explanation{max-width:800px;margin-inline:auto}
+.kindness-explanation h2,.kindness-explanation h3{font-family:Georgia,serif;font-weight:500;line-height:1.1}
+.kindness-explanation h2{font-size:clamp(2.5rem,5vw,4.5rem);letter-spacing:-.04em;margin:0 0 30px}
+.kindness-explanation h3{font-size:clamp(1.7rem,3vw,2.4rem);margin:52px 0 18px}
+.kindness-explanation p{font-size:1.04rem;line-height:1.75;color:#526a5d;max-width:720px}
+.kindness-sources{margin-top:54px}
+.kindness-sources li{margin:0 0 20px;line-height:1.7}
+.kindness-sources a{text-decoration:underline;text-underline-offset:3px}
+.kindness-sources>p{font-size:.88rem}
 .kindness-story-list{list-style:none;margin:20px 0 0;padding:0;display:grid;gap:12px}
 .kindness-story-choice{display:block;width:100%;min-height:44px;padding:16px 0;text-align:left;border:0;border-block:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
 .kindness-story-choice small{display:block;font-size:.75rem;font-weight:700;margin-bottom:8px;color:#526a5d}
@@ -34,5 +58,5 @@
 .kindness-pending{padding:28px;border:1px solid var(--line);border-radius:28px;background:#f7f1df;min-width:0}
 .kindness-pending>p{line-height:1.65;color:#526a5d}
 @media(max-width:860px){.kindness-practice-layout{grid-template-columns:1fr}.kindness-pending{padding:22px}}
-@media(max-width:700px){.kindness-reveal{position:relative;right:auto;bottom:auto;width:auto;margin:0;padding:16px 18px;border-radius:0 0 18px 18px;box-shadow:none}.kindness-tree-scene{overflow:visible}.kindness-tree-scene img{border-radius:14px}.kindness-tree-leaf{width:44px;height:44px}.kindness-reveal-close{padding-block:10px}}
+@media(max-width:700px){.kindness-reveal{position:relative;right:auto;bottom:auto;width:auto;margin:0;padding:16px 18px;border-radius:0 0 18px 18px;box-shadow:none}.kindness-tree-scene{min-height:248px;overflow:visible}.kindness-tree-scene img{height:248px;object-fit:cover;object-position:center;border-radius:14px}.kindness-tree-leaf{left:var(--mobile-x);top:var(--mobile-y);width:44px;height:44px}.kindness-reveal-close{padding-block:10px}}
 @media(max-width:560px){.kindness-story-choice{padding:16px 4px}.kindness-tree-instructions{font-size:.95rem}}
