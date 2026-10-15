@@ -128,7 +128,14 @@ export default function SiteHeader({ home = false }: { home?: boolean }) {
               ))}
             </div>
           </div>
-          <span className="site-nav__label" aria-disabled="true">About</span>
+          <Link
+            className="site-nav__link"
+            href="/about"
+            aria-current={pathname === "/about" ? "page" : undefined}
+            onClick={closeMenus}
+          >
+            About
+          </Link>
         </div>
       </nav>
     </header>

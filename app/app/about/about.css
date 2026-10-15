@@ -1,0 +1,349 @@
+.about-page {
+  --about-cream: #faf7ef;
+  --about-green: #18382e;
+  background: var(--about-cream);
+  color: #222a25;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.about-page h1,
+.about-page h2,
+.about-page p {
+  text-wrap: pretty;
+}
+
+.about-page h1,
+.about-page h2 {
+  color: var(--about-green);
+  font-weight: 500;
+  letter-spacing: -.035em;
+  line-height: 1.08;
+}
+
+.about-page p {
+  margin: 0 0 12px;
+  font-size: clamp(.98rem, 1.15vw, 1.1rem);
+  line-height: 1.48;
+}
+
+.about-page h1 {
+  margin: 0 0 20px;
+  font-size: clamp(2.4rem, 4vw, 3.5rem);
+}
+
+.about-page h2 {
+  margin: 0 0 18px;
+  font-size: clamp(2rem, 3.3vw, 3rem);
+}
+
+.about-introduction {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  background: var(--about-cream);
+}
+
+.about-introduction__portrait {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.about-introduction__portrait img {
+  display: block;
+  width: 100%;
+  height: clamp(420px, 42vw, 600px);
+  object-fit: cover;
+  object-position: 43% center;
+}
+
+.about-introduction__copy {
+  width: min(100%, 650px);
+  padding: clamp(36px, 5vw, 78px);
+}
+
+.about-introduction__question,
+.about-story__question {
+  color: var(--about-green);
+  font-style: italic;
+}
+
+.about-introduction__turn,
+.about-story__emphasis {
+  color: var(--about-green);
+  font-weight: 700;
+}
+
+.about-story {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: stretch;
+}
+
+.about-story--questions {
+  background: #fffdf7;
+}
+
+.about-story__copy {
+  align-self: center;
+  max-width: 720px;
+  padding: clamp(42px, 6vw, 92px);
+}
+
+.about-story__photo {
+  min-height: 400px;
+  background-position: center;
+  background-size: cover;
+}
+
+.about-story__photo--path {
+  background-image: url("/forest-fork-temporary.jpg");
+  background-position: 53% center;
+}
+
+.about-story__photo--garden {
+  background-image: url("/gratitude-clearing-waiting-to-bloom-temporary.jpg");
+  background-position: center 63%;
+}
+
+.about-story__photo--landscape {
+  background-image: url("/community-welcome-landscape.png");
+  background-position: 70% center;
+}
+
+.about-questions {
+  margin: 18px 0;
+}
+
+.about-questions p {
+  margin-bottom: 5px;
+}
+
+.about-ordinary-ideas {
+  margin: 20px 0 !important;
+  color: var(--about-green);
+  font-size: clamp(1.1rem, 1.5vw, 1.35rem) !important;
+  line-height: 1.55 !important;
+}
+
+.about-collective {
+  display: grid;
+  grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr);
+  align-items: center;
+  column-gap: clamp(36px, 6vw, 90px);
+  padding: clamp(50px, 7vw, 96px) max(5vw, calc((100vw - 1200px) / 2));
+  background: #e9eee4;
+}
+
+.about-collective__copy h2 {
+  margin-bottom: 20px;
+}
+
+.about-collective__copy p {
+  margin-bottom: 7px;
+  font-size: clamp(.9rem, 1vw, 1rem);
+  line-height: 1.42;
+}
+
+.about-collective__moments {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(8px, 1.6vw, 22px);
+  min-width: 0;
+  text-align: center;
+}
+
+.about-collective__moments figure {
+  min-width: 0;
+  margin: 0;
+}
+
+.about-collective__image {
+  width: min(100%, 170px);
+  aspect-ratio: 1;
+  margin: 0 auto 12px;
+  border-radius: 50%;
+  background-position: center;
+  background-size: cover;
+}
+
+.about-collective__image--you {
+  background-image: url("/gratitude-clearing-base-temporary.png");
+  background-position: center 78%;
+}
+
+.about-collective__image--us {
+  background-image: url("/homepage-welcome-scene.png");
+  background-position: 70% center;
+}
+
+.about-collective__image--world {
+  background-image: url("/forest-live-trailhead-temporary.jpg");
+  background-position: center;
+}
+
+.about-collective__moments figcaption {
+  display: grid;
+  gap: 4px;
+}
+
+.about-collective__moments strong {
+  color: var(--about-green);
+  font-size: 1.08rem;
+  font-weight: 500;
+}
+
+.about-collective__moments figcaption span {
+  color: #526158;
+  font-size: .78rem;
+  line-height: 1.35;
+}
+
+.about-collective__arrow {
+  color: var(--about-green);
+  font-size: 1.3rem;
+}
+
+.about-collective__closing {
+  grid-column: 1 / -1;
+  margin: clamp(32px, 4vw, 56px) 0 0 !important;
+  color: var(--about-green);
+  font-size: clamp(1.05rem, 1.7vw, 1.45rem) !important;
+  font-weight: 600;
+  line-height: 1.55 !important;
+  text-align: center;
+}
+
+.about-story--still-learning {
+  background: #fffdf7;
+}
+
+.about-signature {
+  margin-top: 18px !important;
+  color: var(--about-green);
+  font-size: 1.45rem !important;
+  font-weight: 500;
+}
+
+.about-page + .site-footer {
+  background: var(--about-cream);
+}
+
+.about-page a:focus-visible {
+  outline: 3px solid #a67a2e;
+  outline-offset: 4px;
+}
+
+@media (max-width: 960px) {
+  .about-introduction {
+    grid-template-columns: minmax(0, 1fr) minmax(0, .9fr);
+  }
+
+  .about-introduction__portrait img {
+    height: 100%;
+    min-height: 440px;
+  }
+
+  .about-introduction__copy {
+    padding: 36px;
+  }
+
+  .about-collective {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 34px;
+  }
+
+  .about-collective__copy {
+    max-width: 760px;
+    margin-inline: auto;
+  }
+
+  .about-collective__moments {
+    width: min(720px, 100%);
+    margin-inline: auto;
+  }
+
+  .about-collective__image {
+    width: min(100%, 155px);
+  }
+}
+
+@media (max-width: 900px) {
+  .about-introduction,
+  .about-story {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .about-introduction__portrait {
+    order: 0;
+  }
+
+  .about-introduction__portrait img {
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    aspect-ratio: 1276 / 666;
+    object-fit: contain;
+    object-position: center;
+  }
+
+  .about-introduction__copy {
+    width: 100%;
+    max-width: 720px;
+    margin-inline: auto;
+    padding: 36px max(24px, 7vw) 46px;
+  }
+
+  .about-story__copy {
+    width: 100%;
+    max-width: 760px;
+    margin-inline: auto;
+    padding: 46px max(24px, 7vw);
+  }
+
+  .about-story__photo {
+    min-height: 0;
+    aspect-ratio: 1.45;
+  }
+
+  .about-story--why .about-story__photo {
+    order: 1;
+  }
+
+  .about-story--why .about-story__copy {
+    order: 0;
+  }
+
+  .about-collective {
+    padding: 50px max(24px, 7vw);
+  }
+
+  .about-collective__closing {
+    text-align: left;
+  }
+}
+
+@media (max-width: 440px) {
+  .about-introduction__copy {
+    padding-top: 30px;
+  }
+
+  .about-collective__moments {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .about-collective__image {
+    width: min(46vw, 165px);
+  }
+
+  .about-collective__arrow {
+    transform: rotate(90deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-page {
+    scroll-behavior: auto;
+  }
+}

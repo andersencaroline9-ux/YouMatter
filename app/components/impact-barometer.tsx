@@ -14,9 +14,10 @@ export default function ImpactBarometer() {
         aria-label="A quiet woodland clearing in late afternoon light"
       />
       <div className="approved-impact__content">
-        <h2 id="home-impact-title">Your small action becomes<br />part of something bigger.</h2>
+        <h2 id="home-impact-title">Your small action becomes<br />{" "}part of something bigger.</h2>
         <p className="approved-impact__intro">
-          Every gratitude, kindness and strengths contribution joins what other people have created here.
+          Every gratitude you plant, kindness you notice and set of strengths you recognise joins contributions from other people.
+          Together, they create the gardens, trees and landscapes you see here.
         </p>
         {!impact ? (
           <p className="approved-impact__status" role="status">
@@ -50,9 +51,9 @@ export default function ImpactBarometer() {
           </>
         )}
         <p className="approved-impact__commitment">
-          For every {CONTRIBUTIONS_PER_TREE} eligible contributions, You Matter funds the planting of a tree.
+          And every {CONTRIBUTIONS_PER_TREE} eligible contributions funds the planting of a real tree.
         </p>
-        <p className="approved-impact__model">You → Us → World</p>
+        <p className="approved-impact__model">YOU → US → WORLD</p>
       </div>
     </section>
   );

@@ -73,6 +73,7 @@ export default function HomeCheckinExperience() {
               <>
                 <h1 id="home-welcome-title">
                   How are you doing today?
+                  {" "}
                   <span>Really.</span>
                 </h1>
 

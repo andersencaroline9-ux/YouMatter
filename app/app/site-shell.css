@@ -36,6 +36,11 @@
   text-underline-offset: 4px;
 }
 
+.site-nav__link[aria-current="page"] {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
 .site-nav__adventures {
   position: relative;
 }

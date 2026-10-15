@@ -1,9 +1,16 @@
 "use client";
 import { CONTRIBUTIONS_PER_TREE } from "../lib/impact";
-import { useImpact } from "../lib/use-impact";
+import type { ImpactSummary } from "../lib/impact";
 
-export default function PhysicalImpact() {
-  const { impact, unavailable } = useImpact();
+type PhysicalImpactProps = {
+  impact: ImpactSummary | null;
+  unavailable: boolean;
+};
+
+export default function PhysicalImpact({
+  impact,
+  unavailable,
+}: PhysicalImpactProps) {
   return <section className="impact-section">
     <div className="impact-copy">
       <p className="eyebrow">From digital seeds to real roots</p>

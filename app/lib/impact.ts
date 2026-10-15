@@ -1,21 +1,8 @@
 import { isCharacterStrengthSelection, parseStoredCharacterStrengths } from "./character-strengths";
+export { countEligibleGratitudeGroups } from "./gratitude-eligibility";
 
 export const CONTRIBUTIONS_PER_TREE = 50;
-type GratitudeCount = { submissionId: string | null; status: string; count: number };
 type StrengthsCount = { strength: string; count: number };
-
-/** Complete approved three-message groups only; mixed/legacy rows stay intact. */
-export function countEligibleGratitudeGroups(rows: readonly GratitudeCount[]) {
-  const groups = new Map<string, { total: number; approved: number }>();
-  for (const row of rows) {
-    if (row.submissionId === null) continue;
-    const group = groups.get(row.submissionId) ?? { total: 0, approved: 0 };
-    group.total += row.count;
-    if (row.status === "approved") group.approved += row.count;
-    groups.set(row.submissionId, group);
-  }
-  return [...groups.values()].filter((group) => group.total === 3 && group.approved === 3).length;
-}
 
 /** Rows are already approval-filtered and grouped by their stored selection. */
 export function countEligibleStrengthsGroups(rows: readonly StrengthsCount[]) {

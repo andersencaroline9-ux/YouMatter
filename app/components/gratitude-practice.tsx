@@ -15,6 +15,7 @@ import {
   gratitudePlantVariants,
   type GratitudePlantVariant,
 } from "../lib/gratitude-plant-variants";
+import type { ImpactSummary } from "../lib/impact";
 
 type Entry = {
   key: string;
@@ -32,6 +33,11 @@ type GratitudesResponse = {
   error?: string;
 };
 
+type GratitudePracticeProps = {
+  impact: ImpactSummary | null;
+  impactUnavailable: boolean;
+};
+
 type IdentityChoice = "anonymous" | "firstName";
 const currentClearing = gratitudeClearings[0];
 const plantVariants = [
@@ -47,8 +53,13 @@ const clearingStyle = {
   "--clearing-image": `url("${currentClearing.image}")`,
 } as CSSProperties;
 
-export default function GratitudePractice() {
+export default function GratitudePractice({
+  impact,
+  impactUnavailable,
+}: GratitudePracticeProps) {
   const [entries, setEntries] = useState<Entry[]>([]);
+  const [gardenLoaded, setGardenLoaded] = useState(false);
+  const [gardenUnavailable, setGardenUnavailable] = useState(false);
   const [messages, setMessages] = useState(["", "", ""]);
   const [identityChoice, setIdentityChoice] =
     useState<IdentityChoice>("anonymous");
@@ -60,16 +71,23 @@ export default function GratitudePractice() {
   const [selectedEntryKey, setSelectedEntryKey] = useState<string | null>(
     null
   );
+  const feedRequestRef = useRef<Promise<GratitudesResponse> | null>(null);
   const selectedFlowerRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
-    fetch("/api/gratitudes")
-      .then(async (response) => {
-        const data = (await response.json()) as GratitudesResponse;
-        if (!response.ok) throw new Error();
-        return data;
-      })
-      .then((data) =>
+    if (!feedRequestRef.current) {
+      feedRequestRef.current = fetch("/api/gratitudes")
+        .then(async (response) => {
+          const data = (await response.json()) as GratitudesResponse;
+          if (!response.ok) throw new Error();
+          return data;
+        });
+    }
+
+    let active = true;
+    feedRequestRef.current
+      .then((data) => {
+        if (!active) return;
         setEntries([
           ...(data.gratitudes ?? []).map((entry, index) => ({
             ...entry,
@@ -81,9 +99,19 @@ export default function GratitudePractice() {
             key: `pending-${index}`,
             status: "pending" as const,
           })),
-        ])
-      )
-      .catch(() => setNote("The garden is temporarily unavailable."));
+        ]);
+        setGardenLoaded(true);
+      })
+      .catch(() => {
+        if (!active) return;
+        setGardenLoaded(true);
+        setGardenUnavailable(true);
+        setNote("The garden is temporarily unavailable.");
+      });
+
+    return () => {
+      active = false;
+    };
   }, []);
 
   const approvedEntries = useMemo(
@@ -101,7 +129,7 @@ export default function GratitudePractice() {
         .slice(0, gratitudePlantingPositions.length),
     [approvedEntries]
   );
-  const selectedEntry = approvedEntries.find(
+  const selectedEntry = flowerEntries.find(
     (entry) => entry.key === selectedEntryKey
   );
   const selectedCountry = selectedEntry?.countryCode
@@ -175,6 +203,12 @@ export default function GratitudePractice() {
     <div className="practice-grid">
       <div className="practice card">
         <h2>Plant three small gratitudes.</h2>
+        <p className="gratitude-reassurance">
+          <strong>Having a difficult day?</strong>
+          You don&apos;t have to pretend everything is wonderful to practise
+          gratitude. Sometimes it&apos;s enough to notice one small thing that
+          made today a little easier.
+        </p>
         <p>
           They need not be profound. A warm cup. A message. A moment when your
           shoulders softened. Honest and specific is enough.
@@ -265,8 +299,9 @@ export default function GratitudePractice() {
               checked={consent}
               onChange={(event) => setConsent(event.target.checked)}
             />
-            I’m happy for these words to appear in the shared garden after
-            review.
+            If approved, these three gratitudes and the name you choose (or
+            Anonymous) may appear in the shared garden. Your country will
+            appear too if you provide one.
           </label>
           <button className="button" disabled={busy}>
             {busy ? "Planting…" : "Plant 3 seeds"}
@@ -286,10 +321,15 @@ export default function GratitudePractice() {
           <div className="garden-title">
             <strong>The garden we are growing</strong>
             <span className="garden-count" aria-live="polite">
-              {approvedEntries.length}{" "}
-              {approvedEntries.length === 1
-                ? "approved contribution"
-                : "approved contributions"}
+              {impact
+                ? `${impact.gratitudesShared} ${
+                    impact.gratitudesShared === 1
+                      ? "approved contribution"
+                      : "approved contributions"
+                  }`
+                : impactUnavailable
+                  ? "Total unavailable"
+                  : "Gathering total…"}
             </span>
           </div>
           {flowerEntries.map((entry, index) => {
@@ -302,8 +342,9 @@ export default function GratitudePractice() {
               "--plant-mobile-x": `${position.mobile.x}%`,
               "--plant-mobile-y": `${position.mobile.y}%`,
               "--plant-z-index": position.zIndex,
-              "--plant-width-desktop": `${28.5 * position.scale}%`,
-              "--plant-width-mobile": `${40 * position.scale}%`,
+              "--plant-width-desktop": `${18 * position.scale}%`,
+              "--plant-width-tablet": `${15.5 * position.scale}%`,
+              "--plant-width-mobile": `${30 * (position.mobileScale ?? position.scale)}%`,
               "--plant-rotation": `${position.rotation}deg`,
             } as CSSProperties & Record<`--${string}`, string | number>;
 
@@ -320,7 +361,9 @@ export default function GratitudePractice() {
                 data-plant-variant={variant}
                 aria-label={`Read three gratitudes shared by ${entry.displayName}`}
                 aria-pressed={selectedEntryKey === key}
-                aria-controls="gratitude-detail"
+                aria-controls={
+                  selectedEntryKey === key ? "gratitude-detail" : undefined
+                }
                 aria-expanded={selectedEntryKey === key}
                 onClick={(event) => {
                   selectedFlowerRef.current = event.currentTarget;
@@ -370,22 +413,28 @@ export default function GratitudePractice() {
               </p>
             </section>
           )}
-          {approvedEntries.length === 0 && (
-            <div className="empty-garden">
-              <strong className="serif">
-                The garden is waiting for its first flowers.
-              </strong>
-            </div>
-          )}
+          {gardenLoaded &&
+            !gardenUnavailable &&
+            impact?.gratitudesShared === 0 &&
+            flowerEntries.length === 0 && (
+              <div className="empty-garden">
+                <strong className="serif">
+                  The garden is waiting for its first flowers.
+                </strong>
+              </div>
+            )}
         </div>
 
-        {approvedEntries.length > flowerEntries.length && (
+        {gardenLoaded &&
+          !gardenUnavailable &&
+          impact &&
+          impact.gratitudesShared > flowerEntries.length && (
           <p className="garden-capacity-note">
-            {approvedEntries.length - flowerEntries.length} approved{" "}
-            {approvedEntries.length - flowerEntries.length === 1
+            {impact.gratitudesShared - flowerEntries.length} approved{" "}
+            {impact.gratitudesShared - flowerEntries.length === 1
               ? "contribution is"
               : "contributions are"}{" "}
-            not shown in this clearing yet.
+            not shown in this clearing.
           </p>
         )}
 

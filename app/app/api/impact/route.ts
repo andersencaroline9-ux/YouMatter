@@ -1,4 +1,4 @@
-import { count, eq } from "drizzle-orm";
+import { count, eq, sql } from "drizzle-orm";
 import { getDb } from "../../../db";
 import { gratitudes, impactAccounting, kindnessEntries, strengthsEntries } from "../../../db/schema";
 import { calculateImpact, countEligibleGratitudeGroups, countEligibleStrengthsGroups } from "../../../lib/impact";
@@ -8,7 +8,14 @@ export async function GET() {
     const db = getDb();
     // One D1 batch provides a consistent snapshot. No feed limits or visual sampling.
     const [gratitude, kindness, strengths, accounting] = await db.batch([
-      db.select({ submissionId: gratitudes.submissionId, status: gratitudes.status, count: count() })
+      db.select({
+        submissionId: gratitudes.submissionId,
+        status: gratitudes.status,
+        count: count(),
+        validMessageCount: count(
+          sql`CASE WHEN length(trim(${gratitudes.message})) > 0 THEN 1 END`
+        ),
+      })
         .from(gratitudes).groupBy(gratitudes.submissionId, gratitudes.status),
       db.select({ count: count() }).from(kindnessEntries).where(eq(kindnessEntries.status, "approved")),
       db.select({ strength: strengthsEntries.strength, count: count() }).from(strengthsEntries)

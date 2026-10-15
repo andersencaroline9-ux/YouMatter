@@ -8,25 +8,29 @@ const adventures = [
     title: "Gratitude Garden",
     href: "/gratitude",
     image: "gratitude",
-    description: <>Plant three things you’re<br />grateful for.</>,
+    tagline: "Notice what’s good.",
+    description: "Plant three things you’re grateful for.",
   },
   {
     title: "Built From Kindness",
     href: "/kindness",
     image: "kindness",
-    description: <>Add a kindness<br />to the tree.</>,
+    tagline: "Notice how kindness moves between us.",
+    description: "Share a kindness you’ve given, received or witnessed.",
   },
   {
     title: "What Do You Bring?",
     href: "/strengths",
     image: "strengths",
-    description: <>Recognise three<br />strengths you bring.</>,
+    tagline: "Notice what’s strong.",
+    description: "Choose three strengths you recognise in yourself.",
   },
   {
     title: "30 Days in Nature",
     href: "/live-adventure",
     image: "nature",
-    description: <>Join the next<br />live adventure.</>,
+    tagline: "Reconnect with the world around you.",
+    description: "Join a small group spending 30 minutes in nature for 30 days.",
   },
 ];
 
@@ -37,18 +41,23 @@ export default function Home() {
       <main className="approved-home">
         <section className="approved-hero" aria-labelledby="home-title">
           <div className="approved-hero__content">
-            <h1 id="home-title">You Matter.</h1>
+            <h1 id="home-title">YOU MATTER.</h1>
             <p>You matter. We matter. What we do matters.</p>
-            <a href="#adventures">Explore the adventures <span aria-hidden="true">→</span></a>
+            <p className="approved-hero__tagline">Small adventures inspired by the science of living well.</p>
+            <p className="approved-hero__description">
+              Try gratitude, kindness, strengths and nature — and add your experience to something we’re creating together.
+            </p>
+            <a href="#adventures">Choose an adventure <span aria-hidden="true">→</span></a>
           </div>
         </section>
 
         <section className="approved-why" aria-labelledby="home-why-title">
           <div className="approved-why__copy">
-            <h2 id="home-why-title">What if a few small things<br />{" "}could make life feel a little better?</h2>
-            <p className="approved-why__ideas">Gratitude. Kindness. Strengths. Connection. Nature. Meaning.</p>
-            <p>Positive psychology has discovered surprisingly simple things that can support how we live.</p>
-            <p>Here, you don’t just read about them. You try them.</p>
+            <h2 id="home-why-title">What if feeling better sometimes starts with doing something small?</h2>
+            <p>Positive psychology studies what helps people and communities flourish.</p>
+            <p>Here, you don’t just read about the research. You try it.</p>
+            <p className="approved-why__sequence">TRY SOMETHING → SHARE SOMETHING → BECOME PART OF SOMETHING</p>
+            <p className="approved-why__aside"><em>Some adventures take two minutes. Others last 30 days.</em></p>
           </div>
           <div className="approved-why__photo" role="img" aria-label="A sunlit path through woodland" />
         </section>
@@ -56,7 +65,6 @@ export default function Home() {
         <section className="approved-adventures" id="adventures" aria-labelledby="home-adventures-title">
           <div className="approved-adventures__heading">
             <h2 id="home-adventures-title">Choose an adventure</h2>
-            <Link href="#adventures">Explore all adventures <span aria-hidden="true">→</span></Link>
           </div>
           <div className="approved-adventures__grid">
             {adventures.map((adventure) => (
@@ -67,6 +75,7 @@ export default function Home() {
                     aria-hidden="true"
                   />
                   <span className="approved-adventure__title">{adventure.title}</span>
+                  <span className="approved-adventure__tagline"><em>{adventure.tagline}</em></span>
                   <span className="approved-adventure__description">{adventure.description}</span>
                   <span className="approved-adventure__arrow" aria-hidden="true">→</span>
                 </Link>

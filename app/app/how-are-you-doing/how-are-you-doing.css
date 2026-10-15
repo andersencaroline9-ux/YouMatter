@@ -1,88 +1,172 @@
 .how-are-you-doing {
-  background: var(--cream);
-  color: var(--ink);
+  --wellbeing-cream: #faf7ef;
+  --wellbeing-green: #18382e;
+  background: var(--wellbeing-cream);
+  color: #171f1b;
   font-family: Georgia, "Times New Roman", serif;
 }
 
+.how-are-you-doing h2,
+.how-are-you-doing h3,
+.how-are-you-doing p {
+  text-wrap: pretty;
+}
+
+.how-are-you-doing a:focus-visible,
+.how-are-you-doing button:focus-visible {
+  outline: 3px solid #a67a2e;
+  outline-offset: 4px;
+}
+
 .how-are-you-doing__checkin {
-  position: relative;
-  isolation: isolate;
-  padding: clamp(44px, 7vw, 88px) 0;
+  padding: clamp(42px, 6vw, 78px) 0;
   background:
-    linear-gradient(90deg, rgba(18, 43, 31, .74), rgba(18, 43, 31, .2)),
-    url("/homepage-banner-path.png") center 57% / cover no-repeat;
+    linear-gradient(90deg, rgba(9, 25, 17, .78), rgba(9, 25, 17, .5) 48%, rgba(9, 25, 17, .12)),
+    url("/forest-crossroads-temporary.jpg") center 53% / cover no-repeat;
 }
 
 .how-are-you-doing__checkin-inner {
+  width: min(1160px, 90%);
+}
+
+.how-are-you-doing .home-checkin {
   display: grid;
-  grid-template-columns: minmax(0, .9fr) minmax(340px, 1.1fr);
-  gap: clamp(30px, 6vw, 78px);
+  grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+  grid-template-areas:
+    "title form"
+    "intro form"
+    "skip form";
   align-items: center;
+  column-gap: clamp(28px, 6vw, 80px);
+  padding: 0;
+  color: #fffdf7;
+  text-align: left;
+  isolation: auto;
+}
+
+.how-are-you-doing .home-checkin::before,
+.how-are-you-doing .home-checkin::after {
+  display: none;
+}
+
+.how-are-you-doing .home-checkin h1 {
+  grid-area: title;
+  margin: 0 0 16px;
+  color: inherit;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2.5rem, 4.5vw, 4.4rem);
+  font-weight: 500;
+  letter-spacing: -.04em;
+  line-height: .98;
+}
+
+.how-are-you-doing .home-checkin h1 span {
+  display: block;
+  margin-top: 8px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: .72em;
+  font-style: italic;
 }
 
 .how-are-you-doing__opening-copy {
-  margin: 12px auto 20px;
-  max-width: 520px;
-  font-size: 1rem;
-  line-height: 1.55;
+  grid-area: intro;
+  max-width: 460px;
+  margin: 0;
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  line-height: 1.5;
 }
 
 .how-are-you-doing__opening-copy p {
   margin: 0 0 12px;
 }
 
-.how-are-you-doing .home-checkin {
-  padding: clamp(22px, 3vw, 36px);
-  border-radius: 34px 25px 32px 22px;
-  background: rgba(255, 253, 247, .94);
-  color: var(--ink);
+.how-are-you-doing .home-checkin__form {
+  grid-area: form;
+  padding: clamp(22px, 3vw, 38px);
+  background: rgba(250, 247, 239, .97);
+  color: #171f1b;
 }
 
-.how-are-you-doing .home-checkin::before {
-  inset: 0;
-  border-radius: inherit;
-  background: transparent;
-  transform: none;
+.how-are-you-doing .home-checkin__numbers {
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  gap: clamp(4px, .6vw, 8px);
 }
 
-.how-are-you-doing .home-checkin::after {
-  display: none;
+.how-are-you-doing .home-checkin__number span {
+  aspect-ratio: 1;
+  min-height: 40px;
 }
 
-.how-are-you-doing .home-checkin h1 {
-  margin: 0 0 10px;
-  font-size: clamp(2rem, 3.4vw, 3rem);
+.how-are-you-doing .home-checkin__endpoints {
+  margin-top: 10px;
+  color: #43584b;
 }
 
-.how-are-you-doing .home-checkin h1 span {
-  display: block;
-  margin-top: 8px;
-  font-size: clamp(2.1rem, 3.5vw, 2.8rem);
+.how-are-you-doing .home-checkin__details {
+  border-radius: 2px;
+  background: #fffdf7;
+}
+
+.how-are-you-doing .home-checkin__details textarea,
+.how-are-you-doing .home-checkin__details input,
+.how-are-you-doing .home-checkin__details select {
+  border-radius: 2px;
 }
 
 .how-are-you-doing .home-checkin__skip {
-  max-width: 350px;
-  margin: 16px auto 0;
+  grid-area: skip;
+  justify-self: start;
+  margin: 14px 0 0;
+  color: #fffdf7;
   line-height: 1.45;
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 253, 247, .6);
+  text-underline-offset: 4px;
+}
+
+.how-are-you-doing .home-checkin__thanks {
+  grid-column: 1 / -1;
+  max-width: 720px;
+  padding: 28px;
+  background: rgba(250, 247, 239, .97);
+  color: #171f1b;
+}
+
+.how-are-you-doing .home-checkin__thanks h1 {
+  color: var(--wellbeing-green);
+}
+
+.how-are-you-doing .home-checkin__thanks a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  color: var(--wellbeing-green);
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
 .how-are-you-doing .home-community {
-  width: min(1050px, calc(100% - 40px));
+  width: min(1100px, calc(100% - 48px));
   margin-inline: auto;
-  padding: clamp(48px, 7vw, 82px) 0;
+  padding: clamp(52px, 7vw, 86px) 0;
   border: 0;
-  text-align: center;
+  text-align: left;
 }
 
 .how-are-you-doing .home-community__heading h2 {
-  font-size: clamp(2.1rem, 4vw, 3.25rem);
+  margin: 0;
+  color: var(--wellbeing-green);
+  font-size: clamp(2.25rem, 4vw, 3.4rem);
+  font-weight: 500;
+  letter-spacing: -.035em;
+  line-height: 1.05;
 }
 
 .how-are-you-doing .home-community__intro {
-  max-width: 660px;
-  margin: 14px auto 0;
-  font-size: 1.1rem;
-  line-height: 1.55;
+  max-width: 710px;
+  margin: 14px 0 0;
+  font-size: clamp(1rem, 1.5vw, 1.15rem);
+  line-height: 1.5;
 }
 
 .how-are-you-doing .home-community__intro p {
@@ -90,62 +174,387 @@
 }
 
 .how-are-you-doing .home-community__scene {
-  width: min(820px, 100%);
-  aspect-ratio: 1.8;
-  margin: 24px auto 0;
-  background-position: center bottom;
-  background-size: cover;
+  width: 100%;
+  aspect-ratio: 2.05;
+  margin: 26px 0 0;
+  border-radius: 0;
+  background: url("/homepage-welcome-scene.png") right bottom / 180% auto no-repeat;
 }
 
 .how-are-you-doing .home-community__belonging {
-  margin-top: 18px;
-  font-size: 1.1rem;
+  margin: 14px 0 0;
+  color: var(--wellbeing-green);
+  font-size: 1rem;
+  font-style: italic;
 }
 
-@media (max-width: 760px) {
-  .how-are-you-doing__checkin {
-    padding: 42px 0;
-    background-position: 58% center;
-  }
+.how-are-you-doing__wellbeing,
+.how-are-you-doing__resources,
+.how-are-you-doing__reflection,
+.how-are-you-doing__pathways {
+  width: min(1100px, calc(100% - 48px));
+  margin-inline: auto;
+}
 
-  .how-are-you-doing__checkin-inner {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 24px;
-    max-width: 560px;
-  }
+.how-are-you-doing__wellbeing {
+  padding: clamp(52px, 7vw, 86px) 0;
+  border-top: 1px solid rgba(24, 56, 46, .16);
+}
 
-  .how-are-you-doing__opening-copy {
-    font-size: .98rem;
-  }
+.how-are-you-doing__wellbeing-intro {
+  display: grid;
+  grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+  gap: clamp(32px, 7vw, 90px);
+  align-items: start;
+}
 
-  .how-are-you-doing .home-checkin {
-    padding: 24px 18px;
-  }
+.how-are-you-doing__wellbeing h2,
+.how-are-you-doing__section-heading h2,
+.how-are-you-doing__reflection h2 {
+  margin: 0;
+  color: var(--wellbeing-green);
+  font-size: clamp(2rem, 3.6vw, 3rem);
+  font-weight: 500;
+  letter-spacing: -.035em;
+  line-height: 1.08;
+}
 
+.how-are-you-doing__wellbeing-intro > div p {
+  margin: 0 0 10px;
+  line-height: 1.5;
+}
+
+.how-are-you-doing__question {
+  margin-top: 18px !important;
+  font-weight: 600;
+}
+
+.how-are-you-doing__concepts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(28px, 6vw, 72px);
+  margin-top: clamp(32px, 5vw, 58px);
+}
+
+.how-are-you-doing__concepts article {
+  padding-top: 16px;
+  border-top: 1px solid rgba(24, 56, 46, .35);
+}
+
+.how-are-you-doing__concepts h3 {
+  margin: 0 0 9px;
+  color: var(--wellbeing-green);
+  font-size: 1.08rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.how-are-you-doing__concepts p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.how-are-you-doing__concept-summary {
+  margin-bottom: 3px !important;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.how-are-you-doing__resources {
+  padding: clamp(48px, 6vw, 76px) 0;
+  border-top: 1px solid rgba(24, 56, 46, .16);
+}
+
+.how-are-you-doing__section-heading {
+  max-width: 740px;
+  margin-bottom: 30px;
+}
+
+.how-are-you-doing__section-heading p {
+  margin: 10px 0 0;
+  line-height: 1.5;
+}
+
+.how-are-you-doing__resource-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: clamp(28px, 5vw, 64px);
+}
+
+.how-are-you-doing__resource {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 20px 0 24px;
+  border-top: 1px solid rgba(24, 56, 46, .26);
+}
+
+.how-are-you-doing__resource-category {
+  margin: 0 0 7px;
+  color: #52655a;
+  font-size: .78rem;
+  letter-spacing: .04em;
+}
+
+.how-are-you-doing__resource h3 {
+  margin: 0;
+  color: var(--wellbeing-green);
+  font-size: 1.55rem;
+  font-weight: 500;
+  line-height: 1.15;
+}
+
+.how-are-you-doing__resource-question {
+  margin: 6px 0 0;
+  font-size: 1rem;
+  font-style: italic;
+}
+
+.how-are-you-doing__resource-instrument {
+  margin: 7px 0 0;
+  font-size: .9rem;
+  font-weight: 600;
+}
+
+.how-are-you-doing__resource > p:not(.how-are-you-doing__resource-category):not(.how-are-you-doing__resource-question):not(.how-are-you-doing__resource-instrument) {
+  margin: 10px 0 0;
+  line-height: 1.45;
+}
+
+.how-are-you-doing__resource-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  margin: 14px 0 10px;
+  padding: 0;
+  color: #52655a;
+  font-size: .8rem;
+  list-style: none;
+}
+
+.how-are-you-doing__resource a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 6px;
+  margin-top: auto;
+  color: var(--wellbeing-green);
+  font-size: .92rem;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.how-are-you-doing__reflection {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, .75fr);
+  gap: 36px;
+  align-items: center;
+  padding: clamp(48px, 6vw, 76px) 0;
+  border-top: 1px solid rgba(24, 56, 46, .16);
+}
+
+.how-are-you-doing__reflection h2 {
+  margin-bottom: 16px;
+}
+
+.how-are-you-doing__reflection p {
+  margin: 7px 0;
+  line-height: 1.5;
+}
+
+.how-are-you-doing__reflection-note {
+  padding-left: 26px;
+  border-left: 1px solid rgba(24, 56, 46, .3);
+  color: var(--wellbeing-green);
+  font-size: 1.08rem;
+}
+
+.how-are-you-doing__pathways {
+  padding: clamp(48px, 6vw, 76px) 0;
+  border-top: 1px solid rgba(24, 56, 46, .16);
+}
+
+.how-are-you-doing__pathways .how-are-you-doing__section-heading {
+  margin-bottom: 24px;
+}
+
+.how-are-you-doing__section-heading > p + p {
+  margin-top: 4px;
+}
+
+.how-are-you-doing__pathway-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(18px, 2.5vw, 30px);
+}
+
+.how-are-you-doing__pathway {
+  display: block;
+  min-width: 0;
+  color: inherit;
+}
+
+.how-are-you-doing__pathway-photo {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1.8;
+  margin-bottom: 10px;
+  background-position: center;
+  background-size: cover;
+}
+
+.how-are-you-doing__pathway-photo--gratitude {
+  background-image: url("/gratitude-clearing-temporary.jpg");
+  background-position: center 70%;
+}
+
+.how-are-you-doing__pathway-photo--kindness {
+  background-image: url("/kindness-tree.png");
+}
+
+.how-are-you-doing__pathway-photo--strengths {
+  background-image: url("/strengths-woodland-base.png");
+  background-position: center 68%;
+}
+
+.how-are-you-doing__pathway-label {
+  display: block;
+  margin-bottom: 4px;
+  color: #52655a;
+  font-size: .8rem;
+  line-height: 1.35;
+}
+
+.how-are-you-doing__pathway-title {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  color: var(--wellbeing-green);
+  font-size: 1.08rem;
+  font-weight: 600;
+}
+
+.how-are-you-doing__pathway:hover .how-are-you-doing__pathway-title {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.how-are-you-doing__closing {
+  display: flex;
+  min-height: clamp(300px, 42vw, 560px);
+  align-items: flex-end;
+  padding: clamp(32px, 7vw, 88px);
+  background:
+    linear-gradient(90deg, rgba(10, 24, 17, .58), rgba(10, 24, 17, .12)),
+    url("/community-welcome-landscape.png") center 62% / cover no-repeat;
+  color: #fffdf7;
+}
+
+.how-are-you-doing__closing p {
+  margin: 0;
+  font-size: clamp(2.2rem, 5vw, 4.5rem);
+  font-weight: 500;
+  letter-spacing: -.04em;
+  line-height: 1.02;
+}
+
+@media (max-width: 1100px) {
   .how-are-you-doing .home-checkin__numbers {
     grid-template-columns: repeat(5, minmax(44px, 1fr));
     gap: 8px;
   }
 
   .how-are-you-doing .home-checkin__number span {
-    aspect-ratio: auto;
     min-height: 46px;
   }
+}
 
-  .how-are-you-doing .home-checkin__endpoints {
-    font-size: .68rem;
+@media (max-width: 900px) {
+  .how-are-you-doing .home-checkin {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "title"
+      "intro"
+      "form"
+      "skip";
+    gap: 0;
   }
 
-  .how-are-you-doing .home-community {
-    width: min(560px, calc(100% - 40px));
+  .how-are-you-doing .home-checkin__form {
+    margin-top: 22px;
   }
 
   .how-are-you-doing .home-community__scene {
-    aspect-ratio: 1.3;
+    aspect-ratio: 1.5;
+  }
+
+  .how-are-you-doing__wellbeing-intro {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+}
+
+@media (max-width: 650px) {
+  .how-are-you-doing .home-checkin__endpoints {
+    font-size: .72rem;
+  }
+
+  .how-are-you-doing .home-community {
+    width: calc(100% - 40px);
+  }
+
+  .how-are-you-doing .home-community__scene {
+    aspect-ratio: 1.25;
+  }
+
+  .how-are-you-doing__wellbeing,
+  .how-are-you-doing__resources,
+  .how-are-you-doing__reflection,
+  .how-are-you-doing__pathways {
+    width: calc(100% - 40px);
+  }
+
+  .how-are-you-doing__concepts,
+  .how-are-you-doing__resource-list,
+  .how-are-you-doing__reflection,
+  .how-are-you-doing__pathway-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .how-are-you-doing__concepts {
+    gap: 22px;
+  }
+
+  .how-are-you-doing__reflection {
+    gap: 18px;
+  }
+
+  .how-are-you-doing__reflection-note {
+    padding: 0;
+    border: 0;
+  }
+
+  .how-are-you-doing__pathway-list {
+    gap: 24px;
+  }
+
+  .how-are-you-doing__closing {
+    min-height: 330px;
+    padding: 28px 22px;
+    background-position: 58% center;
   }
 }
 
 @media (max-width: 380px) {
+  .how-are-you-doing .home-checkin__form {
+    padding-inline: 14px;
+  }
+
   .how-are-you-doing .home-checkin__endpoints {
     flex-direction: column;
     gap: 4px;
@@ -153,5 +562,11 @@
 
   .how-are-you-doing .home-checkin__endpoints span:last-child {
     text-align: left;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .how-are-you-doing {
+    scroll-behavior: auto;
   }
 }
