@@ -1,5 +1,38 @@
 # Project status
 
+## The Strengths We Bring visitor experience — 2026-10-15
+
+- Updated the public Strengths adventure title while retaining “What do you
+  bring?” as the personal practice prompt. Reordered the page to introduce
+  strengths, offer a short WHY, invite the three-strength reflection, then
+  show the approved-only stone landscape, deeper VIA context, collective
+  meaning, and shared impact.
+- Added plain-English explanations for all 24 canonical labels without
+  changing stored values or eligibility. The deeper science distinguishes
+  this activity from the formal VIA assessment and gives the requested three
+  approved references.
+- Updated consent to explicitly include optional country in the public data
+  after moderation. Preserved submission, visitor ownership, moderation,
+  impact counting, sequence assignment, and artwork.
+- Added local WHY/PRACTICE anchors and corrected the narrow-screen layout
+  cause: the mobile landscape's 300px minimum height forced its 6:5 aspect
+  ratio wider than the viewport. At 320px it now fits at 294×245px.
+- Production build passed. Full lint passed with 10 existing raw-image
+  warnings; targeted lint passed with zero errors and six image warnings.
+  TypeScript reports 10 existing errors in unrelated admin, Gratitude, Nature,
+  and shared files; none point to the changed Strengths page or title refs.
+- Browser checks confirmed 24 options, three-selection limit, deselection,
+  disabled submit below three, optional 240-character reflection, identity
+  control, consent validation with zero POST requests, local anchor focus and
+  scrolling, and stone Enter/Escape/focus restoration. Viewports 1440, 1024,
+  768, 390, and 320px had no horizontal overflow. Existing approved count and
+  impact totals were read with GET only; no submission or fixture was created.
+- The existing `node scripts/test-impact.mjs` runner did not complete: its
+  temporary compile omits/references `gratitude-eligibility` without the
+  `.mjs` suffix. No test script was modified.
+- No database records, migrations, deployment configuration, or infrastructure
+  changed. No commit or push was made.
+
 ## Final homepage presentation — 2026-10-14
 
 - Caroline’s final review removes the “Explore the adventures” button from the main hero; adventure entry remains in the primary dropdown and the four cards.

@@ -1,5 +1,22 @@
 # DECISIONS
 
+## 2026-10-15 — The Strengths We Bring visitor experience
+- The locked public adventure title is “The Strengths We Bring”; “What do you
+  bring?” remains the personal practice prompt. Update visitor-facing title
+  references consistently without rewriting historical decisions.
+- The visitor journey is introduction → short WHY → exactly-three-strength
+  practice → optional reflection/submission → approved-only collective stone
+  landscape → deeper, cautious science/references → collective meaning and
+  existing impact treatment.
+- Keep exactly three distinct canonical VIA strengths, no score/ranking or
+  assessment claim, and existing ownership, moderation, eligibility, impact,
+  permanent sequence, and stone artwork systems. Short plain-English
+  descriptions explain the canonical labels but are not database values.
+- Disclose that approved strengths, optional reflection, chosen name or
+  Anonymous, and optional country may appear publicly after review. Migration
+  0009 remains a production deployment prerequisite; do not apply it remotely
+  as part of this visitor-facing implementation.
+
 ## 2026-10-14 — Final homepage architecture (supersedes the earlier rebuild)
 - The latest supplied reference is the approved homepage design. Order is navigation → photographic hero → real Together, so far tally with funding/progress → two-column approved WHY/six ideas → “Here, you don’t just read about these ideas. You try them.” → four adventures → You → Us → World → photographic closing tagline. No separate bottom tree-impact section.
 - The homepage carries the main explanation of You Matter. Primary navigation is You Matter. | How are you doing? | Adventures | About. The brand is the home link; Adventures retains the real dropdown. Caroline explicitly requested that unfinished How are you doing? and About destinations be non-interactive labels, with no coming-soon messages, fake links or placeholder pages. Neither destination is built in this task. `/what-is-this` remains intact but is absent from primary navigation.

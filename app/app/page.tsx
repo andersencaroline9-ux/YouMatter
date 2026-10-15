@@ -19,10 +19,10 @@ const adventures = [
     description: "Share a kindness you’ve given, received or witnessed.",
   },
   {
-    title: "What Do You Bring?",
+    title: "The Strengths We Bring",
     href: "/strengths",
     image: "strengths",
-    tagline: "Notice what’s strong.",
+    tagline: "Recognise what you bring.",
     description: "Choose three strengths you recognise in yourself.",
   },
   {

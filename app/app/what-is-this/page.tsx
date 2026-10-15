@@ -32,7 +32,7 @@ const adventures = [
   },
   {
     href: "/strengths",
-    title: "What Do You Bring?",
+    title: "The Strengths We Bring",
     idea: "Your strengths become a stone.",
     description: "Choose three strengths and add a stone to our wall.",
     image: "/strengths-shelter.png",

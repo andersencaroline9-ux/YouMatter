@@ -39,7 +39,7 @@ The active application in `app/` contains the adventures below.
   kindness” remains available, and pending stories are never shown as leaves.
 - Uses D1-backed persistence. Each approved story counts as one impact contribution and one kindness noticed.
 
-## What Do You Bring?
+## The Strengths We Bring
 - Visitors select three distinct labels from the 24 canonical character
   strengths they recognise in themselves; this is not a test or assessment.
 - One submission stores the three strengths together as one contribution, with
@@ -58,6 +58,13 @@ The active application in `app/` contains the adventures below.
 - The page explains the reflective (non-assessment) practice and the VIA
   Classification. Visitors can join without taking VIA; the official survey
   link is optional and separate.
+- The visitor journey is introduction → short WHY → three-strength practice →
+  collective stone landscape → optional deeper science → collective meaning
+  and impact. The personal prompt remains “What do you bring?”
+- Each canonical strength has a short plain-English description. The optional
+  reflection remains 240 characters; consent discloses that approved
+  contributions may publicly show strengths, reflection, chosen name or
+  Anonymous, and country when provided.
 
 ## Live Adventure — 30 Days in Nature
 - The public page collects first name and email for a no-commitment waiting

@@ -8,7 +8,7 @@ does not replace the separate GitHub Pages homepage at the repository root.
 From this directory, run `pnpm dev` and open <http://localhost:5173/>.
 
 The adventures are at `/gratitude` (Gratitude Garden), `/nature` (Nature
-Mosaic), `/kindness` (The Kindness Tree), `/strengths` (What Do You Bring?),
+Mosaic), `/kindness` (The Kindness Tree), `/strengths` (The Strengths We Bring),
 and `/live-adventure` (30 Days in Nature). Header and back links return to
 this app's homepage. The development server binds to loopback.
 

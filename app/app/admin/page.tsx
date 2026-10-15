@@ -289,7 +289,7 @@ export default function AdminPage() {
 
         <section className="admin-section">
           <h2>
-            What Do You Bring?{" "}
+            The Strengths We Bring{" "}
             <span>
               {data.strengths.filter((item) => item.status === "pending").length}{" "}
               pending

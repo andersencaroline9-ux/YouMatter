@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from "react";
 const adventures = [
   { href: "/gratitude", label: "Gratitude Garden" },
   { href: "/kindness", label: "Built From Kindness" },
-  { href: "/strengths", label: "What Do You Bring?" },
+  { href: "/strengths", label: "The Strengths We Bring" },
   { href: "/live-adventure", label: "30 Days in Nature — Live" },
 ];
 

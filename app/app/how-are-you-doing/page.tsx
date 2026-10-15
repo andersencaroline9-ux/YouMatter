@@ -255,7 +255,7 @@ export default function HowAreYouDoingPage() {
                 Discovering what you bring
               </span>
               <span className="how-are-you-doing__pathway-title">
-                What Do You Bring? <span aria-hidden="true">→</span>
+                The Strengths We Bring <span aria-hidden="true">→</span>
               </span>
             </Link>
           </div>

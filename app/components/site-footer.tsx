@@ -3,7 +3,7 @@ import Link from "next/link";
 const adventures = [
   { href: "/gratitude", label: "Gratitude Garden" },
   { href: "/kindness", label: "The Kindness Tree" },
-  { href: "/strengths", label: "What Do You Bring?" },
+  { href: "/strengths", label: "The Strengths We Bring" },
   { href: "/live-adventure", label: "30 Days in Nature" },
 ];
 
