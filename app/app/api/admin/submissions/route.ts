@@ -3,6 +3,7 @@ import { desc, eq, sql } from "drizzle-orm";
 import { getDb } from "../../../../db";
 import {
   gratitudes,
+  dreamSubmissions,
   homepageCheckins,
   kindnessEntries,
   natureEntries,
@@ -30,7 +31,7 @@ export async function GET(request: Request) {
 
   try {
     const db = getDb();
-    const [gratitude, nature, kindness, strengths, checkins] = await Promise.all([
+    const [gratitude, nature, kindness, strengths, checkins, dreams] = await Promise.all([
       db
         .select({
           id: gratitudes.id,
@@ -98,6 +99,17 @@ export async function GET(request: Request) {
         .from(homepageCheckins)
         .orderBy(desc(homepageCheckins.createdAt))
         .limit(100),
+      db
+        .select({
+          id: dreamSubmissions.id,
+          dream: dreamSubmissions.dream,
+          status: dreamSubmissions.status,
+          createdAt: dreamSubmissions.createdAt,
+          approvedAt: dreamSubmissions.approvedAt,
+        })
+        .from(dreamSubmissions)
+        .orderBy(desc(dreamSubmissions.createdAt))
+        .limit(200),
     ]);
     const groupedStrengths = strengths.map(({ strength, ...entry }) => ({
       ...entry,
@@ -112,6 +124,7 @@ export async function GET(request: Request) {
       kindness,
       strengths: groupedStrengths,
       checkins,
+      dreams,
     });
   } catch (error) {
     return Response.json(
@@ -250,6 +263,26 @@ export async function PATCH(request: Request) {
           id: kindnessEntries.id,
           status: kindnessEntries.status,
         });
+      return Response.json({ entry });
+    }
+    if (body.type === "dreams") {
+      const [entry] = await db
+        .update(dreamSubmissions)
+        .set({
+          status,
+          approvedAt:
+            status === "approved"
+              ? sql`COALESCE(${dreamSubmissions.approvedAt}, CURRENT_TIMESTAMP)`
+              : null,
+        })
+        .where(eq(dreamSubmissions.id, id))
+        .returning({
+          id: dreamSubmissions.id,
+          status: dreamSubmissions.status,
+        });
+      if (!entry) {
+        return Response.json({ error: "Submission not found." }, { status: 404 });
+      }
       return Response.json({ entry });
     }
     if (body.type === "nature") {

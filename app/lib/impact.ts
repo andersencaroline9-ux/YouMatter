@@ -12,14 +12,16 @@ export function countEligibleStrengthsGroups(rows: readonly StrengthsCount[]) {
 
 export function calculateImpact(
   gratitudeContributions: number, kindnessContributions: number, strengthsContributions: number,
-  treesFunded: number, treesActuallyPlanted: number,
+  dreamContributions: number, treesFunded: number, treesActuallyPlanted: number,
 ) {
-  const totalApprovedContributions = gratitudeContributions + kindnessContributions + strengthsContributions;
+  const totalApprovedContributions = gratitudeContributions + kindnessContributions
+    + strengthsContributions + dreamContributions;
   const towardNextTree = totalApprovedContributions % CONTRIBUTIONS_PER_TREE;
   return {
     gratitudesShared: gratitudeContributions,
     kindnessesNoticed: kindnessContributions,
     strengthsRecognised: strengthsContributions,
+    dreamsShared: dreamContributions,
     totalApprovedContributions,
     treesEarned: Math.floor(totalApprovedContributions / CONTRIBUTIONS_PER_TREE),
     treesFunded, treesActuallyPlanted, towardNextTree,

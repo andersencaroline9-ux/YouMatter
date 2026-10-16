@@ -54,6 +54,21 @@ export const kindnessEntries = sqliteTable("kindness_entries", {
   approvedAt: text("approved_at"),
 });
 
+export const dreamSubmissions = sqliteTable("dream_submissions", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  dream: text("dream").notNull(),
+  status: text("status", { enum: ["pending", "approved", "rejected"] })
+    .notNull()
+    .default("pending"),
+  createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
+  approvedAt: text("approved_at"),
+}, (table) => ({
+  validDream: check(
+    "dream_submissions_valid_dream",
+    sql`length(trim(${table.dream})) BETWEEN 1 AND 120`
+  ),
+}));
+
 export const strengthsEntries = sqliteTable("strengths_entries", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   strength: text("strength").notNull(),

@@ -69,6 +69,34 @@ type DreamStoneStyle = CSSProperties & {
 
 type FlowStage = "arrival" | "reflection" | "stream" | "dream" | "thrown";
 
+function isPublicDreamResponse(value: unknown): value is { dreams: string[] } {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    !Array.isArray(value) &&
+    "dreams" in value &&
+    Array.isArray(value.dreams) &&
+    value.dreams.every(
+      (dream) =>
+        typeof dream === "string" &&
+        dream.trim().length > 0 &&
+        dream.length <= 120
+    )
+  );
+}
+
+function isSuccessfulDreamSubmission(
+  value: unknown
+): value is { success: true } {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    !Array.isArray(value) &&
+    "success" in value &&
+    value.success === true
+  );
+}
+
 function scrollToDreamElement(element: HTMLElement | null) {
   const behavior = window.matchMedia("(prefers-reduced-motion: reduce)").matches
     ? "auto"
@@ -83,8 +111,17 @@ export default function DreamExperience() {
     () => prompts.map(() => "")
   );
   const [selectedDream, setSelectedDream] = useState<number | null>(null);
+  const [riverDreams, setRiverDreams] = useState<string[]>(() =>
+    prototypeDreams.slice(0, streamStones.length)
+  );
+  const [riverUsesSamples, setRiverUsesSamples] = useState(true);
+  const [riverLoaded, setRiverLoaded] = useState(false);
+  const [riverError, setRiverError] = useState("");
   const [dream, setDream] = useState("");
   const [throwing, setThrowing] = useState(false);
+  const [submissionPending, setSubmissionPending] = useState(false);
+  const [submissionError, setSubmissionError] = useState("");
+  const submissionInFlight = useRef(false);
   const heroRef = useRef<HTMLElement>(null);
   const beginButtonRef = useRef<HTMLButtonElement>(null);
   const interruptionRef = useRef<HTMLElement>(null);
@@ -95,6 +132,39 @@ export default function DreamExperience() {
   const selectedDreamHeadingRef = useRef<HTMLHeadingElement>(null);
   const selectedStoneButtonRef = useRef<HTMLButtonElement>(null);
   const throwStageRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (stage !== "stream" || riverLoaded) return;
+    let active = true;
+    fetch("/api/dream", { cache: "no-store" })
+      .then(async (response) => {
+        const result: unknown = await response.json();
+        if (!response.ok || !isPublicDreamResponse(result)) {
+          throw new Error("The River of Dreams could not be loaded.");
+        }
+        return result;
+      })
+      .then((result) => {
+        if (!active) return;
+        if (result.dreams.length > 0) {
+          setRiverDreams(result.dreams.slice(0, streamStones.length));
+          setRiverUsesSamples(false);
+        }
+      })
+      .catch(() => {
+        if (active) {
+          setRiverError(
+            "The river could not be refreshed, so these prototype sample dreams are shown."
+          );
+        }
+      })
+      .finally(() => {
+        if (active) setRiverLoaded(true);
+      });
+    return () => {
+      active = false;
+    };
+  }, [stage, riverLoaded]);
 
   useEffect(() => {
     if (selectedDream === null) return;
@@ -158,19 +228,45 @@ export default function DreamExperience() {
     );
   }
 
-  function throwDream(event: FormEvent<HTMLFormElement>) {
+  async function throwDream(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (!dream.trim() || throwing) return;
-
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setStage("thrown");
-      requestAnimationFrame(() => {
-        throwStageRef.current?.focus();
-        scrollToDreamElement(throwStageRef.current);
-      });
+    const finalDream = dream.trim();
+    if (!finalDream || throwing || submissionPending || submissionInFlight.current) {
       return;
     }
-    setThrowing(true);
+    submissionInFlight.current = true;
+    setSubmissionPending(true);
+    setSubmissionError("");
+    try {
+      const response = await fetch("/api/dream", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ dream: finalDream }),
+      });
+      const result: unknown = await response.json();
+      if (!response.ok || !isSuccessfulDreamSubmission(result)) {
+        throw new Error("The Dream Stone could not be shared.");
+      }
+
+      setDream(finalDream);
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        setStage("thrown");
+        requestAnimationFrame(() => {
+          throwStageRef.current?.focus();
+          scrollToDreamElement(throwStageRef.current);
+        });
+      } else {
+        setThrowing(true);
+      }
+    } catch (error) {
+      console.error("Unable to submit a Dream Stone.", error);
+      setSubmissionError(
+        "That dream could not reach the river just now. Your words are still here; please try again."
+      );
+    } finally {
+      setSubmissionPending(false);
+      submissionInFlight.current = false;
+    }
   }
 
   function finishThrow() {
@@ -358,19 +454,38 @@ export default function DreamExperience() {
             <div className="dream-section-heading">
               <p className="eyebrow">Other people have dreams too</p>
               <h2 id="dream-stream-title">The River of Dreams</h2>
-              <p>Every stone holds something someone has allowed themselves to want.</p>
-              <p>Choose a stone.</p>
-              <p className="dream-prototype-note">
-                Prototype sample — these are not real submissions.
+              <p>
+                {riverUsesSamples
+                  ? "A few sample dreams are gathered here to give the river its first stones."
+                  : "Every stone holds something someone has allowed themselves to want."}
               </p>
+              <p>Choose a stone.</p>
+              {riverUsesSamples ? (
+                <p className="dream-prototype-note">
+                  Prototype sample — these are not real submissions.
+                </p>
+              ) : (
+                <p className="dream-prototype-note">
+                  These dreams were shared anonymously and approved for the river.
+                </p>
+              )}
+              {riverError && (
+                <p className="dream-prototype-note" role="status">
+                  {riverError}
+                </p>
+              )}
+              {!riverLoaded && (
+                <p className="dream-prototype-note" role="status">
+                  Finding the river stones…
+                </p>
+              )}
             </div>
             <div
               className="dream-stream__scene"
               role="group"
               aria-label="Choose a stone to discover a dream"
             >
-              {streamStones.map((stone, index) => {
-                const text = prototypeDreams[index];
+              {streamStones.slice(0, riverDreams.length).map((stone, index) => {
                 const asset = stoneAssets[stone.asset];
                 const style: DreamStoneStyle = {
                   "--stone-image": `url("${asset.src}")`,
@@ -386,9 +501,10 @@ export default function DreamExperience() {
                 return (
                   <button
                     className={`dream-stream__stone${selectedDream === index ? " is-selected" : ""}`}
-                    key={text}
+                    key={index}
                     type="button"
                     style={style}
+                    disabled={!riverLoaded}
                     data-mobile-row={Math.floor(index / 4)}
                     data-mobile-column={index % 4}
                     aria-label={`Dream stone ${index + 1}`}
@@ -419,7 +535,7 @@ export default function DreamExperience() {
                 >
                   A dream in the river
                 </h3>
-                <blockquote>“{prototypeDreams[selectedDream]}”</blockquote>
+                <blockquote>“{riverDreams[selectedDream]}”</blockquote>
                 <button
                   className="dream-text-button"
                   onClick={() => {
@@ -467,7 +583,8 @@ export default function DreamExperience() {
                   rows={3}
                   placeholder="What would you really want?"
                   onChange={(event) => setDream(event.target.value)}
-                  aria-describedby="dream-character-guidance dream-prototype-privacy"
+                  disabled={submissionPending || throwing}
+                  aria-describedby="dream-character-guidance dream-submission-privacy dream-submission-error"
                 />
                 <div className="dream-create__guidance">
                   <p id="dream-character-guidance">
@@ -475,16 +592,28 @@ export default function DreamExperience() {
                   </p>
                   <p aria-live="polite">{dream.length} / 120</p>
                 </div>
-                <p id="dream-prototype-privacy" className="dream-prototype-privacy">
-                  Prototype only: this dream is not sent or saved. It will
-                  disappear when you leave or reload.
+                <p id="dream-submission-privacy" className="dream-prototype-privacy">
+                  Only this dream is sent for anonymous review. Your private
+                  reflections stay in this page and are never saved.
+                </p>
+                <p
+                  id="dream-submission-error"
+                  className="dream-prototype-privacy"
+                  role="alert"
+                  hidden={!submissionError}
+                >
+                  {submissionError}
                 </p>
                 <button
                   className="dream-button"
                   type="submit"
-                  disabled={!dream.trim() || throwing}
+                  disabled={!dream.trim() || submissionPending || throwing}
                 >
-                  {throwing ? "Letting it go…" : "Throw it in"}
+                  {submissionPending
+                    ? "Sharing…"
+                    : throwing
+                      ? "Letting it go…"
+                      : "Throw it in"}
                   <span aria-hidden="true"> →</span>
                 </button>
               </form>
@@ -533,7 +662,8 @@ export default function DreamExperience() {
                 Sometimes knowing what we want is a beginning.
               </p>
               <p className="dream-prototype-note">
-                This prototype did not save or submit your dream.
+                Your dream has been shared anonymously for review. It will join
+                the river if approved.
               </p>
               <Link className="dream-button" href="/#adventures">
                 Explore another adventure <span aria-hidden="true">→</span>

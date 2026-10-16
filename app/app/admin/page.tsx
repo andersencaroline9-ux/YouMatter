@@ -46,6 +46,13 @@ type CheckinEntry = {
   approvedAt: string | null;
   countryCode: string | null;
 };
+type DreamEntry = {
+  id: number;
+  dream: string;
+  status: string;
+  createdAt: string;
+  approvedAt: string | null;
+};
 type LiveAdventureInterest = {
   id: number;
   name: string;
@@ -67,6 +74,7 @@ type Data = {
   nature: NatureEntry[];
   strengths: StrengthsEntry[];
   checkins: CheckinEntry[];
+  dreams: DreamEntry[];
 };
 
 export default function AdminPage() {
@@ -76,6 +84,7 @@ export default function AdminPage() {
     nature: [],
     strengths: [],
     checkins: [],
+    dreams: [],
   });
   const [note, setNote] = useState("Loading submissions…");
   const [liveInterests, setLiveInterests] = useState<
@@ -388,6 +397,32 @@ export default function AdminPage() {
               </article>
             ))}
           </div>
+        </section>
+
+        <section className="admin-section">
+          <h2>
+            Dreams{" "}
+            <span>
+              {data.dreams.filter((item) => item.status === "pending").length}{" "}
+              pending
+            </span>
+          </h2>
+          <div className="admin-table">
+            {data.dreams.map((item) => (
+              <article className="admin-row card" key={item.id}>
+                <div>
+                  <p className="serif">“{item.dream}”</p>
+                  <span className="muted">
+                    Anonymous · {item.status}
+                  </span>
+                </div>
+                {actions("dreams", item.id, item.status)}
+              </article>
+            ))}
+          </div>
+          {!note && data.dreams.length === 0 && (
+            <p className="muted">No dreams have been shared yet.</p>
+          )}
         </section>
 
         <section className="admin-section">
