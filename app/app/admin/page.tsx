@@ -53,6 +53,14 @@ type LiveAdventureInterest = {
   createdAt: string;
   reserve: boolean;
 };
+type ContactMessage = {
+  id: number;
+  name: string | null;
+  email: string;
+  message: string;
+  createdAt: string;
+  readAt: string | null;
+};
 type Data = {
   gratitude: GratitudeEntry[];
   kindness: TextEntry[];
@@ -76,6 +84,9 @@ export default function AdminPage() {
   const [liveInterestNote, setLiveInterestNote] = useState(
     "Loading the waiting list…"
   );
+  const [contactMessages, setContactMessages] = useState<ContactMessage[]>([]);
+  const [contactNote, setContactNote] = useState("Loading Contact messages…");
+  const [contactPendingId, setContactPendingId] = useState<number | null>(null);
 
   useEffect(() => {
     fetch("/api/admin/submissions")
@@ -88,6 +99,31 @@ export default function AdminPage() {
         }
       })
       .catch(() => setNote("Unable to load submissions."));
+  }, []);
+
+  useEffect(() => {
+    fetch("/api/admin/contact")
+      .then(async (response) => {
+        const result = (await response.json()) as {
+          messages?: ContactMessage[];
+          error?: string;
+        };
+        if (!response.ok) {
+          throw new Error(result.error ?? "Unable to load Contact messages.");
+        }
+        return result;
+      })
+      .then((result) => {
+        setContactMessages(result.messages ?? []);
+        setContactNote("");
+      })
+      .catch((error: unknown) => {
+        setContactNote(
+          error instanceof Error
+            ? error.message
+            : "Unable to load Contact messages."
+        );
+      });
   }, []);
 
   useEffect(() => {
@@ -171,6 +207,73 @@ export default function AdminPage() {
       </button>
     </div>
   );
+
+  async function updateContactMessage(id: number, read: boolean) {
+    setContactPendingId(id);
+    setContactNote("");
+    try {
+      const response = await fetch("/api/admin/contact", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, read }),
+      });
+      const result = (await response.json()) as {
+        message?: { id: number; readAt: string | null };
+        error?: string;
+      };
+      if (!response.ok || !result.message) {
+        throw new Error(result.error ?? "Unable to update the Contact message.");
+      }
+      const updatedMessage = result.message;
+      setContactMessages((current) =>
+        current.map((item) =>
+          item.id === id ? { ...item, readAt: updatedMessage.readAt } : item
+        )
+      );
+    } catch (error: unknown) {
+      setContactNote(
+        error instanceof Error
+          ? error.message
+          : "Unable to update the Contact message."
+      );
+    } finally {
+      setContactPendingId(null);
+    }
+  }
+
+  async function deleteContactMessage(item: ContactMessage) {
+    if (
+      !window.confirm(
+        `Delete the message from ${item.name?.trim() || item.email}? This cannot be undone.`
+      )
+    ) {
+      return;
+    }
+    setContactPendingId(item.id);
+    setContactNote("");
+    try {
+      const response = await fetch("/api/admin/contact", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: item.id, confirm: true }),
+      });
+      const result = (await response.json()) as { error?: string };
+      if (!response.ok) {
+        throw new Error(result.error ?? "Unable to delete the Contact message.");
+      }
+      setContactMessages((current) =>
+        current.filter((message) => message.id !== item.id)
+      );
+    } catch (error: unknown) {
+      setContactNote(
+        error instanceof Error
+          ? error.message
+          : "Unable to delete the Contact message."
+      );
+    } finally {
+      setContactPendingId(null);
+    }
+  }
 
   return (
     <main className="admin">
@@ -410,6 +513,61 @@ export default function AdminPage() {
                 </article>
               );
             })}
+          </div>
+        </section>
+
+        <section className="admin-section" aria-labelledby="contact-inbox-title">
+          <h2 id="contact-inbox-title">
+            Contact inbox{" "}
+            <span>{contactMessages.filter((item) => !item.readAt).length} unread</span>
+          </h2>
+          {contactNote && (
+            <p className="form-note" role="status">
+              {contactNote}
+            </p>
+          )}
+          {!contactNote && contactMessages.length === 0 && (
+            <p className="muted">No Contact messages.</p>
+          )}
+          <div className="admin-table">
+            {contactMessages.map((item) => (
+              <article
+                className={`admin-row card contact-admin-row${item.readAt ? "" : " contact-admin-row--unread"}`}
+                key={item.id}
+              >
+                <div className="contact-admin-message">
+                  <p className="contact-admin-identity">
+                    <strong>{item.name?.trim() || "Anonymous/No name"}</strong>
+                    {" · "}
+                    <a href={`mailto:${item.email}`}>{item.email}</a>
+                  </p>
+                  <p className="contact-admin-body">{item.message}</p>
+                  <span className="muted">
+                    Received{" "}
+                    {new Date(
+                      `${item.createdAt.replace(" ", "T")}Z`
+                    ).toLocaleString()}{" "}
+                    · {item.readAt ? "Read" : "Unread"}
+                  </span>
+                </div>
+                <div className="admin-actions">
+                  <button
+                    type="button"
+                    disabled={contactPendingId === item.id}
+                    onClick={() => updateContactMessage(item.id, !item.readAt)}
+                  >
+                    {item.readAt ? "Mark unread" : "Mark read"}
+                  </button>
+                  <button
+                    type="button"
+                    disabled={contactPendingId === item.id}
+                    onClick={() => deleteContactMessage(item)}
+                  >
+                    Delete…
+                  </button>
+                </div>
+              </article>
+            ))}
           </div>
         </section>
 

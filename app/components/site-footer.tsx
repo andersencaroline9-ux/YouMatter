@@ -1,12 +1,5 @@
 import Link from "next/link";
 
-const adventures = [
-  { href: "/gratitude", label: "Gratitude Garden" },
-  { href: "/kindness", label: "The Kindness Tree" },
-  { href: "/strengths", label: "The Strengths We Bring" },
-  { href: "/live-adventure", label: "RECONNECT — 30 Days in Nature" },
-];
-
 export default function SiteFooter() {
   return (
     <footer className="site-footer">
@@ -16,24 +9,33 @@ export default function SiteFooter() {
             You Matter.
           </Link>
           <p>You matter. We matter. What we do matters.</p>
-          <p className="site-footer__disclaimer">
-            A reflective wellbeing experience—not therapy or medical advice.
-          </p>
         </div>
-        <nav aria-label="Footer navigation">
-          <ul className="site-footer__links">
-            <li>
-              <Link href="/">Home</Link>
-            </li>
-            <li>
-              <Link href="/what-is-this">What is this?</Link>
-            </li>
-            {adventures.map(({ href, label }) => (
-              <li key={href}>
-                <Link href={href}>{label}</Link>
+        <nav className="site-footer__navigation" aria-label="Footer navigation">
+          <div className="site-footer__group" aria-labelledby="footer-explore">
+            <h2 id="footer-explore">Explore</h2>
+            <ul className="site-footer__links">
+              <li>
+                <Link href="/how-are-you-doing">How are you doing?</Link>
               </li>
-            ))}
-          </ul>
+              <li>
+                <Link href="/#adventures">Adventures</Link>
+              </li>
+              <li>
+                <Link href="/writing">Writing</Link>
+              </li>
+              <li>
+                <Link href="/about">About</Link>
+              </li>
+            </ul>
+          </div>
+          <div className="site-footer__group" aria-labelledby="footer-more">
+            <h2 id="footer-more">More</h2>
+            <ul className="site-footer__links">
+              <li>
+                <Link href="/contact">Contact</Link>
+              </li>
+            </ul>
+          </div>
         </nav>
       </div>
     </footer>

@@ -144,6 +144,14 @@ export default function SiteHeader({ home = false }: { home?: boolean }) {
           >
             About
           </Link>
+          <Link
+            className="site-nav__link"
+            href="/contact"
+            aria-current={pathname === "/contact" ? "page" : undefined}
+            onClick={closeMenus}
+          >
+            Contact
+          </Link>
         </div>
       </nav>
     </header>

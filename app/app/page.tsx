@@ -53,7 +53,7 @@ export default function Home() {
 
         <section className="approved-why" aria-labelledby="home-why-title">
           <div className="approved-why__copy">
-            <h2 id="home-why-title">What if feeling better sometimes starts with doing something small?</h2>
+            <h2 id="home-why-title">What if living well is something we can practise?</h2>
             <p>Positive psychology studies what helps people and communities flourish.</p>
             <p>Here, you don’t just read about the research. You try it.</p>
             <p className="approved-why__sequence">TRY SOMETHING → SHARE SOMETHING → BECOME PART OF SOMETHING</p>

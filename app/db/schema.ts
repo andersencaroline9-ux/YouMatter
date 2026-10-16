@@ -106,3 +106,12 @@ export const liveAdventureInterests = sqliteTable(
     ),
   })
 );
+
+export const contactMessages = sqliteTable("contact_messages", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  name: text("name"),
+  email: text("email").notNull(),
+  message: text("message").notNull(),
+  createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
+  readAt: text("read_at"),
+});

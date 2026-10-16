@@ -72,6 +72,15 @@ separate from adventure contributions and never count toward the
   signup outcomes. Names and email addresses are exposed only through its
   separately protected admin endpoint; the waiting list is not newsletter
   signup.
+- `/contact` stores an optional name, required email address and message in the
+  private D1 `contact_messages` table, solely so Caroline can respond. Contact
+  messages are not published, included in contribution counts or feeds, or
+  used for newsletter signup. Only authenticated Admin users can read them;
+  Admin supports marking them read and deleting them. The intended retention
+  period is up to 12 months, with older records purged when the inbox is loaded
+  or another message is submitted. Contact submissions use a hidden honeypot
+  and a short completion-time check; production edge rate limiting remains
+  separate launch hardening.
 - No production database, bucket, account, or Cloudflare settings are used.
 
 Run `pnpm build` or `pnpm lint` from this directory as needed.

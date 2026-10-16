@@ -1,0 +1,22 @@
+.contact-page{min-height:calc(100vh - 148px);padding:clamp(48px,8vw,104px) 0}
+.contact-content{max-width:760px}
+.contact-content h1{margin:14px 0 16px;color:var(--deep);font-size:clamp(2.7rem,6vw,4.7rem);font-weight:500;letter-spacing:-.045em;line-height:1.05}
+.contact-intro{max-width:610px;margin:0;color:#526a5d;font:1.15rem/1.7 Georgia,"Times New Roman",serif}
+.contact-form{display:grid;gap:22px;max-width:620px;margin-top:42px}
+.contact-field{display:grid;gap:8px}
+.contact-field label{font-size:.9rem;font-weight:800}
+.contact-field label span{margin-left:7px;color:#6b7b72;font-size:.78rem;font-weight:400}
+.contact-field input,.contact-field textarea{width:100%;border:1px solid rgba(32,56,45,.22);border-radius:12px;padding:13px 15px;color:var(--ink);background:var(--paper);outline:none}
+.contact-field textarea{min-height:180px;resize:vertical;line-height:1.6}
+.contact-field input:focus,.contact-field textarea:focus{border-color:var(--moss);box-shadow:0 0 0 3px rgba(81,112,95,.12)}
+.contact-field [aria-invalid="true"]{border-color:#9c392f}
+.contact-field [aria-invalid="true"]:focus{box-shadow:0 0 0 3px rgba(156,57,47,.12)}
+.contact-help,.contact-privacy{margin:0;color:#526a5d;font-size:.86rem;line-height:1.6}
+.contact-error{margin:0;color:#8a3027;font-size:.88rem;line-height:1.5}
+.contact-form>.button{justify-self:start}
+.contact-retry{border:0;padding:0;background:none;color:inherit;font-weight:800;text-decoration:underline;cursor:pointer}
+.contact-honeypot{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
+.contact-success{max-width:620px;margin-top:42px;padding-top:26px;border-top:1px solid var(--line)}
+.contact-success h2{margin:0 0 10px;color:var(--deep);font-size:clamp(1.6rem,4vw,2.4rem);font-weight:500;line-height:1.2}
+.contact-success p{margin:0;color:#526a5d;line-height:1.65}
+@media(max-width:560px){.contact-page{padding-block:42px}.contact-form{margin-top:32px}.contact-field textarea{min-height:150px}}
