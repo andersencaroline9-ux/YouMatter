@@ -43,6 +43,9 @@ export default function SiteFooter() {
               <li>
                 <Link href="/privacy">Privacy</Link>
               </li>
+              <li>
+                <Link href="/business-information">Business information</Link>
+              </li>
             </ul>
           </div>
         </nav>

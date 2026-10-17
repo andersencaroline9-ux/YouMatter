@@ -1,0 +1,11 @@
+.business-page{padding:clamp(44px,7vw,88px) 0 clamp(56px,8vw,96px)}
+.business-content{max-width:700px}
+.business-content .eyebrow{margin:0 0 14px;color:var(--moss)}
+.business-content h1{margin:0 0 26px;color:var(--deep);font-size:clamp(2.1rem,5vw,3.4rem);font-weight:500;letter-spacing:-.035em;line-height:1.12}
+.business-content p{margin:0 0 12px;color:#33493d;font-size:1.02rem;line-height:1.7}
+.business-details{display:grid;gap:2px;margin-top:28px;padding-top:26px;border-top:1px solid var(--line);color:#33493d;font-style:normal;font-size:1.02rem;line-height:1.7}
+.business-details strong{color:var(--deep);font-weight:700}
+.business-details a{width:fit-content;color:var(--deep);text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(20,49,38,.4)}
+.business-details a:hover{text-decoration-color:var(--deep)}
+.business-details a:focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:3px}
+@media(max-width:560px){.business-content p,.business-details{font-size:1rem}}
