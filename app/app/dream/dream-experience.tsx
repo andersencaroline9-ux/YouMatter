@@ -306,11 +306,8 @@ export default function DreamExperience() {
         <div className="dream-hero__shade" aria-hidden="true" />
         <div className="shell dream-hero__content">
           <p className="eyebrow">A You Matter adventure</p>
-          <h1 id="dream-title">
-            Give Yourself
-            <br />
-            Permission to Dream
-          </h1>
+          <h1 id="dream-title">The River of Dreams</h1>
+          <p>Give yourself permission to dream.</p>
           <p>Before you ask whether it’s possible, ask what you want.</p>
           <button
             className="dream-button dream-button--light"

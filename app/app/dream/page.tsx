@@ -5,9 +5,9 @@ import DreamExperience from "./dream-experience";
 import "./dream.css";
 
 export const metadata: Metadata = {
-  title: "Give Yourself Permission to Dream — You Matter",
+  title: "The River of Dreams — You Matter",
   description:
-    "Before you ask whether it’s possible, ask what you want.",
+    "Give yourself permission to dream. Before you ask whether it’s possible, ask what you want.",
 };
 
 export default function DreamPage() {

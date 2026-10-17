@@ -84,7 +84,7 @@ export default function KindnessPage() {
             Together, these stories remind us how much happens between people
             every day.
           </p>
-          <p>You matter. We matter. What we do matters.</p>
+          <p>You Matter. We Matter. What we do matters.</p>
 
           <details className="sources kindness-sources">
             <summary>Curious about the research?</summary>

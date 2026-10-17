@@ -51,8 +51,8 @@ const adventures: AdventureCard[] = [
   },
   {
     href: "/dream",
-    title: "Give Yourself Permission to Dream",
-    idea: "A dream becomes a stone in the river.",
+    title: "The River of Dreams",
+    idea: "Give yourself permission to dream.",
     description: "Put one dream into words and add it to the River of Dreams.",
     image: "/dream-stone-01.png",
     imageClass: "what-is-this__adventure-image--dream",
@@ -193,7 +193,7 @@ export default function WhatIsThisPage() {
             <p className="what-is-this__impact-detail">
               We commit to funding one tree for every 50 eligible approved
               contributions shared across Gratitude Garden, The Kindness Tree,
-              The Strengths We Bring and Give Yourself Permission to Dream.
+              The Strengths We Bring and The River of Dreams.
               Each eligible approved form counts once: a
               three-message Gratitude submission, one Kindness story, a
               three-strength Strengths submission, or one Dream Stone.
@@ -205,7 +205,7 @@ export default function WhatIsThisPage() {
           <div className="shell what-is-this__closing-content">
             <h2 id="closing-title">Because this is the idea behind You Matter:</h2>
             <p className="what-is-this__motto">
-              You matter. We matter. What we do matters.
+              You Matter. We Matter. What we do matters.
             </p>
             <p>
               You don’t need to be particularly happy, positive, spiritual or

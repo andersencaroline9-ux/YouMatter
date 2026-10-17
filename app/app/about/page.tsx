@@ -18,10 +18,10 @@ export default function AboutPage() {
         <section className="about-introduction" aria-labelledby="about-title">
           <div className="about-introduction__portrait">
             <Image
-              src="/caroline-with-dog.png"
-              alt="Caroline sitting beside her dog outdoors among rocks and trees."
-              width={1276}
-              height={666}
+              src="/caroline-green-shirt-portrait.png"
+              alt="Caroline smiling outdoors in a green shirt."
+              width={754}
+              height={1034}
               priority
               unoptimized
               sizes="(max-width: 760px) 100vw, 50vw"
@@ -146,7 +146,7 @@ export default function AboutPage() {
         >
           <div className="about-collective__copy">
             <h2 id="about-collective-title">
-              You matter. We matter.
+              You Matter. We Matter.
               <br />
               What we do matters.
             </h2>

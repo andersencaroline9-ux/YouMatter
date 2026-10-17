@@ -757,7 +757,7 @@ export default function StrengthsPractice() {
           when we bring it together.
         </p>
         <p className="strengths-ending-signoff">
-          You matter. We matter. What we do matters.
+          You Matter. We Matter. What we do matters.
         </p>
       </section>
 

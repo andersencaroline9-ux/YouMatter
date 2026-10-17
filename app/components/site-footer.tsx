@@ -8,7 +8,10 @@ export default function SiteFooter() {
           <Link className="brand" href="/">
             You Matter.
           </Link>
-          <p>You matter. We matter. What we do matters.</p>
+          <p>You Matter. We Matter. What we do matters.</p>
+          <p className="site-footer__establishment">
+            We Matter - Established October 2026
+          </p>
         </div>
         <nav className="site-footer__navigation" aria-label="Footer navigation">
           <div className="site-footer__group" aria-labelledby="footer-explore">
@@ -19,6 +22,9 @@ export default function SiteFooter() {
               </li>
               <li>
                 <Link href="/#adventures">Adventures</Link>
+              </li>
+              <li>
+                <Link href="/our-forest">Our Forest</Link>
               </li>
               <li>
                 <Link href="/writing">Writing</Link>

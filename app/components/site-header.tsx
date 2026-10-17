@@ -8,7 +8,7 @@ const adventures = [
   { href: "/gratitude", label: "Gratitude Garden" },
   { href: "/kindness", label: "The Kindness Tree" },
   { href: "/strengths", label: "The Strengths We Bring" },
-  { href: "/dream", label: "Give Yourself Permission to Dream" },
+  { href: "/dream", label: "The River of Dreams" },
   { href: "/live-adventure", label: "RECONNECT — 30 Days in Nature" },
 ];
 
@@ -129,6 +129,14 @@ export default function SiteHeader({ home = false }: { home?: boolean }) {
               ))}
             </div>
           </div>
+          <Link
+            className="site-nav__link"
+            href="/our-forest"
+            aria-current={pathname === "/our-forest" ? "page" : undefined}
+            onClick={closeMenus}
+          >
+            Our Forest
+          </Link>
           <Link
             className="site-nav__link"
             href="/writing"

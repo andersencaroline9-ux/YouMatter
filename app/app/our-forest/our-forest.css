@@ -1,0 +1,399 @@
+.our-forest {
+  --forest-cream: #faf7ef;
+  --forest-green: #18382e;
+  --forest-ink: #17251d;
+  background: var(--forest-cream);
+  color: var(--forest-ink);
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.our-forest p,
+.our-forest h1,
+.our-forest h2 {
+  text-wrap: pretty;
+}
+
+.our-forest a:focus-visible {
+  outline: 3px solid #a67a2e;
+  outline-offset: 4px;
+}
+
+.our-forest__hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding: 52px 0;
+  background: #243d30;
+  color: #fffdf7;
+}
+
+.our-forest__hero-image,
+.our-forest__hero-shade,
+.our-forest__closing-image,
+.our-forest__closing-shade {
+  position: absolute;
+  inset: 0;
+}
+
+.our-forest__hero-image {
+  background: url("/forest-live-trailhead-temporary.jpg") center 52% / cover no-repeat;
+}
+
+.our-forest__hero-shade {
+  background: linear-gradient(90deg, rgba(10, 26, 18, .83), rgba(10, 26, 18, .47) 58%, rgba(10, 26, 18, .12));
+}
+
+.our-forest__hero-copy {
+  position: relative;
+  z-index: 1;
+  width: min(1120px, 88%);
+  margin: 0 auto;
+}
+
+.our-forest__eyebrow {
+  margin: 0 0 8px;
+  color: #9ba67a;
+  font: 800 .72rem/1.4 Arial, Helvetica, sans-serif;
+  letter-spacing: .19em;
+  text-transform: uppercase;
+}
+
+.our-forest__hero .our-forest__eyebrow {
+  color: rgba(255, 253, 247, .78);
+}
+
+.our-forest__hero h1 {
+  max-width: 1120px;
+  margin: 0 0 14px;
+  font-size: clamp(2.8rem, 5.2vw, 5rem);
+  font-weight: 500;
+  letter-spacing: -.052em;
+  line-height: .99;
+}
+
+.our-forest__hero-headline-line {
+  display: block;
+}
+
+.our-forest__hero-copy > p:not(.our-forest__eyebrow) {
+  max-width: 760px;
+  margin: 0 0 5px;
+  color: rgba(255, 253, 247, .92);
+  font-size: clamp(1rem, 1.25vw, 1.1rem);
+  line-height: 1.5;
+}
+
+.our-forest__founding,
+.our-forest__world,
+.our-forest__evidence {
+  width: min(1160px, calc(100% - 64px));
+  margin-inline: auto;
+  padding-block: 46px;
+}
+
+.our-forest__founding h2,
+.our-forest__world h2,
+.our-forest__evidence h2 {
+  margin: 0 0 12px;
+  color: var(--forest-green);
+  font-size: clamp(2.15rem, 3.5vw, 3.35rem);
+  font-weight: 500;
+  letter-spacing: -.045em;
+  line-height: 1.02;
+}
+
+.our-forest__founding-copy {
+  max-width: 720px;
+}
+
+.our-forest__founding-copy > p:not(.our-forest__eyebrow),
+.our-forest__world-copy > p:not(.our-forest__eyebrow),
+.our-forest__evidence-copy > p:not(.our-forest__eyebrow) {
+  max-width: 660px;
+  margin: 0 0 8px;
+  color: #4f6659;
+  font-size: 1.03rem;
+  line-height: 1.55;
+}
+
+.our-forest__location {
+  color: var(--forest-green) !important;
+  font-size: 1.25rem !important;
+  font-weight: 600;
+}
+
+.our-forest__tree-nation-link {
+  margin-top: 16px;
+}
+
+.our-forest__button {
+  display: inline-flex;
+  min-height: 46px;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 0 22px;
+  border: 1px solid var(--forest-green);
+  border-radius: 999px;
+  background: var(--forest-green);
+  color: #fffdf7;
+  font: 700 .84rem/1 Arial, Helvetica, sans-serif;
+  letter-spacing: .025em;
+}
+
+.our-forest__participate {
+  background: #1c3024;
+  color: #fffdf7;
+}
+
+.our-forest__participate-content {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(250px, .7fr);
+  align-items: center;
+  gap: clamp(32px, 6vw, 72px);
+  width: min(1160px, calc(100% - 64px));
+  margin-inline: auto;
+  padding-block: 48px;
+}
+
+.our-forest__participate-copy h2 {
+  max-width: 720px;
+  margin: 0 0 16px;
+  font-size: clamp(2.4rem, 4.3vw, 4rem);
+  font-weight: 500;
+  letter-spacing: -.045em;
+  line-height: 1.02;
+}
+
+.our-forest__participate-copy > p {
+  margin: 0 0 3px;
+  color: rgba(255, 253, 247, .9);
+  font-size: 1.04rem;
+  line-height: 1.45;
+}
+
+.our-forest__participate-copy .our-forest__just-take-part {
+  margin-top: 6px;
+  color: #fffdf7;
+  font-size: 1.25rem;
+}
+
+.our-forest__participate-copy ul {
+  display: grid;
+  gap: 6px;
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.our-forest__participate-copy li {
+  font: 1rem/1.4 Georgia, "Times New Roman", serif;
+}
+
+.our-forest__participate-copy li a {
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 253, 247, .44);
+  text-underline-offset: 4px;
+}
+
+.our-forest__participate-copy li a:hover {
+  text-decoration-color: currentColor;
+}
+
+.our-forest__participate-copy .our-forest__commitment {
+  max-width: 600px;
+  margin-top: 16px;
+  color: #fffdf7;
+  font: 600 clamp(1.1rem, 1.8vw, 1.4rem)/1.4 Georgia, "Times New Roman", serif;
+}
+
+.our-forest__sequence {
+  display: grid;
+  justify-items: center;
+  color: #fffdf7;
+  text-align: center;
+}
+
+.our-forest__sequence p {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+}
+
+.our-forest__sequence strong {
+  font-size: clamp(2.25rem, 4vw, 3.5rem);
+  font-weight: 500;
+  letter-spacing: -.04em;
+  line-height: 1;
+}
+
+.our-forest__sequence span:not(.our-forest__sequence-arrow) {
+  color: rgba(255, 253, 247, .78);
+  font: 800 .7rem/1.5 Arial, Helvetica, sans-serif;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+
+.our-forest__sequence-arrow {
+  display: block;
+  margin: 5px 0;
+  color: #d4ca91;
+  font: 1.25rem/1 Arial, Helvetica, sans-serif;
+}
+
+.our-forest__world {
+  display: grid;
+  grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr);
+  align-items: center;
+  gap: clamp(28px, 5vw, 64px);
+}
+
+.our-forest__world-location {
+  display: grid;
+  gap: 6px;
+  padding: 24px 28px;
+  border-left: 1px solid rgba(24, 56, 46, .2);
+  background: #f1eee4;
+  color: var(--forest-green);
+}
+
+.our-forest__world-location span {
+  font: 800 .72rem/1.45 Arial, Helvetica, sans-serif;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.our-forest__world-location strong {
+  font-size: clamp(2.3rem, 3.5vw, 3.5rem);
+  font-weight: 500;
+  letter-spacing: -.045em;
+  line-height: 1;
+}
+
+.our-forest__evidence {
+  border-top: 1px solid rgba(24, 56, 46, .13);
+}
+
+.our-forest__evidence-copy {
+  max-width: 760px;
+}
+
+.our-forest__closing {
+  position: relative;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding: 54px 0;
+  background: #26382d;
+  color: #fffdf7;
+}
+
+.our-forest__closing-image {
+  background: url("/forest-crossroads-temporary.jpg") center 56% / cover no-repeat;
+}
+
+.our-forest__closing-shade {
+  background: linear-gradient(90deg, rgba(11, 24, 16, .72), rgba(11, 24, 16, .2));
+}
+
+.our-forest__closing p {
+  position: relative;
+  z-index: 1;
+  width: min(1160px, calc(100% - 64px));
+  margin: 0 auto;
+  font-size: clamp(2.2rem, 5vw, 4.5rem);
+  font-style: italic;
+  line-height: 1.14;
+}
+
+.our-forest__origin {
+  display: block;
+  margin-top: 18px;
+  color: rgba(255, 253, 247, .78);
+  font: 700 .68rem/1.5 Arial, Helvetica, sans-serif;
+  letter-spacing: .04em;
+}
+
+@media (max-width: 760px) {
+  .our-forest__hero {
+    padding-block: 42px;
+  }
+
+  .our-forest__hero-copy {
+    width: min(100% - 40px, 600px);
+  }
+
+  .our-forest__hero-headline-line {
+    display: inline;
+  }
+
+  .our-forest__hero h1 {
+    font-size: clamp(2.4rem, 8vw, 3.6rem);
+  }
+
+  .our-forest__founding,
+  .our-forest__world,
+  .our-forest__evidence,
+  .our-forest__participate-content {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    width: min(100% - 40px, 640px);
+    padding-block: 36px;
+  }
+
+  .our-forest__world-location {
+    padding: 20px 24px;
+  }
+
+  .our-forest__sequence {
+    gap: 0;
+  }
+
+  .our-forest__sequence strong {
+    font-size: clamp(1.9rem, 7vw, 2.6rem);
+  }
+
+  .our-forest__sequence span:not(.our-forest__sequence-arrow) {
+    font-size: .58rem;
+    letter-spacing: .08em;
+  }
+
+  .our-forest__sequence-arrow {
+    margin: 3px 0;
+  }
+
+  .our-forest__closing {
+    padding-block: 42px;
+  }
+
+  .our-forest__closing p {
+    width: min(100% - 40px, 640px);
+  }
+}
+
+@media (max-width: 420px) {
+  .our-forest__hero-copy,
+  .our-forest__founding,
+  .our-forest__world,
+  .our-forest__evidence,
+  .our-forest__participate-content {
+    width: calc(100% - 36px);
+  }
+
+  .our-forest__hero h1 {
+    font-size: clamp(2.3rem, 9.5vw, 2.8rem);
+  }
+
+  .our-forest__sequence {
+    gap: 4px;
+  }
+
+  .our-forest__sequence strong {
+    font-size: 1.45rem;
+  }
+
+  .our-forest__sequence span:not(.our-forest__sequence-arrow) {
+    font-size: .5rem;
+  }
+}

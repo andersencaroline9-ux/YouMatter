@@ -110,6 +110,13 @@
   color: #68786f;
 }
 
+.site-footer__identity .site-footer__establishment {
+  margin-top: 14px;
+  color: #78847d;
+  font-size: 0.75rem;
+  letter-spacing: 0.015em;
+}
+
 .site-footer__navigation {
   display: flex;
   gap: clamp(42px, 8vw, 112px);
@@ -164,6 +171,13 @@
 
 .forest-home__header .site-nav__mobile-toggle {
   border-color: rgba(255, 255, 255, 0.75);
+}
+
+@media (min-width: 701px) and (max-width: 900px) {
+  .site-nav__links {
+    gap: 14px;
+    font-size: 0.84rem;
+  }
 }
 
 @media (max-width: 700px) {

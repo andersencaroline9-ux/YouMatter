@@ -1,6 +1,7 @@
 import Link from "next/link";
 import SiteHeader from "../components/site-header";
 import ImpactBarometer from "../components/impact-barometer";
+import HomeForestStatus from "../components/home-forest-status";
 import "./home-approved.css";
 
 const adventures = [
@@ -26,11 +27,11 @@ const adventures = [
     description: "Choose three strengths you recognise in yourself.",
   },
   {
-    title: "Give Yourself Permission to Dream",
+    title: "The River of Dreams",
     href: "/dream",
     image: "dream",
-    tagline: "Before you ask whether it’s possible, ask what you want.",
-    description: "Put one dream into words and add it to the River of Dreams.",
+    tagline: "Give yourself permission to dream.",
+    description: "Before you ask whether it’s possible, ask what you want.",
   },
 ];
 
@@ -42,13 +43,14 @@ export default function Home() {
         <section className="approved-hero" aria-labelledby="home-title">
           <div className="approved-hero__content">
             <h1 id="home-title">YOU MATTER.</h1>
-            <p>Don't you waste it.</p>
+            <p>Don&apos;t you waste it.</p>
             <p className="approved-hero__tagline">Small adventures inspired by the science of living well.</p>
             <p className="approved-hero__description">
               Try gratitude, kindness, strengths, dreams and nature — and add your experience to something we’re creating together.
             </p>
             <a href="#adventures">Choose an adventure <span aria-hidden="true">→</span></a>
           </div>
+          <HomeForestStatus />
         </section>
 
         <section className="approved-why" aria-labelledby="home-why-title">
@@ -114,7 +116,10 @@ export default function Home() {
         <ImpactBarometer />
 
         <footer className="approved-closing" aria-label="Our shared purpose">
-          <p>You matter. We matter. What we do matters.</p>
+          <p>
+            You Matter. We Matter. What we do matters.
+            <span>We Matter - Established October 2026</span>
+          </p>
         </footer>
       </main>
     </>
