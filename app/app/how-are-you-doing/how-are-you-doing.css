@@ -21,7 +21,7 @@
 .how-are-you-doing__checkin {
   padding: clamp(42px, 6vw, 78px) 0;
   background:
-    linear-gradient(90deg, rgba(9, 25, 17, .78), rgba(9, 25, 17, .5) 48%, rgba(9, 25, 17, .12)),
+    linear-gradient(90deg, rgba(9, 25, 17, .58) 0%, rgba(9, 25, 17, .46) 34%, rgba(9, 25, 17, .24) 58%, rgba(9, 25, 17, .08) 82%, rgba(9, 25, 17, .02) 100%),
     url("/forest-crossroads-temporary.jpg") center 53% / cover no-repeat;
 }
 
@@ -475,6 +475,12 @@
 }
 
 @media (max-width: 900px) {
+  .how-are-you-doing__checkin {
+    background:
+      linear-gradient(180deg, rgba(9, 25, 17, .58) 0%, rgba(9, 25, 17, .5) 40%, rgba(9, 25, 17, .34) 56%, rgba(9, 25, 17, .12) 76%, rgba(9, 25, 17, .03) 100%),
+      url("/forest-crossroads-temporary.jpg") center 53% / cover no-repeat;
+  }
+
   .how-are-you-doing .home-checkin {
     grid-template-columns: minmax(0, 1fr);
     grid-template-areas:
