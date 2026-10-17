@@ -3,6 +3,10 @@ import { and, desc, eq } from "drizzle-orm";
 import { getDb } from "../../../db";
 import { natureEntries } from "../../../db/schema";
 import {
+  NATURE_MOSAIC_PUBLIC_ENABLED,
+  natureMosaicDisabledResponse,
+} from "../../../lib/nature-mosaic-flag";
+import {
   createVisitorSubmissionIdentity,
   getVisitorTokenHash,
   privateVisitorJson,
@@ -23,6 +27,7 @@ function validImage(bytes: Uint8Array) {
 }
 
 export async function GET(request: Request) {
+  if (!NATURE_MOSAIC_PUBLIC_ENABLED) return natureMosaicDisabledResponse();
   try {
     const db = getDb();
     const approved = await db
@@ -84,6 +89,7 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
+  if (!NATURE_MOSAIC_PUBLIC_ENABLED) return natureMosaicDisabledResponse();
   let objectKey = "";
   try {
     const form = await request.formData();

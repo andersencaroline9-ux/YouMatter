@@ -1,7 +1,11 @@
+import { redirect } from "next/navigation";
 import AdventureShell from "../../components/adventure-shell";
 import NaturePractice from "../../components/nature-practice";
+import { NATURE_MOSAIC_PUBLIC_ENABLED } from "../../lib/nature-mosaic-flag";
 
 export default function NaturePage() {
+  if (!NATURE_MOSAIC_PUBLIC_ENABLED) redirect("/");
+
   return (
     <AdventureShell
       title="The Nature Mosaic"

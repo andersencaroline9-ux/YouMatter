@@ -2,12 +2,17 @@ import { env } from "cloudflare:workers";
 import { and, eq, or } from "drizzle-orm";
 import { getDb } from "../../../../../db";
 import { natureEntries } from "../../../../../db/schema";
+import {
+  NATURE_MOSAIC_PUBLIC_ENABLED,
+  natureMosaicDisabledResponse,
+} from "../../../../../lib/nature-mosaic-flag";
 import { getVisitorTokenHash } from "../../../../../lib/visitor-submissions";
 
 export async function GET(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  if (!NATURE_MOSAIC_PUBLIC_ENABLED) return natureMosaicDisabledResponse();
   const { id } = await params;
   const numericId = Number(id);
   if (!Number.isInteger(numericId)) {

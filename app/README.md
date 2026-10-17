@@ -10,7 +10,9 @@ From this directory, run `pnpm dev` and open <http://localhost:5173/>.
 The public adventures are at `/gratitude` (Gratitude Garden), `/kindness`
 (The Kindness Tree), `/strengths` (The Strengths We Bring), `/dream` (Give
 Yourself Permission to Dream), and `/live-adventure` (RECONNECT — 30 Days in
-Nature). The separate Nature Mosaic practice remains at `/nature`. Header and
+Nature). The separate Nature Mosaic practice is disabled for launch (`/nature` redirects
+to `/` and its public APIs return 404); re-enable it with
+`NATURE_MOSAIC_PUBLIC_ENABLED` in `lib/nature-mosaic-flag.ts`. Header and
 back links return to this app's homepage. The development server binds to
 loopback.
 
