@@ -2,8 +2,10 @@
 
 You Matter is a warm, evidence-informed wellbeing project about how small,
 repeatable actions can contribute to visible collective change. Its guiding
-idea is **“You Matter. But this isn't about you.”** The three adventures are
-Gratitude Garden, Nature Mosaic, and Built From Kindness.
+idea is **“You Matter. But this isn't about you.”** The current public
+adventures are Gratitude Garden, The Kindness Tree, The Strengths We Bring,
+Give Yourself Permission to Dream, and the paid RECONNECT — 30 Days in Nature.
+The app also retains the separate Nature Mosaic practice.
 
 ## Which website is authoritative?
 

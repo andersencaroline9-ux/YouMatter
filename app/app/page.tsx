@@ -12,7 +12,7 @@ const adventures = [
     description: "Plant three things you’re grateful for.",
   },
   {
-    title: "Built From Kindness",
+    title: "The Kindness Tree",
     href: "/kindness",
     image: "kindness",
     tagline: "Notice how kindness moves between us.",
@@ -26,11 +26,11 @@ const adventures = [
     description: "Choose three strengths you recognise in yourself.",
   },
   {
-    title: "RECONNECT",
-    href: "/live-adventure",
-    image: "nature",
-    tagline: "30 days in nature.",
-    description: "Go outside alone. Come back with something to share.",
+    title: "Give Yourself Permission to Dream",
+    href: "/dream",
+    image: "dream",
+    tagline: "Before you ask whether it’s possible, ask what you want.",
+    description: "Put one dream into words and add it to the River of Dreams.",
   },
 ];
 
@@ -45,7 +45,7 @@ export default function Home() {
             <p>You matter. We matter. What we do matters.</p>
             <p className="approved-hero__tagline">Small adventures inspired by the science of living well.</p>
             <p className="approved-hero__description">
-              Try gratitude, kindness, strengths and nature — and add your experience to something we’re creating together.
+              Try gratitude, kindness, strengths, dreams and nature — and add your experience to something we’re creating together.
             </p>
             <a href="#adventures">Choose an adventure <span aria-hidden="true">→</span></a>
           </div>
@@ -65,6 +65,7 @@ export default function Home() {
         <section className="approved-adventures" id="adventures" aria-labelledby="home-adventures-title">
           <div className="approved-adventures__heading">
             <h2 id="home-adventures-title">Choose an adventure</h2>
+            <p>Small interactive experiences inspired by the science of living well.</p>
           </div>
           <div className="approved-adventures__grid">
             {adventures.map((adventure) => (
@@ -82,6 +83,32 @@ export default function Home() {
               </article>
             ))}
           </div>
+          <h2 className="approved-reconnect__heading">Want to go further?</h2>
+          <p className="approved-reconnect__supporting">
+            A 30-day guided experience combining nature, reflection and connection.
+          </p>
+          <article className="approved-reconnect">
+            <Link
+              className="approved-reconnect__image"
+              href="/live-adventure"
+              aria-label="Explore RECONNECT"
+            />
+            <div className="approved-reconnect__content">
+              <h3>RECONNECT</h3>
+              <p className="approved-reconnect__subtitle">30 Days in Nature</p>
+              <p className="approved-reconnect__facts">
+                10 PEOPLE <span aria-hidden="true">·</span> 30 DAYS{" "}
+                <span aria-hidden="true">·</span> 30 MINUTES A DAY{" "}
+                <span aria-hidden="true">·</span> $44
+              </p>
+              <p className="approved-reconnect__description">
+                Go outside alone. Come back with something to share.
+              </p>
+              <Link className="approved-reconnect__link" href="/live-adventure">
+                Explore RECONNECT <span aria-hidden="true">→</span>
+              </Link>
+            </div>
+          </article>
         </section>
 
         <ImpactBarometer />

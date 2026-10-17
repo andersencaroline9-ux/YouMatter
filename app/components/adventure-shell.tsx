@@ -5,7 +5,7 @@ import SiteHeader from "./site-header";
 type Source = { label: string; href: string };
 
 type AdventureShellProps = {
-  number: string;
+  number?: string;
   title: string;
   subtitle?: string;
   why?: string;
@@ -84,7 +84,7 @@ export default function AdventureShell({
     <main>
       <section className="adventure-hero">
         <div className="shell">
-          <p className="eyebrow">Adventure {number}</p>
+          {number && <p className="eyebrow">Adventure {number}</p>}
           <h1>{title}</h1>
           {heroContent ?? (subtitle && <p>{subtitle}</p>)}
         </div>

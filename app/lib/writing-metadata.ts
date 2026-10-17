@@ -101,7 +101,7 @@ export const writingPieces = [
     chapter: 4,
     chapterOrder: 1,
     explore: ["the-little-conversations-that-connect-us", "the-little-connections-between-us"],
-    adventures: [{ label: "Built From Kindness", href: "/kindness" }],
+    adventures: [{ label: "The Kindness Tree", href: "/kindness" }],
   },
   {
     number: 7,
@@ -122,7 +122,7 @@ export const writingPieces = [
     chapter: 2,
     chapterOrder: 5,
     explore: ["i-am-so-very-grateful", "the-little-conversations-that-connect-us"],
-    adventures: [{ label: "Built From Kindness", href: "/kindness" }],
+    adventures: [{ label: "The Kindness Tree", href: "/kindness" }],
   },
   {
     number: 9,
@@ -184,7 +184,7 @@ export const writingPieces = [
     chapter: 4,
     chapterOrder: 2,
     explore: ["the-little-connections-between-us", "the-kindness-of-strangers"],
-    adventures: [{ label: "Built From Kindness", href: "/kindness" }],
+    adventures: [{ label: "The Kindness Tree", href: "/kindness" }],
   },
   {
     number: 15,
@@ -217,7 +217,7 @@ export const writingPieces = [
     chapter: 4,
     chapterOrder: 3,
     explore: ["the-little-conversations-that-connect-us", "the-kindness-of-strangers"],
-    adventures: [{ label: "Built From Kindness", href: "/kindness" }],
+    adventures: [{ label: "The Kindness Tree", href: "/kindness" }],
   },
   {
     number: 18,

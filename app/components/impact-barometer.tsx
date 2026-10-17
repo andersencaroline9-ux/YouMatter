@@ -16,8 +16,10 @@ export default function ImpactBarometer() {
       <div className="approved-impact__content">
         <h2 id="home-impact-title">Your small action becomes<br />{" "}part of something bigger.</h2>
         <p className="approved-impact__intro">
-          Every gratitude you plant, kindness you notice and set of strengths you recognise joins contributions from other people.
-          Together, they create the gardens, trees and landscapes you see here.
+          Whether it’s gratitude planted, kindness noticed, a strength
+          recognised or a dream shared, each contribution adds to what others
+          have shared. Together, these contributions become the gardens, trees,
+          landscapes and river you see here.
         </p>
         {!impact ? (
           <p className="approved-impact__status" role="status">

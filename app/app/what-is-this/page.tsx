@@ -12,7 +12,18 @@ const ideas = [
   "Meaning",
 ];
 
-const adventures = [
+type AdventureCard = {
+  href: string;
+  title: string;
+  idea: string;
+  description: string;
+  image: string;
+  flower?: string;
+  imageClass?: string;
+  alt: string;
+};
+
+const adventures: AdventureCard[] = [
   {
     href: "/gratitude",
     title: "Gratitude Garden",
@@ -24,7 +35,7 @@ const adventures = [
   },
   {
     href: "/kindness",
-    title: "Built From Kindness",
+    title: "The Kindness Tree",
     idea: "An act of kindness becomes a leaf.",
     description: "Share a real act of kindness and add a leaf to our tree.",
     image: "/kindness-tree.png",
@@ -37,6 +48,15 @@ const adventures = [
     description: "Choose three strengths and add a stone to our wall.",
     image: "/strengths-shelter.png",
     alt: "A woodland shelter built from branches, the current shared Strengths image.",
+  },
+  {
+    href: "/dream",
+    title: "Give Yourself Permission to Dream",
+    idea: "A dream becomes a stone in the river.",
+    description: "Put one dream into words and add it to the River of Dreams.",
+    image: "/dream-stone-01.png",
+    imageClass: "what-is-this__adventure-image--dream",
+    alt: "A photographic Dream Stone from the River of Dreams.",
   },
 ];
 
@@ -94,27 +114,38 @@ export default function WhatIsThisPage() {
 
         <section className="what-is-this__adventures" aria-label="The adventures">
           <div className="shell what-is-this__adventure-list">
-            {adventures.map(({ href, title, idea, description, image, flower, alt }) => (
-              <article className="what-is-this__adventure" key={href}>
-                <Link
-                  className="what-is-this__adventure-image"
-                  href={href}
-                  aria-label={`Explore ${title}`}
-                >
-                  <img src={image} alt={alt} />
-                  {flower && (
-                    <img
-                      className="what-is-this__adventure-flower"
-                      src={flower}
-                      alt=""
-                    />
-                  )}
-                </Link>
-                <h3><Link href={href}>{title}</Link></h3>
-                <p className="what-is-this__adventure-idea">{idea}</p>
-                <p>{description}</p>
-              </article>
-            ))}
+            {adventures.map(
+              ({
+                href,
+                title,
+                idea,
+                description,
+                image,
+                flower,
+                imageClass,
+                alt,
+              }) => (
+                <article className="what-is-this__adventure" key={href}>
+                  <Link
+                    className={`what-is-this__adventure-image${imageClass ? ` ${imageClass}` : ""}`}
+                    href={href}
+                    aria-label={`Explore ${title}`}
+                  >
+                    <img src={image} alt={alt} />
+                    {flower && (
+                      <img
+                        className="what-is-this__adventure-flower"
+                        src={flower}
+                        alt=""
+                      />
+                    )}
+                  </Link>
+                  <h3><Link href={href}>{title}</Link></h3>
+                  <p className="what-is-this__adventure-idea">{idea}</p>
+                  <p>{description}</p>
+                </article>
+              )
+            )}
           </div>
         </section>
 
@@ -160,11 +191,12 @@ export default function WhatIsThisPage() {
               </p>
             </div>
             <p className="what-is-this__impact-detail">
-              Every 50 eligible approved contributions across Gratitude Garden,
-              Kindness and Strengths, You Matter commits to funding the planting
-              of one tree. Each approved contribution counts once: a
-              three-message Gratitude form, one Kindness story, or a
-              three-strength Strengths form.
+              We commit to funding one tree for every 50 eligible approved
+              contributions shared across Gratitude Garden, The Kindness Tree,
+              The Strengths We Bring and Give Yourself Permission to Dream.
+              Each eligible approved form counts once: a
+              three-message Gratitude submission, one Kindness story, a
+              three-strength Strengths submission, or one Dream Stone.
             </p>
           </div>
         </section>

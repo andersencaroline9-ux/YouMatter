@@ -15,7 +15,7 @@ export default function PhysicalImpact({
     <div className="impact-copy">
       <p className="eyebrow">From digital seeds to real roots</p>
       <h2>Every {CONTRIBUTIONS_PER_TREE} approved contributions help fund one tree.</h2>
-      <p>Across Gratitude, Kindness and Strengths, each approved contribution becomes part of something larger. We commit to funding one tree for every {CONTRIBUTIONS_PER_TREE} eligible contributions.</p>
+      <p>Each approved contribution from Gratitude, Kindness, Strengths or Dream becomes part of something larger. We commit to funding one tree for every {CONTRIBUTIONS_PER_TREE} eligible contributions.</p>
       <p>Contributions earn a commitment. Trees are counted as planted only after planting has been confirmed.</p>
     </div>
     <div className="impact-meter" aria-live="polite">

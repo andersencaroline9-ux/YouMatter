@@ -1,5 +1,4 @@
 .dream-page {
-  --dream-stream-image: none;
   background: var(--cream);
   color: var(--ink);
 }
@@ -19,15 +18,7 @@
   position: absolute;
   z-index: 0;
   inset: 0;
-  background:
-    var(--dream-stream-image),
-    radial-gradient(ellipse at 49% 96%, rgba(207, 222, 204, .52), transparent 21%),
-    radial-gradient(ellipse at 67% 86%, rgba(126, 161, 145, .58), transparent 34%),
-    radial-gradient(ellipse at 30% 79%, rgba(86, 127, 111, .58), transparent 32%),
-    linear-gradient(155deg, #243b31 0%, #456456 42%, #879f90 69%, #344f44 100%);
-  background-position: center, center, center, center, center;
-  background-size: cover, auto, auto, auto, auto;
-  background-repeat: no-repeat;
+  background: url("/dream-river-hero.png") center 56% / cover no-repeat;
 }
 
 .dream-hero__shade {
@@ -35,23 +26,8 @@
   z-index: 1;
   inset: 0;
   background:
-    linear-gradient(90deg, rgba(13, 28, 22, .73), rgba(13, 28, 22, .26) 73%),
-    linear-gradient(0deg, rgba(15, 31, 24, .38), transparent 50%);
-}
-
-.dream-hero::after {
-  position: absolute;
-  z-index: 1;
-  right: -8%;
-  bottom: -37%;
-  left: -8%;
-  height: 63%;
-  border-radius: 48% 52% 0 0;
-  background:
-    radial-gradient(ellipse at 48% 0%, rgba(236, 242, 222, .33), transparent 48%),
-    linear-gradient(180deg, rgba(156, 185, 171, .62), rgba(62, 100, 87, .55));
-  content: "";
-  transform: rotate(-2deg);
+    linear-gradient(90deg, rgba(13, 28, 22, .58) 0%, rgba(13, 28, 22, .34) 42%, rgba(13, 28, 22, .04) 100%),
+    linear-gradient(0deg, rgba(15, 31, 24, .16), transparent 52%);
 }
 
 .dream-hero__content {
@@ -77,20 +53,6 @@
   margin: 0 0 30px;
   color: rgba(255, 253, 247, .9);
   font: 1.2rem/1.7 Georgia, "Times New Roman", serif;
-}
-
-.dream-hero__note {
-  position: absolute;
-  right: 24px;
-  bottom: 18px;
-  max-width: min(390px, calc(100% - 32px));
-  padding: 6px 9px;
-  border-radius: 4px;
-  background: rgba(255, 253, 247, .86);
-  color: var(--deep);
-  font-size: .72rem;
-  letter-spacing: .02em;
-  line-height: 1.4;
 }
 
 .dream-local-nav {
@@ -122,8 +84,26 @@
   margin-inline: auto;
 }
 
+.dream-arrival {
+  padding: clamp(38px, 5vw, 64px) 0 clamp(16px, 1.5vw, 22px);
+}
+
+.dream-arrival p,
+.dream-interruption > .shell > p:not(.eyebrow, .dream-but-pause) {
+  margin: 0 0 15px;
+  color: #526a5d;
+  font: 1.08rem/1.7 Georgia, "Times New Roman", serif;
+}
+
+.dream-arrival .dream-arrival__last {
+  margin: 24px 0 0;
+  color: var(--deep);
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
 .dream-interruption {
-  padding: clamp(76px, 11vw, 144px) 0;
+  padding: clamp(16px, 1.7vw, 24px) 0 clamp(52px, 6vw, 72px);
   scroll-margin-top: 30px;
 }
 
@@ -139,33 +119,28 @@
 }
 
 .dream-interruption h2 {
-  margin: 14px 0 32px;
+  margin: 8px 0 18px;
+}
+
+.dream-interruption > .shell > p:not(.eyebrow) {
+  max-width: 700px;
+  margin-bottom: 8px;
+  line-height: 1.55;
 }
 
 .dream-but-list {
   display: grid;
-  gap: 8px;
-  margin: 0 0 34px;
+  gap: 3px;
+  margin: 0 0 18px;
   padding: 0;
   color: #65766b;
-  font: 500 clamp(1.2rem, 2.5vw, 1.65rem)/1.5 Georgia, "Times New Roman", serif;
+  font: italic 500 clamp(1.2rem, 2.5vw, 1.65rem)/1.32 Georgia, "Times New Roman", serif;
   list-style: none;
 }
 
-.dream-but-list li:nth-child(2) {
-  padding-left: clamp(12px, 5vw, 48px);
-}
-
-.dream-but-list li:nth-child(3) {
-  padding-left: clamp(24px, 10vw, 96px);
-}
-
-.dream-but-list li:nth-child(4) {
-  padding-left: clamp(8px, 3vw, 32px);
-}
-
-.dream-but-pause {
-  margin: 0 0 30px;
+.dream-interruption > .shell > .dream-but-pause {
+  max-width: 680px;
+  margin: 14px 0 16px;
   color: var(--deep);
   font: 600 clamp(1.25rem, 2.8vw, 1.9rem)/1.45 Georgia, "Times New Roman", serif;
   letter-spacing: -.015em;
@@ -196,9 +171,9 @@
 }
 
 .dream-why__questions {
-  margin: 24px 0;
+  margin: 12px 0;
   color: var(--deep);
-  font: 500 clamp(1.35rem, 3vw, 1.9rem)/1.5 Georgia, "Times New Roman", serif;
+  font: 500 clamp(1.35rem, 3vw, 1.9rem)/1.3 Georgia, "Times New Roman", serif;
 }
 
 .dream-why__questions p {
@@ -206,7 +181,7 @@
 }
 
 .dream-why__questions p + p {
-  padding-left: clamp(22px, 7vw, 70px);
+  padding-left: clamp(8px, 1.5vw, 16px);
   color: #718076;
 }
 
@@ -298,8 +273,45 @@
   margin: 0 0 24px;
 }
 
+.dream-reflection .dream-reflection__title {
+  margin-bottom: 12px;
+}
+
+.dream-reflection__intro {
+  margin: 0 0 5px;
+  color: #526a5d;
+  font: 1.08rem/1.7 Georgia, "Times New Roman", serif;
+}
+
+.dream-reflection .dream-reflection__intro + .dream-private-note {
+  margin-top: 0;
+  margin-bottom: 34px;
+}
+
+.dream-reflection h3 {
+  margin: 0 0 24px;
+  color: var(--deep);
+  font: 500 clamp(1.65rem, 3.5vw, 2.4rem)/1.2 Georgia, "Times New Roman", serif;
+  letter-spacing: -.025em;
+  text-wrap: balance;
+}
+
 .dream-reflection h2:focus {
   outline: none;
+}
+
+.dream-reflection h3:focus {
+  outline: none;
+}
+
+.dream-reflection__closing {
+  margin-top: 20px;
+  color: #526a5d;
+  font: 1rem/1.65 Georgia, "Times New Roman", serif;
+}
+
+.dream-reflection__closing p {
+  margin: 0 0 8px;
 }
 
 .dream-reflection textarea,
@@ -376,6 +388,31 @@
   padding: clamp(68px, 10vw, 120px) 0;
   background: #e8eee5;
   scroll-margin-top: 25px;
+}
+
+.dream-transition {
+  padding: clamp(76px, 11vw, 138px) 0;
+  background: #f4f0e4;
+  scroll-margin-top: 25px;
+}
+
+.dream-transition .eyebrow {
+  margin-bottom: 25px;
+  color: var(--deep);
+  font: 700 .86rem/1.5 Arial, Helvetica, sans-serif;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.dream-transition p:not(.eyebrow) {
+  max-width: 680px;
+  margin: 0 0 15px;
+  color: #526a5d;
+  font: 1.15rem/1.7 Georgia, "Times New Roman", serif;
+}
+
+.dream-transition .dream-button {
+  margin-top: 20px;
 }
 
 .dream-section-heading {
@@ -531,6 +568,13 @@
   text-transform: none;
 }
 
+.dream-create .dream-create__stone-title {
+  margin: 34px 0 16px;
+  color: var(--deep);
+  font: 500 clamp(1.8rem, 4vw, 2.7rem)/1.12 Georgia, "Times New Roman", serif;
+  letter-spacing: -.035em;
+}
+
 .dream-create__copy > p:not(.eyebrow) {
   margin: 0 0 8px;
   color: #526a5d;
@@ -573,6 +617,21 @@
 
 .dream-create .dream-prototype-privacy {
   margin: 12px 0 18px;
+}
+
+.dream-throw-words {
+  margin: 22px 0;
+  color: #526a5d;
+  font: 1rem/1.6 Georgia, "Times New Roman", serif;
+}
+
+.dream-throw-words p {
+  margin: 0 0 3px;
+}
+
+.dream-throw-words p:first-child {
+  color: var(--deep);
+  font-weight: 600;
 }
 
 .dream-stone-preview {
@@ -734,6 +793,24 @@
   font: 500 clamp(1.35rem, 3vw, 1.8rem)/1.4 Georgia, "Times New Roman", serif;
 }
 
+.dream-psychology__questions {
+  margin: 20px 0 24px;
+  color: #526a5d;
+  font: 1.08rem/1.8 Georgia, "Times New Roman", serif;
+}
+
+.dream-psychology__questions p {
+  margin: 0;
+}
+
+.dream-psychology__motto {
+  margin-top: 40px !important;
+  color: var(--deep) !important;
+  font: 700 .86rem/1.5 Arial, Helvetica, sans-serif !important;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
 .dream-psychology__ideal {
   margin-top: 58px;
 }
@@ -761,6 +838,10 @@
   color: #526a5d;
   font-size: .9rem;
   line-height: 1.65;
+}
+
+.dream-psychology__references a {
+  overflow-wrap: anywhere;
 }
 
 .dream-psychology__references > p {

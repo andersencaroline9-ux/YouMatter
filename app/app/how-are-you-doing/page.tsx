@@ -243,7 +243,7 @@ export default function HowAreYouDoingPage() {
                 Recognising kindness and connection
               </span>
               <span className="how-are-you-doing__pathway-title">
-                Built From Kindness <span aria-hidden="true">→</span>
+                The Kindness Tree <span aria-hidden="true">→</span>
               </span>
             </Link>
             <Link href="/strengths" className="how-are-you-doing__pathway">

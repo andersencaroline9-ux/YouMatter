@@ -7,7 +7,6 @@ import ImpactBarometer from "../../components/impact-barometer";
 export default function KindnessPage() {
   return (
     <AdventureShell
-      number="03"
       title="The Kindness Tree"
       discovery={<KindnessDiscovery />}
       heroContent={
@@ -51,7 +50,7 @@ export default function KindnessPage() {
             between the activity groups.
           </p>
           <p>
-            This is one reason Built From Kindness includes kindness you have
+            This is one reason The Kindness Tree includes kindness you have
             witnessed as well as kindness you have given or received.
           </p>
           <p>

@@ -7,10 +7,12 @@ does not replace the separate GitHub Pages homepage at the repository root.
 
 From this directory, run `pnpm dev` and open <http://localhost:5173/>.
 
-The adventures are at `/gratitude` (Gratitude Garden), `/nature` (Nature
-Mosaic), `/kindness` (The Kindness Tree), `/strengths` (The Strengths We Bring),
-and `/live-adventure` (RECONNECT — 30 Days in Nature). Header and back links
-return to this app's homepage. The development server binds to loopback.
+The public adventures are at `/gratitude` (Gratitude Garden), `/kindness`
+(The Kindness Tree), `/strengths` (The Strengths We Bring), `/dream` (Give
+Yourself Permission to Dream), and `/live-adventure` (RECONNECT — 30 Days in
+Nature). The separate Nature Mosaic practice remains at `/nature`. Header and
+back links return to this app's homepage. The development server binds to
+loopback.
 
 ## First-time local database setup
 

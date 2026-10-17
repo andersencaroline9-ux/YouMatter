@@ -123,7 +123,7 @@
 
 .what-is-this__adventure-list {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: clamp(18px, 3vw, 34px);
 }
 
@@ -149,6 +149,15 @@
   transition: transform .25s ease;
 }
 
+.what-is-this__adventure-image--dream {
+  background: linear-gradient(145deg, #b6d0c3 0%, #6e9b8c 48%, #315d58 100%);
+}
+
+.what-is-this__adventure-image--dream img {
+  padding: 14px;
+  object-fit: contain;
+}
+
 .what-is-this__adventure-image .what-is-this__adventure-flower {
   position: absolute;
   left: 23%;
@@ -157,6 +166,12 @@
   height: auto;
   object-fit: contain;
   filter: drop-shadow(0 3px 5px rgba(25, 39, 23, .32));
+}
+
+@media (max-width: 1100px) and (min-width: 561px) {
+  .what-is-this__adventure-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 .what-is-this__adventure-image:hover img {

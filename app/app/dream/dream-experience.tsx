@@ -67,35 +67,7 @@ type DreamStoneStyle = CSSProperties & {
   "--stone-mobile-size": string;
 };
 
-type FlowStage = "arrival" | "reflection" | "stream" | "dream" | "thrown";
-
-function isPublicDreamResponse(value: unknown): value is { dreams: string[] } {
-  return (
-    typeof value === "object" &&
-    value !== null &&
-    !Array.isArray(value) &&
-    "dreams" in value &&
-    Array.isArray(value.dreams) &&
-    value.dreams.every(
-      (dream) =>
-        typeof dream === "string" &&
-        dream.trim().length > 0 &&
-        dream.length <= 120
-    )
-  );
-}
-
-function isSuccessfulDreamSubmission(
-  value: unknown
-): value is { success: true } {
-  return (
-    typeof value === "object" &&
-    value !== null &&
-    !Array.isArray(value) &&
-    "success" in value &&
-    value.success === true
-  );
-}
+type FlowStage = "arrival" | "reflection" | "transition" | "stream" | "dream" | "thrown";
 
 function scrollToDreamElement(element: HTMLElement | null) {
   const behavior = window.matchMedia("(prefers-reduced-motion: reduce)").matches
@@ -111,20 +83,14 @@ export default function DreamExperience() {
     () => prompts.map(() => "")
   );
   const [selectedDream, setSelectedDream] = useState<number | null>(null);
-  const [riverDreams, setRiverDreams] = useState<string[]>(() =>
-    prototypeDreams.slice(0, streamStones.length)
-  );
-  const [riverUsesSamples, setRiverUsesSamples] = useState(true);
-  const [riverLoaded, setRiverLoaded] = useState(false);
-  const [riverError, setRiverError] = useState("");
+  const riverDreams = prototypeDreams.slice(0, streamStones.length);
   const [dream, setDream] = useState("");
   const [throwing, setThrowing] = useState(false);
-  const [submissionPending, setSubmissionPending] = useState(false);
-  const [submissionError, setSubmissionError] = useState("");
-  const submissionInFlight = useRef(false);
   const heroRef = useRef<HTMLElement>(null);
   const beginButtonRef = useRef<HTMLButtonElement>(null);
+  const arrivalRef = useRef<HTMLElement>(null);
   const interruptionRef = useRef<HTMLElement>(null);
+  const transitionRef = useRef<HTMLElement>(null);
   const promptRef = useRef<HTMLHeadingElement>(null);
   const streamRef = useRef<HTMLElement>(null);
   const dreamRef = useRef<HTMLElement>(null);
@@ -134,46 +100,13 @@ export default function DreamExperience() {
   const throwStageRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    if (stage !== "stream" || riverLoaded) return;
-    let active = true;
-    fetch("/api/dream", { cache: "no-store" })
-      .then(async (response) => {
-        const result: unknown = await response.json();
-        if (!response.ok || !isPublicDreamResponse(result)) {
-          throw new Error("The River of Dreams could not be loaded.");
-        }
-        return result;
-      })
-      .then((result) => {
-        if (!active) return;
-        if (result.dreams.length > 0) {
-          setRiverDreams(result.dreams.slice(0, streamStones.length));
-          setRiverUsesSamples(false);
-        }
-      })
-      .catch(() => {
-        if (active) {
-          setRiverError(
-            "The river could not be refreshed, so these prototype sample dreams are shown."
-          );
-        }
-      })
-      .finally(() => {
-        if (active) setRiverLoaded(true);
-      });
-    return () => {
-      active = false;
-    };
-  }, [stage, riverLoaded]);
-
-  useEffect(() => {
     if (selectedDream === null) return;
     selectedDreamHeadingRef.current?.focus();
     scrollToDreamElement(selectedDreamRef.current);
   }, [selectedDream]);
 
   function begin() {
-    scrollToDreamElement(interruptionRef.current);
+    scrollToDreamElement(arrivalRef.current);
   }
 
   function startReflection() {
@@ -186,8 +119,8 @@ export default function DreamExperience() {
 
   function advanceReflection(nextIndex: number) {
     if (nextIndex >= prompts.length) {
-      setStage("stream");
-      requestAnimationFrame(() => scrollToDreamElement(streamRef.current));
+      setStage("transition");
+      requestAnimationFrame(() => scrollToDreamElement(transitionRef.current));
       return;
     }
     if (nextIndex < 0) return;
@@ -198,11 +131,16 @@ export default function DreamExperience() {
     });
   }
 
+  function continueToRiver() {
+    setStage("stream");
+    requestAnimationFrame(() => scrollToDreamElement(streamRef.current));
+  }
+
   function continueToDream() {
     setStage("dream");
     setDream("");
     requestAnimationFrame(() => {
-      dreamRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      scrollToDreamElement(dreamRef.current);
       document.getElementById("dream-stone-input")?.focus();
     });
   }
@@ -228,44 +166,19 @@ export default function DreamExperience() {
     );
   }
 
-  async function throwDream(event: FormEvent<HTMLFormElement>) {
+  function throwDream(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const finalDream = dream.trim();
-    if (!finalDream || throwing || submissionPending || submissionInFlight.current) {
-      return;
-    }
-    submissionInFlight.current = true;
-    setSubmissionPending(true);
-    setSubmissionError("");
-    try {
-      const response = await fetch("/api/dream", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ dream: finalDream }),
+    if (!finalDream || throwing) return;
+    setDream(finalDream);
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setStage("thrown");
+      requestAnimationFrame(() => {
+        throwStageRef.current?.focus();
+        scrollToDreamElement(throwStageRef.current);
       });
-      const result: unknown = await response.json();
-      if (!response.ok || !isSuccessfulDreamSubmission(result)) {
-        throw new Error("The Dream Stone could not be shared.");
-      }
-
-      setDream(finalDream);
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        setStage("thrown");
-        requestAnimationFrame(() => {
-          throwStageRef.current?.focus();
-          scrollToDreamElement(throwStageRef.current);
-        });
-      } else {
-        setThrowing(true);
-      }
-    } catch (error) {
-      console.error("Unable to submit a Dream Stone.", error);
-      setSubmissionError(
-        "That dream could not reach the river just now. Your words are still here; please try again."
-      );
-    } finally {
-      setSubmissionPending(false);
-      submissionInFlight.current = false;
+    } else {
+      setThrowing(true);
     }
   }
 
@@ -291,9 +204,9 @@ export default function DreamExperience() {
         <div className="shell dream-hero__content">
           <p className="eyebrow">A You Matter adventure</p>
           <h1 id="dream-title">
-            Give yourself
+            Give Yourself
             <br />
-            permission to dream
+            Permission to Dream
           </h1>
           <p>Before you ask whether it’s possible, ask what you want.</p>
           <button
@@ -304,18 +217,32 @@ export default function DreamExperience() {
             Begin <span aria-hidden="true">→</span>
           </button>
         </div>
-        <span className="dream-hero__note">
-          Prototype landscape · a real Bornholm stream photograph is still needed
-        </span>
       </section>
 
       <nav className="dream-local-nav" aria-label="Dream adventure sections">
         <div className="shell">
-          <a href="#dream-title">The dream</a>
+          <a href="#dream-psychology">The why</a>
           <span aria-hidden="true">|</span>
-          <a href="#dream-interruption">Before you begin</a>
+          <a href="#dream-arrival">The practice</a>
         </div>
       </nav>
+
+      <section className="dream-arrival" id="dream-arrival" ref={arrivalRef}>
+        <div className="shell dream-narrow">
+          <p>
+            We spend a lot of time thinking about what is realistic.
+          </p>
+          <p>
+            What we can afford. What makes sense. What other people might
+            think. What we’re qualified for. What would fit around the life we
+            already have.
+          </p>
+          <p>Those things matter.</p>
+          <p>But they don’t have to be the first things we ask.</p>
+          <p>For the next few minutes, we’re going to try something different.</p>
+          <p className="dream-arrival__last">We’re going to dream first.</p>
+        </div>
+      </section>
 
       <section
         className="dream-interruption"
@@ -324,63 +251,34 @@ export default function DreamExperience() {
         aria-labelledby="dream-interruption-title"
       >
         <div className="shell dream-narrow">
-          <p className="eyebrow">Before you begin</p>
-          <h2 id="dream-interruption-title">
-            How quickly do you edit your own dreams?
-          </h2>
+          <p className="eyebrow">The practice</p>
+          <h2 id="dream-interruption-title">There’s often a “but”.</h2>
           <ul className="dream-but-list">
-            <li>I’d love to, but…</li>
-            <li>If money wasn’t an issue, but…</li>
-            <li>One day I’d like to, but…</li>
-            <li>That would be amazing, but…</li>
+            <li>I’d love to do that, but...</li>
+            <li>That would be amazing, except...</li>
+            <li>I’ve always wanted to, but...</li>
+            <li>Maybe one day, when...</li>
           </ul>
-          <p className="dream-but-pause">
-            For the next few minutes,
-            <br />
-            the “but” doesn’t get a vote.
+          <p>
+            We can become so good at editing our dreams that sometimes we do it
+            before we’ve even finished imagining them.
           </p>
-          <div className="dream-why">
-            <p className="eyebrow">The why</p>
-            <h3>Before you make the plan, dream.</h3>
-            <p>
-              When we think about changing our lives, two questions have a habit
-              of arriving together:
-            </p>
-            <div className="dream-why__questions">
-              <p>What do I want?</p>
-              <p>Is it possible?</p>
-            </div>
-            <p>
-              Sometimes the second question arrives so quickly that we never
-              really answer the first.
-            </p>
-            <ul className="dream-why__but-list">
-              <li>I’d love to, but…</li>
-              <li>That would be amazing, except…</li>
-              <li>Maybe one day, but…</li>
-            </ul>
-            <p>Coaching psychology offers another place to begin.</p>
-            <p>
-              One approach to intentional change begins with what researchers
-              call the Ideal Self: an image of the person you would like to
-              become and the future you would like to move towards.
-            </p>
-            <p>
-              Only later does the work turn towards where you are now, what
-              might stand in the way and what you might actually do about it.
-            </p>
-            <p>That’s what we’re borrowing here.</p>
-            <p className="dream-why__emphasis">Not the whole process. Just the beginning.</p>
-            <p>
-              For the next few minutes, you don’t need a plan. You don’t need
-              to know whether it’s realistic. You don’t need to know how you’d
-              make it happen.
-            </p>
-            <p>We’re separating those two questions.</p>
-            <p className="dream-why__emphasis">What do I want?</p>
-            <p>That’s it.</p>
-            <p className="dream-why__motto">Dream first. Edit later.</p>
+          <p>And some of those buts are completely real.</p>
+          <p>Money matters. Responsibilities matter. Circumstances matter.</p>
+          <p>We’re not pretending otherwise.</p>
+          <p>We’re just not inviting them in yet.</p>
+          <p>
+            For the next few minutes, separate two questions that normally
+            arrive together:
+          </p>
+          <div className="dream-why__questions">
+            <p>What do I want?</p>
+            <p>Is it possible?</p>
           </div>
+          <p>Right now, we’re only interested in the first one.</p>
+          <p className="dream-but-pause">
+            For the next few minutes, the “but” doesn’t get a vote.
+          </p>
           <button className="dream-button" onClick={startReflection}>
             Take a few minutes <span aria-hidden="true">→</span>
           </button>
@@ -395,8 +293,12 @@ export default function DreamExperience() {
         >
           <div className="shell dream-narrow">
             <p className="eyebrow">A little space for yourself</p>
-            <p className="dream-step-count" aria-live="polite">
-              Reflection {promptIndex + 1} of {prompts.length}
+            <h2 className="dream-reflection__title">What would you want?</h2>
+            <p className="dream-reflection__intro">
+              There’s no plan to make. No answer to justify.
+            </p>
+            <p className="dream-private-note">
+              These thoughts are just for you. They aren’t saved or shared.
             </p>
             <h2 id="dream-prompt" ref={promptRef} tabIndex={-1}>
               {prompts[promptIndex]}
@@ -412,9 +314,18 @@ export default function DreamExperience() {
               rows={7}
             />
             <p className="dream-private-note">
-              Just for you. These words stay in this page and disappear when you
-              leave or reload.
+              Your answers stay in temporary page state only and disappear
+              when you leave, reload or start again.
             </p>
+            {promptIndex === prompts.length - 1 && (
+              <div className="dream-reflection__closing">
+                <p>
+                  Don’t worry if your answers contradict each other, seem
+                  unrealistic or aren’t fully formed.
+                </p>
+                <p>You don’t have to do anything with them.</p>
+              </div>
+            )}
             <div className="dream-reflection__actions">
               <button
                 className="dream-text-button"
@@ -433,12 +344,28 @@ export default function DreamExperience() {
                 className="dream-button"
                 onClick={() => advanceReflection(promptIndex + 1)}
               >
-                {promptIndex === prompts.length - 1
-                  ? "Continue to the river"
-                  : "Next"}
+                {promptIndex === prompts.length - 1 ? "Continue" : "Next"}
                 <span aria-hidden="true"> →</span>
               </button>
             </div>
+          </div>
+        </section>
+      )}
+
+      {stage === "transition" && (
+        <section className="dream-transition" ref={transitionRef} tabIndex={-1}>
+          <div className="shell dream-narrow">
+            <p className="eyebrow">Keep those thoughts for a moment.</p>
+            <p>Dreams don’t always have to become goals.</p>
+            <p>
+              Sometimes there’s value simply in noticing what we’ve been
+              quietly wanting.
+            </p>
+            <p>And you’re not the only person carrying things like these.</p>
+            <p>Other people have dreams too.</p>
+            <button className="dream-button" onClick={continueToRiver}>
+              Visit the river <span aria-hidden="true">→</span>
+            </button>
           </div>
         </section>
       )}
@@ -454,31 +381,14 @@ export default function DreamExperience() {
             <div className="dream-section-heading">
               <p className="eyebrow">Other people have dreams too</p>
               <h2 id="dream-stream-title">The River of Dreams</h2>
-              <p>
-                {riverUsesSamples
-                  ? "A few sample dreams are gathered here to give the river its first stones."
-                  : "Every stone holds something someone has allowed themselves to want."}
-              </p>
+              <p>Every stone holds something someone has allowed themselves to want.</p>
+              <p>Some are enormous.</p>
+              <p>Some are wonderfully ordinary.</p>
+              <p>Some might sound a little like yours.</p>
               <p>Choose a stone.</p>
-              {riverUsesSamples ? (
-                <p className="dream-prototype-note">
-                  Prototype sample — these are not real submissions.
-                </p>
-              ) : (
-                <p className="dream-prototype-note">
-                  These dreams were shared anonymously and approved for the river.
-                </p>
-              )}
-              {riverError && (
-                <p className="dream-prototype-note" role="status">
-                  {riverError}
-                </p>
-              )}
-              {!riverLoaded && (
-                <p className="dream-prototype-note" role="status">
-                  Finding the river stones…
-                </p>
-              )}
+              <p className="dream-prototype-note">
+                These are prototype sample dreams, not real user submissions.
+              </p>
             </div>
             <div
               className="dream-stream__scene"
@@ -504,7 +414,6 @@ export default function DreamExperience() {
                     key={index}
                     type="button"
                     style={style}
-                    disabled={!riverLoaded}
                     data-mobile-row={Math.floor(index / 4)}
                     data-mobile-column={index % 4}
                     aria-label={`Dream stone ${index + 1}`}
@@ -552,7 +461,7 @@ export default function DreamExperience() {
             <div className="dream-stream__continue">
               <p>What would you add to the river?</p>
               <button className="dream-button" onClick={continueToDream}>
-                Choose one dream <span aria-hidden="true">→</span>
+                Choose one thing <span aria-hidden="true">→</span>
               </button>
             </div>
           </div>
@@ -568,23 +477,34 @@ export default function DreamExperience() {
         >
           <div className="shell dream-create__inner">
             <div className="dream-create__copy">
-              <p className="eyebrow">What would you add to the river?</p>
-              <h2 id="dream-create-title">Your dream stone</h2>
-              <p>Now choose one dream.</p>
-              <p>You don’t need to explain it. You don’t need to know how.</p>
-              <p>Just put it into words.</p>
+              <h2 id="dream-create-title">What would you add to the river?</h2>
+              <p>You’ve thought about what you might want.</p>
+              <p>You’ve seen some of the things other people want too.</p>
+              <p>
+                Now choose just one thing from your reflections — or something
+                else that’s come to you along the way.
+              </p>
+              <p>It doesn’t need to be your biggest dream.</p>
+              <p>It doesn’t need to be impressive.</p>
+              <p>Just something you’d like to allow yourself to want.</p>
+              <h3 className="dream-create__stone-title">Your dream stone</h3>
+              <p>Put your dream into words.</p>
+              <p>You don’t need to explain it.</p>
+              <p>You don’t need to know how you’ll do it.</p>
+              <p>You don’t need to make it realistic.</p>
+              <p>Just name it.</p>
               <form onSubmit={throwDream}>
-                <label htmlFor="dream-stone-input">One dream, in your words</label>
+                <label htmlFor="dream-stone-input">Your dream</label>
                 <textarea
                   id="dream-stone-input"
                   value={dream}
                   required
                   maxLength={120}
                   rows={3}
-                  placeholder="What would you really want?"
+                  placeholder="What would you like to allow yourself to want?"
                   onChange={(event) => setDream(event.target.value)}
-                  disabled={submissionPending || throwing}
-                  aria-describedby="dream-character-guidance dream-submission-privacy dream-submission-error"
+                  disabled={throwing}
+                  aria-describedby="dream-character-guidance dream-submission-privacy"
                 />
                 <div className="dream-create__guidance">
                   <p id="dream-character-guidance">
@@ -593,27 +513,21 @@ export default function DreamExperience() {
                   <p aria-live="polite">{dream.length} / 120</p>
                 </div>
                 <p id="dream-submission-privacy" className="dream-prototype-privacy">
-                  Only this dream is sent for anonymous review. Your private
-                  reflections stay in this page and are never saved.
+                  This is a prototype. Your words stay on this page and aren’t
+                  saved or shared.
                 </p>
-                <p
-                  id="dream-submission-error"
-                  className="dream-prototype-privacy"
-                  role="alert"
-                  hidden={!submissionError}
-                >
-                  {submissionError}
-                </p>
+                <div className="dream-throw-words" aria-label="Before you let it go">
+                  <p>There it is.</p>
+                  <p>Not a plan.</p>
+                  <p>Not a promise.</p>
+                  <p>Just something you’ve allowed yourself to want.</p>
+                </div>
                 <button
                   className="dream-button"
                   type="submit"
-                  disabled={!dream.trim() || submissionPending || throwing}
+                  disabled={!dream.trim() || throwing}
                 >
-                  {submissionPending
-                    ? "Sharing…"
-                    : throwing
-                      ? "Letting it go…"
-                      : "Throw it in"}
+                  {throwing ? "Letting it go…" : "THROW IT IN"}
                   <span aria-hidden="true"> →</span>
                 </button>
               </form>
@@ -656,14 +570,17 @@ export default function DreamExperience() {
             <div className="shell dream-narrow">
               <p className="eyebrow">A quiet moment</p>
               <h2 id="dream-ending-title">There it is.</h2>
-              <p>You don’t have to turn this into a plan today.</p>
-              <p>For now, you were simply allowed to want it.</p>
+              <p>Your dream is in the river.</p>
+              <p>You don’t have to turn it into a goal today.</p>
+              <p>You don’t have to make a plan.</p>
+              <p>You don’t even have to know whether it’s possible.</p>
+              <p>For now, you simply allowed yourself to want it.</p>
               <p className="dream-ending__last">
                 Sometimes knowing what we want is a beginning.
               </p>
               <p className="dream-prototype-note">
-                Your dream has been shared anonymously for review. It will join
-                the river if approved.
+                In this prototype, your dream appears only for this visit. It
+                hasn’t been saved, shared or added to the public river.
               </p>
               <Link className="dream-button" href="/#adventures">
                 Explore another adventure <span aria-hidden="true">→</span>
@@ -680,66 +597,97 @@ export default function DreamExperience() {
 
           <section
             className="dream-psychology"
+            id="dream-psychology"
             aria-labelledby="dream-psychology-title"
           >
             <div className="shell dream-psychology__inner">
-              <p className="eyebrow">The psychology</p>
-              <h2 id="dream-psychology-title">Dreaming isn’t the same as doing.</h2>
+              <p className="eyebrow">The why</p>
+              <h2 id="dream-psychology-title">Why start with dreaming?</h2>
               <p>
-                Imagining a desired future isn’t, by itself, a recipe for
-                making it happen.
+                Before we can move towards a life we want, it helps to have
+                some idea of what we actually want.
               </p>
               <p>
-                Research on goal pursuit suggests that if we decide to pursue
-                something, engaging with present reality — including the
-                obstacles between here and there — matters.
+                Coaching psychologist Richard Boyatzis describes something
+                called the Ideal Self — our sense of who we’d like to become
+                and the life we’d like to be living.
               </p>
-              <p>This adventure deliberately comes before that.</p>
-              <p>Because before you can ask:</p>
-              <blockquote>How do I get there?</blockquote>
-              <p>there’s another question worth answering:</p>
-              <blockquote>Where would I actually like to go?</blockquote>
-
-              <div className="dream-psychology__ideal">
-                <h3>The Ideal Self</h3>
-                <p>
-                  This adventure is partly inspired by research in coaching
-                  psychology on the Ideal Self and Intentional Change Theory.
-                </p>
-                <p>
-                  The Ideal Self describes a desired future: who we would like
-                  to become, how we would like to live, and the hopes and
-                  aspirations that help form that picture.
-                </p>
-                <p>
-                  Within Intentional Change Theory, exploring that desired
-                  future is an early part of a much larger process of change.
-                </p>
-                <p>This adventure doesn’t attempt to take you through that whole process.</p>
-                <p>It simply gives you somewhere to begin.</p>
+              <p>
+                Within his Intentional Change Theory, exploring this desired
+                future comes before examining our current reality and working
+                out what might need to change.
+              </p>
+              <p>In other words, there is a time for questions like:</p>
+              <div className="dream-psychology__questions">
+                <p>What’s realistic?</p>
+                <p>What’s standing in my way?</p>
+                <p>What would I need to change?</p>
+                <p>How could I get there?</p>
               </div>
+              <p>They’re important questions.</p>
+              <p>They’re just not the first questions.</p>
+              <p>
+                Research into vision-focused coaching has also explored what
+                happens when conversations about change begin with hopes,
+                aspirations and a desired future rather than beginning with
+                weaknesses or problems.
+              </p>
+              <p>
+                The evidence doesn’t tell us that imagining something will
+                make it happen.
+              </p>
+              <p>
+                And this exercise isn’t about manifestation or pretending that
+                real constraints don’t exist.
+              </p>
+              <p>It’s simply an invitation to spend a few minutes with a different question:</p>
+              <blockquote>
+                Before asking “How?”, what happens if we first ask “What do I
+                want?”
+              </blockquote>
+              <p className="dream-psychology__motto">Dream first. Edit later.</p>
 
               <div className="dream-psychology__references">
-                <h3>Further reading</h3>
+                <h3>References</h3>
                 <ul>
                   <li>
-                    Boyatzis, R. E. &amp; Akrivou, K. (2006).{" "}
-                    <cite>The ideal self as the driver of intentional change.</cite>
+                    Boyatzis, R. E., &amp; Akrivou, K. (2006).{" "}
+                    <cite>The ideal self as the driver of intentional change.</cite>{" "}
+                    <em>Journal of Management Development, 25</em>(7), 624–642.{" "}
+                    <a href="https://doi.org/10.1108/02621710610678454" target="_blank" rel="noreferrer">
+                      https://doi.org/10.1108/02621710610678454
+                    </a>
                   </li>
                   <li>
-                    Oettingen’s related literature on mental contrasting,
-                    positive fantasies, desired futures and goal pursuit.
+                    Boyatzis, R. E., Rochford, K., &amp; Taylor, S. N. (2015).{" "}
+                    <cite>
+                      The role of the positive emotional attractor in vision
+                      and shared vision: Toward effective leadership,
+                      relationships, and engagement.
+                    </cite>{" "}
+                    <em>Frontiers in Psychology, 6</em>, 670.{" "}
+                    <a href="https://doi.org/10.3389/fpsyg.2015.00670" target="_blank" rel="noreferrer">
+                      https://doi.org/10.3389/fpsyg.2015.00670
+                    </a>
                   </li>
                   <li>
-                    Best Possible Self research in positive psychology, related
-                    work on imagining a desired future.
+                    Howard, A. R. (2015).{" "}
+                    <cite>
+                      Coaching to vision versus coaching to improvement needs:
+                      A preliminary investigation on the differential impacts
+                      of fostering positive and negative emotion during real
+                      time executive coaching sessions.
+                    </cite>{" "}
+                    <em>Frontiers in Psychology, 6</em>, 455.{" "}
+                    <a href="https://doi.org/10.3389/fpsyg.2015.00455" target="_blank" rel="noreferrer">
+                      https://doi.org/10.3389/fpsyg.2015.00455
+                    </a>
                   </li>
                 </ul>
                 <p>
-                  These are starting points for the ideas described above. The
-                  five-question exercise and the River of Dreams are You Matter
-                  experience design; these sources do not test this specific
-                  adventure.
+                  The River of Dreams is a You Matter-designed collective
+                  experience informed by relevant theory and research; these
+                  sources do not validate this specific exercise.
                 </p>
               </div>
             </div>
