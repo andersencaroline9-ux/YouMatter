@@ -4,6 +4,9 @@ import {
   LIVE_ADVENTURE_COHORT_SIZE,
   LIVE_ADVENTURE_WAITLIST_CAPACITY,
 } from "../../../lib/live-adventure-cohort";
+import {
+  purgeExpiredReconnectInterests,
+} from "../../../lib/privacy-retention";
 
 const FIRST_NAME_MAX_LENGTH = 40;
 const EMAIL_MAX_LENGTH = 254;
@@ -29,6 +32,7 @@ async function getInterestCount() {
 
 export async function GET() {
   try {
+    await purgeExpiredReconnectInterests(env.DB);
     return Response.json(publicCount(await getInterestCount()), {
       headers: PRIVATE_HEADERS,
     });
@@ -85,6 +89,7 @@ export async function POST(request: Request) {
 
   try {
     if (!env.DB) throw new Error("D1 binding is unavailable.");
+    await purgeExpiredReconnectInterests(env.DB);
 
     const inserted = await env.DB.prepare(
       `INSERT INTO live_adventure_interests (name, email)

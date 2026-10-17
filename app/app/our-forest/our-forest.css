@@ -20,19 +20,16 @@
 
 .our-forest__hero {
   position: relative;
-  display: flex;
-  align-items: center;
+  isolation: isolate;
   overflow: hidden;
-  padding: 52px 0;
   background: #243d30;
   color: #fffdf7;
 }
 
 .our-forest__hero-image,
-.our-forest__hero-shade,
-.our-forest__closing-image,
-.our-forest__closing-shade {
+.our-forest__hero-shade {
   position: absolute;
+  z-index: -1;
   inset: 0;
 }
 
@@ -41,90 +38,125 @@
 }
 
 .our-forest__hero-shade {
-  background: linear-gradient(90deg, rgba(10, 26, 18, .83), rgba(10, 26, 18, .47) 58%, rgba(10, 26, 18, .12));
+  background: linear-gradient(
+    90deg,
+    rgba(10, 26, 18, .84),
+    rgba(10, 26, 18, .66) 56%,
+    rgba(10, 26, 18, .38)
+  );
 }
 
-.our-forest__hero-copy {
-  position: relative;
-  z-index: 1;
-  width: min(1120px, 88%);
-  margin: 0 auto;
+.our-forest__hero-content {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 18px;
+  width: min(1240px, calc(100% - 80px));
+  margin-inline: auto;
+  padding-block: clamp(22px, 2.5vw, 36px) 24px;
+}
+
+.our-forest__story {
+  max-width: 1000px;
 }
 
 .our-forest__eyebrow {
-  margin: 0 0 8px;
-  color: #9ba67a;
+  margin: 0 0 7px;
+  color: rgba(255, 253, 247, .78);
   font: 800 .72rem/1.4 Arial, Helvetica, sans-serif;
   letter-spacing: .19em;
   text-transform: uppercase;
 }
 
-.our-forest__hero .our-forest__eyebrow {
-  color: rgba(255, 253, 247, .78);
-}
-
-.our-forest__hero h1 {
-  max-width: 1120px;
-  margin: 0 0 14px;
-  font-size: clamp(2.8rem, 5.2vw, 5rem);
+.our-forest__story h1 {
+  max-width: 1020px;
+  margin: 0 0 12px;
+  font-size: clamp(2.65rem, 4.5vw, 4.3rem);
   font-weight: 500;
   letter-spacing: -.052em;
   line-height: .99;
 }
 
-.our-forest__hero-headline-line {
-  display: block;
+.our-forest__explanation {
+  max-width: 810px;
+  color: rgba(255, 253, 247, .93);
+  font-size: clamp(.98rem, 1.12vw, 1.08rem);
+  line-height: 1.4;
 }
 
-.our-forest__hero-copy > p:not(.our-forest__eyebrow) {
-  max-width: 760px;
-  margin: 0 0 5px;
-  color: rgba(255, 253, 247, .92);
-  font-size: clamp(1rem, 1.25vw, 1.1rem);
-  line-height: 1.5;
+.our-forest__explanation p {
+  margin: 0 0 3px;
 }
 
-.our-forest__founding,
-.our-forest__world,
-.our-forest__evidence {
-  width: min(1160px, calc(100% - 64px));
-  margin-inline: auto;
-  padding-block: 46px;
+.our-forest__mechanism {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  width: min(810px, 100%);
+  gap: clamp(12px, 3vw, 42px);
+  padding-top: 2px;
 }
 
-.our-forest__founding h2,
-.our-forest__world h2,
-.our-forest__evidence h2 {
-  margin: 0 0 12px;
-  color: var(--forest-green);
-  font-size: clamp(2.15rem, 3.5vw, 3.35rem);
+.our-forest__step {
+  display: grid;
+  justify-items: center;
+  gap: 3px;
+  min-width: 0;
+  text-align: center;
+}
+
+.our-forest__step > svg {
+  width: 42px;
+  height: 34px;
+  color: #d4dcab;
+  stroke: currentColor;
+  stroke-width: 1.3;
+}
+
+.our-forest__step > svg g,
+.our-forest__choice-illustration svg g {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.our-forest__step strong {
+  color: #fffdf7;
+  font-size: clamp(2.3rem, 4vw, 3.35rem);
   font-weight: 500;
   letter-spacing: -.045em;
-  line-height: 1.02;
+  line-height: 1;
 }
 
-.our-forest__founding-copy {
-  max-width: 720px;
+.our-forest__step span {
+  color: rgba(255, 253, 247, .83);
+  font-size: .91rem;
+  line-height: 1.3;
 }
 
-.our-forest__founding-copy > p:not(.our-forest__eyebrow),
-.our-forest__world-copy > p:not(.our-forest__eyebrow),
-.our-forest__evidence-copy > p:not(.our-forest__eyebrow) {
-  max-width: 660px;
-  margin: 0 0 8px;
-  color: #4f6659;
-  font-size: 1.03rem;
-  line-height: 1.55;
+.our-forest__step .our-forest__step-label {
+  color: #fffdf7;
+  font: 800 .65rem/1.45 Arial, Helvetica, sans-serif;
+  letter-spacing: .13em;
+  text-transform: uppercase;
 }
 
-.our-forest__location {
-  color: var(--forest-green) !important;
-  font-size: 1.25rem !important;
-  font-weight: 600;
+.our-forest__arrow {
+  width: clamp(38px, 5vw, 68px);
+  height: 26px;
+  overflow: visible;
+  color: #ded29a;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.35;
 }
 
-.our-forest__tree-nation-link {
-  margin-top: 16px;
+.our-forest__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
 .our-forest__button {
@@ -133,267 +165,371 @@
   align-items: center;
   justify-content: center;
   gap: 12px;
-  padding: 0 22px;
-  border: 1px solid var(--forest-green);
+  padding: 0 23px;
+  border: 1px solid rgba(255, 253, 247, .84);
   border-radius: 999px;
+  font: 700 .79rem/1 Arial, Helvetica, sans-serif;
+  letter-spacing: .055em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: background-color .18s ease, color .18s ease;
+}
+
+.our-forest__button--primary {
+  border-color: #b9ca91;
   background: var(--forest-green);
   color: #fffdf7;
-  font: 700 .84rem/1 Arial, Helvetica, sans-serif;
-  letter-spacing: .025em;
+}
+
+.our-forest__button--primary:hover {
+  background: #234b3d;
+}
+
+.our-forest__button--light {
+  background: #fffdf7;
+  color: var(--forest-green);
+}
+
+.our-forest__button--light:hover {
+  background: #e9eadb;
 }
 
 .our-forest__participate {
-  background: #1c3024;
-  color: #fffdf7;
+  background: var(--forest-cream);
 }
 
 .our-forest__participate-content {
   display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(250px, .7fr);
+  grid-template-columns: minmax(220px, .82fr) minmax(0, 2.5fr);
   align-items: center;
-  gap: clamp(32px, 6vw, 72px);
-  width: min(1160px, calc(100% - 64px));
+  gap: clamp(28px, 4vw, 56px);
+  width: min(1240px, calc(100% - 80px));
   margin-inline: auto;
-  padding-block: 48px;
+  padding-block: clamp(30px, 4vw, 50px) 26px;
 }
 
-.our-forest__participate-copy h2 {
-  max-width: 720px;
-  margin: 0 0 16px;
-  font-size: clamp(2.4rem, 4.3vw, 4rem);
+.our-forest__introduction h2 {
+  margin: 0 0 11px;
+  color: var(--forest-green);
+  font-size: clamp(2rem, 3vw, 2.9rem);
   font-weight: 500;
   letter-spacing: -.045em;
-  line-height: 1.02;
+  line-height: 1;
 }
 
-.our-forest__participate-copy > p {
-  margin: 0 0 3px;
-  color: rgba(255, 253, 247, .9);
-  font-size: 1.04rem;
+.our-forest__introduction > p {
+  margin: 0 0 2px;
+  color: #52675a;
+  font-size: 1.03rem;
+  line-height: 1.35;
+}
+
+.our-forest__introduction .our-forest__just-take-part {
+  color: var(--forest-green);
+  font-weight: 700;
+}
+
+.our-forest__introduction .our-forest__collective-effect {
+  margin-top: 14px;
+  color: #52675a;
+  font-size: .9rem;
   line-height: 1.45;
 }
 
-.our-forest__participate-copy .our-forest__just-take-part {
-  margin-top: 6px;
-  color: #fffdf7;
-  font-size: 1.25rem;
-}
-
-.our-forest__participate-copy ul {
+.our-forest__choices {
   display: grid;
-  gap: 6px;
-  margin: 18px 0 0;
-  padding: 0;
-  list-style: none;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
 }
 
-.our-forest__participate-copy li {
-  font: 1rem/1.4 Georgia, "Times New Roman", serif;
-}
-
-.our-forest__participate-copy li a {
-  text-decoration: underline;
-  text-decoration-color: rgba(255, 253, 247, .44);
-  text-underline-offset: 4px;
-}
-
-.our-forest__participate-copy li a:hover {
-  text-decoration-color: currentColor;
-}
-
-.our-forest__participate-copy .our-forest__commitment {
-  max-width: 600px;
-  margin-top: 16px;
-  color: #fffdf7;
-  font: 600 clamp(1.1rem, 1.8vw, 1.4rem)/1.4 Georgia, "Times New Roman", serif;
-}
-
-.our-forest__sequence {
-  display: grid;
-  justify-items: center;
-  color: #fffdf7;
-  text-align: center;
-}
-
-.our-forest__sequence p {
-  display: grid;
-  gap: 4px;
-  margin: 0;
-}
-
-.our-forest__sequence strong {
-  font-size: clamp(2.25rem, 4vw, 3.5rem);
-  font-weight: 500;
-  letter-spacing: -.04em;
-  line-height: 1;
-}
-
-.our-forest__sequence span:not(.our-forest__sequence-arrow) {
-  color: rgba(255, 253, 247, .78);
-  font: 800 .7rem/1.5 Arial, Helvetica, sans-serif;
-  letter-spacing: .13em;
-  text-transform: uppercase;
-}
-
-.our-forest__sequence-arrow {
-  display: block;
-  margin: 5px 0;
-  color: #d4ca91;
-  font: 1.25rem/1 Arial, Helvetica, sans-serif;
-}
-
-.our-forest__world {
-  display: grid;
-  grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr);
+.our-forest__choice {
+  display: flex;
+  min-height: 196px;
+  flex-direction: column;
   align-items: center;
-  gap: clamp(28px, 5vw, 64px);
+  padding: 13px 12px 11px;
+  border: 1px solid rgba(24, 56, 46, .12);
+  border-radius: 48% 48% 5px 5px / 28px 28px 5px 5px;
+  background: rgba(255, 253, 247, .55);
+  color: var(--forest-ink);
+  text-align: center;
+  text-decoration: none;
+  transition: border-color .18s ease, background-color .18s ease, transform .18s ease;
 }
 
-.our-forest__world-location {
+.our-forest__choice:hover {
+  border-color: rgba(24, 56, 46, .4);
+  background: #fffdf7;
+  transform: translateY(-2px);
+}
+
+.our-forest__choice-illustration {
   display: grid;
-  gap: 6px;
-  padding: 24px 28px;
-  border-left: 1px solid rgba(24, 56, 46, .2);
-  background: #f1eee4;
-  color: var(--forest-green);
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  place-items: center;
+  margin-bottom: 4px;
+  border-radius: 50%;
+  background: #f0eee2;
+  color: #536a4f;
 }
 
-.our-forest__world-location span {
-  font: 800 .72rem/1.45 Arial, Helvetica, sans-serif;
-  letter-spacing: .12em;
+.our-forest__choice-illustration svg {
+  width: 32px;
+  height: 32px;
+  stroke: currentColor;
+  stroke-width: 1.35;
+}
+
+.our-forest__choice-category {
+  margin-bottom: 6px;
+  color: #687b5c;
+  font: 800 .65rem/1.4 Arial, Helvetica, sans-serif;
+  letter-spacing: .15em;
   text-transform: uppercase;
 }
 
-.our-forest__world-location strong {
-  font-size: clamp(2.3rem, 3.5vw, 3.5rem);
-  font-weight: 500;
-  letter-spacing: -.045em;
-  line-height: 1;
+.our-forest__choice strong {
+  margin-bottom: 5px;
+  color: var(--forest-green);
+  font-size: .96rem;
+  font-weight: 600;
+  line-height: 1.2;
 }
 
-.our-forest__evidence {
-  border-top: 1px solid rgba(24, 56, 46, .13);
+.our-forest__choice-description {
+  color: #52675a;
+  font-size: .81rem;
+  line-height: 1.3;
 }
 
-.our-forest__evidence-copy {
-  max-width: 760px;
+.our-forest__choice-action {
+  display: flex;
+  width: 100%;
+  min-height: 30px;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 8px;
+  color: var(--forest-green);
+  font: 800 .63rem/1.2 Arial, Helvetica, sans-serif;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.our-forest__collective-effect {
+  width: min(1240px, calc(100% - 80px));
+  margin: -10px auto 18px;
+  color: #52675a;
+  font-size: .88rem;
+  line-height: 1.45;
+  text-align: right;
 }
 
 .our-forest__closing {
-  position: relative;
   display: flex;
-  align-items: center;
-  overflow: hidden;
-  padding: 54px 0;
-  background: #26382d;
-  color: #fffdf7;
+  width: min(1240px, calc(100% - 80px));
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+  margin-inline: auto;
+  padding-block: 0 18px;
+  color: #52675a;
 }
 
-.our-forest__closing-image {
-  background: url("/forest-crossroads-temporary.jpg") center 56% / cover no-repeat;
-}
-
-.our-forest__closing-shade {
-  background: linear-gradient(90deg, rgba(11, 24, 16, .72), rgba(11, 24, 16, .2));
-}
-
-.our-forest__closing p {
-  position: relative;
-  z-index: 1;
-  width: min(1160px, calc(100% - 64px));
-  margin: 0 auto;
-  font-size: clamp(2.2rem, 5vw, 4.5rem);
+.our-forest__closing > p {
+  margin: 0;
+  color: var(--forest-green);
+  font-size: 1.02rem;
   font-style: italic;
-  line-height: 1.14;
 }
 
-.our-forest__origin {
-  display: block;
-  margin-top: 18px;
-  color: rgba(255, 253, 247, .78);
-  font: 700 .68rem/1.5 Arial, Helvetica, sans-serif;
-  letter-spacing: .04em;
+.our-forest__signature {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 4px 18px;
+  font: 700 .62rem/1.5 Arial, Helvetica, sans-serif;
+  letter-spacing: .025em;
 }
 
-@media (max-width: 760px) {
-  .our-forest__hero {
-    padding-block: 42px;
-  }
-
-  .our-forest__hero-copy {
-    width: min(100% - 40px, 600px);
-  }
-
-  .our-forest__hero-headline-line {
-    display: inline;
-  }
-
-  .our-forest__hero h1 {
-    font-size: clamp(2.4rem, 8vw, 3.6rem);
-  }
-
-  .our-forest__founding,
-  .our-forest__world,
-  .our-forest__evidence,
+@media (max-width: 1000px) {
   .our-forest__participate-content {
     grid-template-columns: 1fr;
-    gap: 24px;
-    width: min(100% - 40px, 640px);
-    padding-block: 36px;
+    gap: 22px;
   }
 
-  .our-forest__world-location {
-    padding: 20px 24px;
+  .our-forest__introduction {
+    max-width: 620px;
   }
 
-  .our-forest__sequence {
-    gap: 0;
+  .our-forest__choices {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .our-forest__hero-content,
+  .our-forest__participate-content,
+  .our-forest__closing,
+  .our-forest__collective-effect {
+    width: calc(100% - 40px);
   }
 
-  .our-forest__sequence strong {
-    font-size: clamp(1.9rem, 7vw, 2.6rem);
+  .our-forest__hero-content {
+    gap: 20px;
+    padding-block: 32px 28px;
   }
 
-  .our-forest__sequence span:not(.our-forest__sequence-arrow) {
-    font-size: .58rem;
-    letter-spacing: .08em;
+  .our-forest__hero-shade {
+    background: linear-gradient(
+      180deg,
+      rgba(10, 26, 18, .79),
+      rgba(10, 26, 18, .7) 68%,
+      rgba(10, 26, 18, .58)
+    );
   }
 
-  .our-forest__sequence-arrow {
-    margin: 3px 0;
+  .our-forest__story h1 {
+    font-size: clamp(2.35rem, 9vw, 3.5rem);
+    line-height: 1.02;
+  }
+
+  .our-forest__story h1 br {
+    display: none;
+  }
+
+  .our-forest__explanation {
+    font-size: .98rem;
+    line-height: 1.42;
+  }
+
+  .our-forest__mechanism {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .our-forest__step {
+    gap: 2px;
+  }
+
+  .our-forest__step strong {
+    font-size: 2.4rem;
+  }
+
+  .our-forest__step > svg {
+    width: 38px;
+    height: 30px;
+  }
+
+  .our-forest__step span {
+    font-size: .88rem;
+  }
+
+  .our-forest__arrow {
+    transform: rotate(90deg);
+  }
+
+  .our-forest__actions {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 9px;
+  }
+
+  .our-forest__button {
+    width: 100%;
+    min-height: 48px;
+  }
+
+  .our-forest__participate-content {
+    gap: 20px;
+    padding-block: 32px 24px;
+  }
+
+  .our-forest__introduction h2 {
+    font-size: 2.3rem;
+  }
+
+  .our-forest__choices {
+    grid-template-columns: 1fr;
+    gap: 9px;
+  }
+
+  .our-forest__choice {
+    display: grid;
+    grid-template-columns: 40px minmax(0, 1fr) auto;
+    grid-template-rows: auto auto auto;
+    column-gap: 11px;
+    align-items: center;
+    min-height: 0;
+    padding: 12px;
+    border-radius: 4px;
+    text-align: left;
+  }
+
+  .our-forest__choice-illustration {
+    grid-column: 1;
+    grid-row: 1 / span 3;
+    width: 40px;
+    height: 40px;
+    flex-basis: 40px;
+    margin: 0;
+  }
+
+  .our-forest__choice-illustration svg {
+    width: 30px;
+    height: 30px;
+  }
+
+  .our-forest__choice-category {
+    grid-column: 2 / 4;
+    grid-row: 1;
+    margin: 0 0 3px;
+  }
+
+  .our-forest__choice strong {
+    grid-column: 2 / 4;
+    grid-row: 2;
+    margin: 0;
+  }
+
+  .our-forest__choice-description {
+    grid-column: 2;
+    grid-row: 3;
+    padding-top: 3px;
+  }
+
+  .our-forest__choice-action {
+    grid-column: 3;
+    grid-row: 3;
+    width: auto;
+    min-height: 36px;
+    gap: 8px;
+    padding: 3px 0 0 6px;
+    white-space: nowrap;
+  }
+
+  .our-forest__collective-effect {
+    margin: 0 auto 20px;
+    font-size: .88rem;
+    text-align: left;
   }
 
   .our-forest__closing {
-    padding-block: 42px;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 9px;
+    padding-bottom: 20px;
   }
 
-  .our-forest__closing p {
-    width: min(100% - 40px, 640px);
-  }
-}
-
-@media (max-width: 420px) {
-  .our-forest__hero-copy,
-  .our-forest__founding,
-  .our-forest__world,
-  .our-forest__evidence,
-  .our-forest__participate-content {
-    width: calc(100% - 36px);
+  .our-forest__closing > p {
+    font-size: .96rem;
   }
 
-  .our-forest__hero h1 {
-    font-size: clamp(2.3rem, 9.5vw, 2.8rem);
-  }
-
-  .our-forest__sequence {
-    gap: 4px;
-  }
-
-  .our-forest__sequence strong {
-    font-size: 1.45rem;
-  }
-
-  .our-forest__sequence span:not(.our-forest__sequence-arrow) {
-    font-size: .5rem;
+  .our-forest__signature {
+    justify-content: flex-start;
   }
 }

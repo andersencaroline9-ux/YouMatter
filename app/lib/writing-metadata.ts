@@ -260,6 +260,12 @@ export const writingChapters = [
       "About dissatisfaction, work, money, success and that nagging feeling that surely this isn't it.",
     imageBrief:
       "A real, quiet image suggesting a life or work transition without relying on career clichés.",
+    image: {
+      src: "/writing/chapter-1-winding-woodland-path.jpg",
+      alt: "A gravel path bending out of sight between oaks, birches and ferns in dappled green woodland.",
+      width: 1600,
+      height: 1067,
+    },
   },
   {
     number: 2,
@@ -268,6 +274,12 @@ export const writingChapters = [
       "The tenderness, strain and shifting definitions woven through family life.",
     imageBrief:
       "A candid, warm image that holds tenderness and complexity without looking staged.",
+    image: {
+      src: "/writing/chapter-2-sunlit-branching-oak.jpg",
+      alt: "Low sun breaking through the tangled branches of an old oak, casting long shadows across the grass.",
+      width: 1600,
+      height: 1067,
+    },
   },
   {
     number: 3,
@@ -304,6 +316,12 @@ export const writingChapters = [
       "Questions of success, courage and choosing what matters.",
     imageBrief:
       "A real image suggesting a chosen path or a new beginning, without generic success imagery.",
+    image: {
+      src: "/writing/chapter-5-woodland-path-light.jpg",
+      alt: "A leaf-strewn forest track rising through tall beech trees, with shafts of sunlight cutting through the haze.",
+      width: 1600,
+      height: 1067,
+    },
   },
   {
     number: 6,
@@ -312,6 +330,12 @@ export const writingChapters = [
       "Wonder, belief and the possibility of belonging to something larger.",
     imageBrief:
       "A contemplative real image that evokes the wider universe or meaning without religious symbolism.",
+    image: {
+      src: "/writing/chapter-6-canopy-upward.jpg",
+      alt: "Looking straight up through the crowns of tall trees to pale sky.",
+      width: 1600,
+      height: 1067,
+    },
   },
 ] as const satisfies readonly WritingChapter[];
 

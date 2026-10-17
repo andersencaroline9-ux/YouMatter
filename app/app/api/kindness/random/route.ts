@@ -1,9 +1,12 @@
+import { env } from "cloudflare:workers";
 import { eq, sql } from "drizzle-orm";
 import { getDb } from "../../../../db";
 import { kindnessEntries } from "../../../../db/schema";
+import { purgeStalePendingContributions } from "../../../../lib/privacy-retention";
 
 export async function GET() {
   try {
+    await purgeStalePendingContributions(env.DB);
     const [story] = await getDb()
       .select({
         message: kindnessEntries.message,

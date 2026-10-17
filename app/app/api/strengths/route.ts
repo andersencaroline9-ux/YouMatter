@@ -1,3 +1,4 @@
+import { env } from "cloudflare:workers";
 import { and, asc, desc, eq, isNotNull } from "drizzle-orm";
 import { getDb } from "../../../db";
 import { strengthsEntries } from "../../../db/schema";
@@ -12,12 +13,14 @@ import {
   getVisitorTokenHash,
   privateVisitorJson,
 } from "../../../lib/visitor-submissions";
+import { purgeStalePendingContributions } from "../../../lib/privacy-retention";
 
 const REFLECTION_MAX_LENGTH = 240;
 const FIRST_NAME_MAX_LENGTH = 40;
 
 export async function GET(request: Request) {
   try {
+    await purgeStalePendingContributions(env.DB);
     const db = getDb();
     const approved = await db
       .select({
@@ -90,6 +93,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
+    await purgeStalePendingContributions(env.DB);
     const body = (await request.json()) as {
       strengths?: unknown;
       reflection?: unknown;

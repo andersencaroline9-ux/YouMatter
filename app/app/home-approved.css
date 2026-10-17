@@ -22,14 +22,10 @@
   position: relative;
   inset: auto;
   border: 0;
+  border-bottom: 1px solid var(--line);
   background: var(--home-cream);
   color: var(--home-green);
   backdrop-filter: none;
-}
-
-.forest-home__header .site-nav {
-  width: min(1100px, 90%);
-  min-height: 52px;
 }
 
 .forest-home__header .brand,
@@ -37,25 +33,11 @@
 .forest-home__header .site-nav__adventures-toggle,
 .forest-home__header .site-nav__mobile-toggle {
   color: var(--home-green);
-  font-family: Georgia, "Times New Roman", serif;
-  font-weight: 400;
   text-shadow: none;
-}
-
-.forest-home__header .brand {
-  display: inline-flex;
-  align-items: center;
-  font-size: 21px;
-  font-weight: 700;
 }
 
 .forest-home__header .final-brand-leaf {
   display: none;
-}
-
-.forest-home__header .site-nav__links {
-  gap: 28px;
-  font: 14px Georgia, "Times New Roman", serif;
 }
 
 .forest-home__header .site-nav__mobile-toggle {
@@ -650,15 +632,6 @@
 }
 
 @media (max-width: 700px) {
-  .forest-home__header .site-nav {
-    width: 90%;
-    min-height: 58px;
-  }
-
-  .forest-home__header .brand {
-    font-size: 19px;
-  }
-
   .approved-hero {
     display: flex;
     height: auto;

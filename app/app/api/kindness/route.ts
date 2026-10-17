@@ -1,3 +1,4 @@
+import { env } from "cloudflare:workers";
 import { and, desc, eq } from "drizzle-orm";
 import { getDb } from "../../../db";
 import { kindnessEntries } from "../../../db/schema";
@@ -6,9 +7,11 @@ import {
   getVisitorTokenHash,
   privateVisitorJson,
 } from "../../../lib/visitor-submissions";
+import { purgeStalePendingContributions } from "../../../lib/privacy-retention";
 
 export async function GET(request: Request) {
   try {
+    await purgeStalePendingContributions(env.DB);
     const ownerTokenHash = await getVisitorTokenHash(request);
     const ownPending = ownerTokenHash
       ? await getDb()
@@ -41,6 +44,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
+    await purgeStalePendingContributions(env.DB);
     const body = (await request.json()) as {
       message?: unknown;
       kind?: unknown;

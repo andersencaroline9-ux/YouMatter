@@ -1,0 +1,18 @@
+Writing chapter photographs (all real photographs from Wikimedia Commons, licensed CC BY-SA 4.0:
+https://creativecommons.org/licenses/by-sa/4.0). Resized to 1600px wide and recompressed.
+
+chapter-1-winding-woodland-path.jpg
+  "Oaks by the south part of Myrstigen 1.jpg" by W.carter
+  https://commons.wikimedia.org/wiki/File:Oaks_by_the_south_part_of_Myrstigen_1.jpg
+
+chapter-2-sunlit-branching-oak.jpg
+  "Dülmen, Wildpark -- 2018 -- 1417-21.jpg" by Dietmar Rabich
+  https://commons.wikimedia.org/wiki/File:Dülmen,_Wildpark_--_2018_--_1417-21.jpg
+
+chapter-5-woodland-path-light.jpg
+  "Slezské Beskydy - Rytířská stezka (cesta Nýdek - Velká Čantoryje).JPG" by Pudelek (Marcin Szala)
+  https://commons.wikimedia.org/wiki/File:Slezské_Beskydy_-_Rytířská_stezka_(cesta_Nýdek_-_Velká_Čantoryje).JPG
+
+chapter-6-canopy-upward.jpg
+  "Dülmen, Kirchspiel, Bauerschaft Börnste -- 2017 -- 6919.jpg" by Dietmar Rabich
+  https://commons.wikimedia.org/wiki/File:Dülmen,_Kirchspiel,_Bauerschaft_Börnste_--_2017_--_6919.jpg

@@ -1,10 +1,13 @@
+import { env } from "cloudflare:workers";
 import { count, eq, sql } from "drizzle-orm";
 import { getDb } from "../../../../db";
 import { kindnessEntries } from "../../../../db/schema";
 import { KINDNESS_TREE_STORY_LIMIT } from "../../../../lib/kindness";
+import { purgeStalePendingContributions } from "../../../../lib/privacy-retention";
 
 export async function GET() {
   try {
+    await purgeStalePendingContributions(env.DB);
     const db = getDb();
     const [totals, stories] = await db.batch([
       db

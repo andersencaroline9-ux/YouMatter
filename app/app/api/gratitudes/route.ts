@@ -1,3 +1,4 @@
+import { env } from "cloudflare:workers";
 import { and, desc, eq, inArray, sql } from "drizzle-orm";
 import { getDb } from "../../../db";
 import { gratitudes } from "../../../db/schema";
@@ -12,6 +13,7 @@ import {
   getVisitorTokenHash,
   privateVisitorJson,
 } from "../../../lib/visitor-submissions";
+import { purgeStalePendingContributions } from "../../../lib/privacy-retention";
 
 function publicSubmissions(submissions: GratitudeSubmission[]) {
   return submissions.map(
@@ -25,6 +27,7 @@ function publicSubmissions(submissions: GratitudeSubmission[]) {
 
 export async function GET(request: Request) {
   try {
+    await purgeStalePendingContributions(env.DB);
     const db = getDb();
     const sampledSubmissionRows = await db
       .select({
@@ -121,6 +124,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
+    await purgeStalePendingContributions(env.DB);
     let payload: unknown;
     try {
       payload = await request.json();

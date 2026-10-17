@@ -1,9 +1,14 @@
+import { env } from "cloudflare:workers";
 import { desc,eq,sql } from "drizzle-orm";
 import { getDb } from "../../../../db";
 import { gratitudes } from "../../../../db/schema";
 import { authorizeAdmin } from "../../../../lib/admin-auth";
 import { groupGratitudeRows } from "../../../../lib/gratitude-submissions";
 import { LOCAL_ADMIN_PROOF_HEADER } from "../../../../lib/local-admin-auth-proof";
+import {
+  deleteRejectedTextContribution,
+  purgeStalePendingContributions,
+} from "../../../../lib/privacy-retention";
 
 export async function GET(request: Request) {
   const authorization = await authorizeAdmin(
@@ -18,6 +23,7 @@ export async function GET(request: Request) {
   }
 
   try {
+    await purgeStalePendingContributions(env.DB);
     const rows = await getDb()
       .select({
         id: gratitudes.id,
@@ -76,6 +82,23 @@ export async function PATCH(request: Request) {
         { error: "A valid id and status are required." },
         { status: 400 }
       );
+    }
+
+    await purgeStalePendingContributions(env.DB);
+    if (status === "rejected") {
+      const deletedIds = await deleteRejectedTextContribution(
+        env.DB,
+        "gratitude",
+        id,
+        typeof body.submissionId === "string" ? body.submissionId : null
+      );
+      if (deletedIds.length === 0) {
+        return Response.json(
+          { error: "Submission not found." },
+          { status: 404 }
+        );
+      }
+      return Response.json({ deletedIds });
     }
 
     const db = getDb();

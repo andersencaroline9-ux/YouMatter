@@ -93,6 +93,9 @@ export default function AdminPage() {
   const [liveInterestNote, setLiveInterestNote] = useState(
     "Loading the waiting list…"
   );
+  const [liveInterestPendingId, setLiveInterestPendingId] = useState<
+    number | null
+  >(null);
   const [contactMessages, setContactMessages] = useState<ContactMessage[]>([]);
   const [contactNote, setContactNote] = useState("Loading Contact messages…");
   const [contactPendingId, setContactPendingId] = useState<number | null>(null);
@@ -176,18 +179,67 @@ export default function AdminPage() {
       setNote(result.error ?? "Unable to update.");
       return;
     }
-    setData((current) => ({
-      ...current,
-      [type]: current[type].map((item) =>
-        type === "gratitude" && submissionId
-          ? "submissionId" in item && item.submissionId === submissionId
-            ? { ...item, status }
-            : item
-          : item.id === id
-            ? { ...item, status }
-            : item
-      ),
-    }) as Data);
+    setData((current) => {
+      if (status === "rejected" && type !== "nature") {
+        return {
+          ...current,
+          [type]: current[type].filter((item) =>
+            type === "gratitude" && submissionId
+              ? !("submissionId" in item) || item.submissionId !== submissionId
+              : item.id !== id
+          ),
+        } as Data;
+      }
+      return {
+        ...current,
+        [type]: current[type].map((item) =>
+          type === "gratitude" && submissionId
+            ? "submissionId" in item && item.submissionId === submissionId
+              ? { ...item, status }
+              : item
+            : item.id === id
+              ? { ...item, status }
+              : item
+        ),
+      } as Data;
+    });
+  }
+
+  async function deleteLiveInterest(entry: LiveAdventureInterest) {
+    if (
+      !window.confirm(
+        `Delete ${entry.name} from the RECONNECT interest list? This cannot be undone.`
+      )
+    ) {
+      return;
+    }
+
+    setLiveInterestPendingId(entry.id);
+    setLiveInterestNote("");
+    try {
+      const response = await fetch("/api/admin/live-adventure", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: entry.id }),
+      });
+      const result = (await response.json()) as { error?: string };
+      if (!response.ok) {
+        throw new Error(result.error ?? "Unable to delete the waiting-list entry.");
+      }
+      setLiveInterests((current) =>
+        current
+          .filter((item) => item.id !== entry.id)
+          .map((item, index) => ({ ...item, reserve: index >= 10 }))
+      );
+    } catch (error: unknown) {
+      setLiveInterestNote(
+        error instanceof Error
+          ? error.message
+          : "Unable to delete the waiting-list entry."
+      );
+    } finally {
+      setLiveInterestPendingId(null);
+    }
   }
 
   const actions = (
@@ -338,6 +390,17 @@ export default function AdminPage() {
                       {new Date(
                         `${entry.createdAt.replace(" ", "T")}Z`
                       ).toLocaleDateString()}
+                      {" · "}
+                      <button
+                        type="button"
+                        disabled={liveInterestPendingId === entry.id}
+                        onClick={() => deleteLiveInterest(entry)}
+                        aria-label={`Delete waiting-list entry for ${entry.name}`}
+                      >
+                        {liveInterestPendingId === entry.id
+                          ? "Deleting…"
+                          : "Delete"}
+                      </button>
                     </li>
                   ))}
                 </ol>

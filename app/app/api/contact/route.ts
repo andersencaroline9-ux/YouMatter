@@ -1,6 +1,7 @@
-import { sql } from "drizzle-orm";
+import { env } from "cloudflare:workers";
 import { getDb } from "../../../db";
 import { contactMessages } from "../../../db/schema";
+import { purgeExpiredContactMessages } from "../../../lib/privacy-retention";
 
 const MAX_BODY_BYTES = 24_000;
 const MIN_COMPLETION_MS = 2_500;
@@ -144,10 +145,8 @@ export async function POST(request: Request) {
   }
 
   try {
+    await purgeExpiredContactMessages(env.DB);
     const db = getDb();
-    await db
-      .delete(contactMessages)
-      .where(sql`${contactMessages.createdAt} < datetime('now', '-12 months')`);
     await db.insert(contactMessages).values({
       name: name || null,
       email,

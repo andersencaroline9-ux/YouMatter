@@ -1,7 +1,7 @@
 const SECURE_VISITOR_COOKIE = "__Host-youmatter-visitor";
 const LOCAL_VISITOR_COOKIE = "youmatter-visitor";
 const VISITOR_TOKEN_PATTERN = /^[A-Za-z0-9_-]{43}$/;
-const VISITOR_COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
+const VISITOR_COOKIE_MAX_AGE = 60 * 60 * 24 * 90;
 
 export type VisitorSubmissionIdentity = {
   tokenHash: string;

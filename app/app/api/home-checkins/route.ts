@@ -1,3 +1,4 @@
+import { env } from "cloudflare:workers";
 import { and, desc, eq } from "drizzle-orm";
 import { getDb } from "../../../db";
 import { homepageCheckins } from "../../../db/schema";
@@ -7,6 +8,7 @@ import {
   getVisitorTokenHash,
   privateVisitorJson,
 } from "../../../lib/visitor-submissions";
+import { purgeStalePendingContributions } from "../../../lib/privacy-retention";
 
 const COMMENT_MAX_LENGTH = 240;
 const FIRST_NAME_MAX_LENGTH = 40;
@@ -14,6 +16,7 @@ const PUBLIC_CHECKIN_LIMIT = 100;
 
 export async function GET(request: Request) {
   try {
+    await purgeStalePendingContributions(env.DB);
     const db = getDb();
     const checkins = await db
       .select({
@@ -135,6 +138,7 @@ export async function POST(request: Request) {
   }
 
   try {
+    await purgeStalePendingContributions(env.DB);
     const identity = await createVisitorSubmissionIdentity(request);
     const [checkin] = await getDb()
       .insert(homepageCheckins)

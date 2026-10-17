@@ -159,6 +159,10 @@ export default function LiveAdventureWaitingList() {
           </p>
         </form>
       )}
+      <p className="live-adventure-form-note">
+        We’ll use your name and email only to contact you about RECONNECT. Your
+        details won’t be displayed publicly.
+      </p>
     </div>
   );
 }

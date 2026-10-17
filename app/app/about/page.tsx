@@ -49,6 +49,21 @@ export default function AboutPage() {
               So I quit. And started again.
             </p>
           </div>
+          <aside
+            className="about-introduction__video"
+            aria-label="Short video introduction"
+          >
+            <div className="about-introduction__video-frame">
+              <iframe
+                src="https://www.youtube-nocookie.com/embed/CSfprXiny98"
+                title="I Had Everything. So Why Wasn’t I Happy? — Caroline introduces You Matter (YouTube video)"
+                loading="lazy"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allow="encrypted-media; picture-in-picture; fullscreen"
+              />
+            </div>
+            <p>Prefer watching? Here’s the short version.</p>
+          </aside>
         </section>
 
         <section

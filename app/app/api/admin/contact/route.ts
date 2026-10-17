@@ -1,8 +1,13 @@
+import { env } from "cloudflare:workers";
 import { desc, eq, sql } from "drizzle-orm";
 import { getDb } from "../../../../db";
 import { contactMessages } from "../../../../db/schema";
 import { authorizeAdmin } from "../../../../lib/admin-auth";
 import { LOCAL_ADMIN_PROOF_HEADER } from "../../../../lib/local-admin-auth-proof";
+import {
+  deleteContactMessage,
+  purgeExpiredContactMessages,
+} from "../../../../lib/privacy-retention";
 
 async function authorize(request: Request) {
   return authorizeAdmin(
@@ -29,9 +34,7 @@ export async function GET(request: Request) {
 
   try {
     const db = getDb();
-    await db
-      .delete(contactMessages)
-      .where(sql`${contactMessages.createdAt} < datetime('now', '-12 months')`);
+    await purgeExpiredContactMessages(env.DB);
     const messages = await db
       .select({
         id: contactMessages.id,
@@ -122,10 +125,7 @@ export async function DELETE(request: Request) {
   }
 
   try {
-    const [deleted] = await getDb()
-      .delete(contactMessages)
-      .where(eq(contactMessages.id, id))
-      .returning({ id: contactMessages.id });
+    const deleted = await deleteContactMessage(env.DB, id);
     if (!deleted) {
       return privateResponse({ error: "Contact message not found." }, 404);
     }

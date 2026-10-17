@@ -1,6 +1,8 @@
+import { env } from "cloudflare:workers";
 import { eq, sql } from "drizzle-orm";
 import { getDb } from "../../../db";
 import { dreamSubmissions } from "../../../db/schema";
+import { purgeStalePendingContributions } from "../../../lib/privacy-retention";
 
 const MAX_BODY_BYTES = 4_096;
 const RIVER_STONE_COUNT = 9;
@@ -48,6 +50,7 @@ async function readJson(request: Request): Promise<unknown> {
 
 export async function GET() {
   try {
+    await purgeStalePendingContributions(env.DB);
     const dreams = await getDb()
       .select({ dream: dreamSubmissions.dream })
       .from(dreamSubmissions)
@@ -98,6 +101,7 @@ export async function POST(request: Request) {
   }
 
   try {
+    await purgeStalePendingContributions(env.DB);
     await getDb().insert(dreamSubmissions).values({ dream });
     return privateResponse({ success: true }, 201);
   } catch {
