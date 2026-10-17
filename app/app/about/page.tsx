@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import AboutVideo from "../../components/about-video";
 import SiteFooter from "../../components/site-footer";
 import SiteHeader from "../../components/site-header";
 import "./about.css";
@@ -53,16 +54,11 @@ export default function AboutPage() {
             className="about-introduction__video"
             aria-label="Short video introduction"
           >
-            <div className="about-introduction__video-frame">
-              <iframe
-                src="https://www.youtube-nocookie.com/embed/CSfprXiny98"
-                title="I Had Everything. So Why Wasn’t I Happy? — Caroline introduces You Matter (YouTube video)"
-                loading="lazy"
-                referrerPolicy="strict-origin-when-cross-origin"
-                allow="encrypted-media; picture-in-picture; fullscreen"
-              />
-            </div>
+            <AboutVideo />
             <p>Prefer watching? Here’s the short version.</p>
+            <p className="about-introduction__video-note">
+              Playing this video loads content from YouTube.
+            </p>
           </aside>
         </section>
 
