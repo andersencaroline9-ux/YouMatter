@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 type Field = "name" | "email" | "message";
 type FieldErrors = Partial<Record<Field, string>>;
@@ -165,7 +166,8 @@ export default function ContactForm() {
 
       <p className="contact-privacy">
         Your message, email and optional name are stored privately so I can
-        respond. They won’t be published or used to sign you up for anything.
+        respond. They won’t be published or used to sign you up for anything.{" "}
+        <Link href="/privacy">Privacy at You Matter</Link>
       </p>
       {sessionError && (
         <div className="contact-error" role="alert">

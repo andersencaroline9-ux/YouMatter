@@ -3,6 +3,7 @@
 import { type FormEvent, useState } from "react";
 import { countries } from "../lib/countries";
 import HomeCommunityTree from "./home-community-tree";
+import PrivacyLink from "../components/privacy-link";
 
 type IdentityChoice = "anonymous" | "firstName";
 
@@ -210,6 +211,8 @@ export default function HomeCheckinExperience() {
                           reviewed.
                         </span>
                       </label>
+
+                      <PrivacyLink />
 
                       {error && (
                         <p className="home-checkin__error" role="alert">

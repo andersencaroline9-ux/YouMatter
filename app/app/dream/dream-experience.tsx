@@ -9,6 +9,7 @@ import {
   useRef,
   useState,
 } from "react";
+import PrivacyLink from "../../components/privacy-link";
 
 const prompts = [
   "If nothing was stopping you, what would you really want?",
@@ -657,6 +658,7 @@ export default function DreamExperience() {
                     {submissionError}
                   </p>
                 )}
+                <PrivacyLink />
                 <button
                   className="dream-button"
                   type="submit"

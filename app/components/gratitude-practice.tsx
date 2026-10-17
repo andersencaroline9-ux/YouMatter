@@ -16,6 +16,7 @@ import {
   type GratitudePlantVariant,
 } from "../lib/gratitude-plant-variants";
 import type { ImpactSummary } from "../lib/impact";
+import PrivacyLink from "./privacy-link";
 
 type Entry = {
   key: string;
@@ -303,6 +304,7 @@ export default function GratitudePractice({
             Anonymous) may appear in the shared garden. Your country will
             appear too if you provide one.
           </label>
+          <PrivacyLink />
           <button className="button" disabled={busy}>
             {busy ? "Planting…" : "Plant 3 seeds"}
           </button>

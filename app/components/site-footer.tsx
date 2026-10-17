@@ -40,6 +40,9 @@ export default function SiteFooter() {
               <li>
                 <Link href="/contact">Contact</Link>
               </li>
+              <li>
+                <Link href="/privacy">Privacy</Link>
+              </li>
             </ul>
           </div>
         </nav>

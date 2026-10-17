@@ -11,6 +11,7 @@ import {
 } from "../../lib/character-strengths";
 import { useImpact } from "../../lib/use-impact";
 import ImpactBarometer from "../../components/impact-barometer";
+import PrivacyLink from "../../components/privacy-link";
 
 const CHARACTER_STRENGTH_DESCRIPTIONS: Record<CharacterStrength, string> = {
   Creativity: "Finding new ways to do or think about things.",
@@ -631,6 +632,7 @@ export default function StrengthsPractice() {
               publicly in our shared landscape. Every contribution is reviewed
               before appearing publicly.
             </label>
+            <PrivacyLink />
             <button
               className="button"
               disabled={busy || selectedStrengths.length !== 3}

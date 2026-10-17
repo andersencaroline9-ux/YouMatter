@@ -1,0 +1,18 @@
+.privacy-page{padding:clamp(44px,7vw,88px) 0 clamp(56px,8vw,96px)}
+.privacy-content{max-width:700px}
+.privacy-hero{padding-bottom:clamp(28px,4vw,44px)}
+.privacy-hero .eyebrow{margin:0 0 14px;color:var(--moss)}
+.privacy-hero h1{margin:0 0 26px;color:var(--deep);font-size:clamp(2.1rem,5vw,3.4rem);font-weight:500;letter-spacing:-.035em;line-height:1.12}
+.privacy-content section{padding:clamp(24px,3.5vw,36px) 0;border-top:1px solid var(--line)}
+.privacy-content h2{margin:0 0 14px;color:var(--deep);font-size:clamp(1.4rem,3vw,1.8rem);font-weight:500;letter-spacing:-.02em;line-height:1.25}
+.privacy-content p,.privacy-content li{color:#33493d;font-size:1.02rem;line-height:1.7}
+.privacy-content p{margin:0 0 12px}
+.privacy-content ul{margin:0 0 14px;padding-left:1.25rem}
+.privacy-content li{margin-bottom:6px}
+.privacy-content a{color:var(--deep);text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(20,49,38,.4)}
+.privacy-content a:hover{text-decoration-color:var(--deep)}
+.privacy-content a:focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:3px}
+.privacy-content section>:last-child{margin-bottom:0}
+.privacy-closing__quote{margin:18px 0!important;color:var(--deep)!important;font-size:clamp(1.25rem,3vw,1.55rem)!important;line-height:1.4!important}
+.privacy-content .privacy-updated{margin-top:18px;color:#68786f;font-size:.88rem}
+@media(max-width:560px){.privacy-content p,.privacy-content li{font-size:1rem}}

@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useState } from "react";
+import PrivacyLink from "../../components/privacy-link";
 
 type PublicStatus = {
   interestCount: number;
@@ -151,6 +152,7 @@ export default function LiveAdventureWaitingList() {
             value={email}
             onChange={(event) => setEmail(event.target.value)}
           />
+          <PrivacyLink />
           <button className="button" disabled={busy}>
             {busy ? "Joining…" : "Join the waiting list"}
           </button>

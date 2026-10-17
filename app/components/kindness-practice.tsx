@@ -3,6 +3,7 @@
 import { FormEvent, useEffect, useState } from "react";
 import type { KindnessCategory, PendingKindnessEntry } from "../lib/kindness";
 import KindnessStories from "./kindness-stories";
+import PrivacyLink from "./privacy-link";
 
 export default function KindnessPractice() {
   const [entries, setEntries] = useState<PendingKindnessEntry[]>([]);
@@ -154,6 +155,7 @@ export default function KindnessPractice() {
             pseudonym may appear publicly on the Kindness Tree. I have removed
             identifying details about other people.
           </label>
+          <PrivacyLink />
           <button className="button" disabled={busy}>
             {busy ? "Sharing…" : "Share a kindness"}
           </button>
