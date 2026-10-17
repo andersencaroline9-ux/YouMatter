@@ -55,8 +55,8 @@ export async function GET() {
       .orderBy(sql`RANDOM()`)
       .limit(RIVER_STONE_COUNT);
     return privateResponse({ dreams: dreams.map((entry) => entry.dream) });
-  } catch (error) {
-    console.error("Unable to load approved dreams for the river.", error);
+  } catch {
+    console.error("Unable to load approved dreams for the river.");
     return privateResponse(
       { error: "The River of Dreams is temporarily unavailable." },
       503
@@ -100,8 +100,8 @@ export async function POST(request: Request) {
   try {
     await getDb().insert(dreamSubmissions).values({ dream });
     return privateResponse({ success: true }, 201);
-  } catch (error) {
-    console.error("Unable to save a Dream Stone.", error);
+  } catch {
+    console.error("Unable to save a Dream Stone.");
     return privateResponse(
       { error: "Your dream could not be shared right now. Please try again." },
       500

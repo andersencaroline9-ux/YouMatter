@@ -42,7 +42,7 @@ export default function Home() {
         <section className="approved-hero" aria-labelledby="home-title">
           <div className="approved-hero__content">
             <h1 id="home-title">YOU MATTER.</h1>
-            <p>You matter. We matter. What we do matters.</p>
+            <p>Don't you waste it.</p>
             <p className="approved-hero__tagline">Small adventures inspired by the science of living well.</p>
             <p className="approved-hero__description">
               Try gratitude, kindness, strengths, dreams and nature — and add your experience to something we’re creating together.

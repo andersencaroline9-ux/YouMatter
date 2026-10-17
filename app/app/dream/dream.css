@@ -435,7 +435,7 @@
   font: 1.06rem/1.65 Georgia, "Times New Roman", serif;
 }
 
-.dream-section-heading .dream-prototype-note {
+.dream-section-heading .dream-river-note {
   margin-top: 9px !important;
   font: .8rem/1.5 Arial, Helvetica, sans-serif !important;
 }
@@ -556,23 +556,18 @@
 }
 
 .dream-create__inner {
+  position: relative;
   display: grid;
-  grid-template-columns: minmax(0, .95fr) minmax(300px, 1.05fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: clamp(36px, 7vw, 90px);
   align-items: center;
   max-width: 1100px;
+  min-height: 430px;
 }
 
 .dream-create h2 {
-  margin: 12px 0 21px;
+  margin: 12px 0 15px;
   text-transform: none;
-}
-
-.dream-create .dream-create__stone-title {
-  margin: 34px 0 16px;
-  color: var(--deep);
-  font: 500 clamp(1.8rem, 4vw, 2.7rem)/1.12 Georgia, "Times New Roman", serif;
-  letter-spacing: -.035em;
 }
 
 .dream-create__copy > p:not(.eyebrow) {
@@ -581,8 +576,15 @@
   font: 1.08rem/1.6 Georgia, "Times New Roman", serif;
 }
 
+.dream-create__copy {
+  position: relative;
+  z-index: 1;
+  max-width: 560px;
+  transition: opacity .2s ease;
+}
+
 .dream-create form {
-  margin-top: 25px;
+  margin-top: 20px;
 }
 
 .dream-create form > label {
@@ -616,11 +618,18 @@
 }
 
 .dream-create .dream-prototype-privacy {
-  margin: 12px 0 18px;
+  max-width: 520px;
+  margin: 11px 0 15px;
+}
+
+.dream-stone-guidance {
+  margin: 18px 0 0;
+  color: #526a5d;
+  font: 1rem/1.55 Georgia, "Times New Roman", serif;
 }
 
 .dream-throw-words {
-  margin: 22px 0;
+  margin: 18px 0;
   color: #526a5d;
   font: 1rem/1.6 Georgia, "Times New Roman", serif;
 }
@@ -634,114 +643,112 @@
   font-weight: 600;
 }
 
-.dream-stone-preview {
-  position: relative;
-  display: grid;
-  min-height: 340px;
-  place-items: center;
-  overflow: hidden;
-  isolation: isolate;
-  border-radius: 24px;
-  background:
-    radial-gradient(ellipse at 50% 54%, rgba(223, 237, 222, .46), transparent 38%),
-    radial-gradient(ellipse at 42% 42%, rgba(139, 180, 166, .9), transparent 52%),
-    linear-gradient(164deg, #547d72 0%, #91b0a1 39%, #658c7e 66%, #31594f 100%);
-  box-shadow: inset 0 0 56px rgba(20, 49, 38, .24);
+.dream-submit-error {
+  margin: 0 0 14px;
+  color: #8b352e;
+  font-size: .9rem;
+  line-height: 1.5;
 }
 
-.dream-stone-preview__water {
+.dream-throw-scene {
   position: absolute;
   z-index: 0;
-  inset: 18% -10%;
-  border-block: 1px solid rgba(243, 247, 231, .32);
-  border-radius: 50%;
-  transform: rotate(-4deg);
+  inset: 0;
+  pointer-events: none;
 }
 
-.dream-stone-preview__water::before {
+.dream-throw-scene::before {
   position: absolute;
-  inset: 20% 0;
-  border-block: 1px solid rgba(243, 247, 231, .2);
-  border-radius: 50%;
+  z-index: 0;
+  inset: 0;
+  border-radius: 3px;
+  background: url("/dream-river.png") center 58% / cover no-repeat;
   content: "";
+  opacity: 0;
+  transition: opacity .28s ease;
 }
 
-.dream-stone-preview__stone {
-  position: relative;
-  z-index: 1;
-  display: grid;
-  width: min(78%, 390px);
-  min-height: 150px;
-  place-items: center;
-  padding: 28px 38px;
-  border: 1px solid rgba(52, 60, 46, .52);
-  border-radius: 48% 52% 55% 45% / 54% 46% 54% 46%;
-  background:
-    radial-gradient(ellipse at 29% 24%, rgba(255, 250, 228, .6), transparent 39%),
-    radial-gradient(ellipse at 72% 78%, rgba(40, 48, 37, .52), transparent 53%),
-    linear-gradient(147deg, #b9b19b 0%, #8e8a73 51%, #686b5a 100%);
-  box-shadow: inset 0 3px 5px rgba(255, 255, 255, .4), 0 18px 25px rgba(17, 44, 37, .38);
-  color: #25352c;
-  text-align: center;
-  transform: rotate(-2deg);
-}
-
-.dream-stone-preview__stone span {
-  max-width: 100%;
-  overflow-wrap: anywhere;
-  font: 600 clamp(1rem, 2vw, 1.25rem)/1.45 Georgia, "Times New Roman", serif;
-  text-shadow: 0 1px rgba(255, 255, 255, .3);
-}
-
-.dream-stone-preview__caption {
+.dream-stone-preview {
   position: absolute;
-  right: 18px;
-  bottom: 10px;
-  left: 18px;
-  margin: 0;
-  color: rgba(255, 253, 247, .86);
-  font-size: .78rem;
+  z-index: 1;
+  top: 50%;
+  left: 74%;
+  display: grid;
+  width: min(240px, 28vw);
+  aspect-ratio: 306 / 226;
+  place-items: center;
+  background: url("/dream-stone-07.png") center / contain no-repeat;
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 9px 10px rgba(31, 34, 27, .24));
+  clip-path: inset(0 0 0 1.5%);
+}
+
+.dream-stone-preview span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: block;
+  width: 68%;
+  overflow-wrap: anywhere;
   text-align: center;
-  text-shadow: 0 1px 5px rgba(20, 49, 38, .55);
+  transform: translate(-50%, -50%);
+  color: #fff9e9;
+  font: 500 clamp(.78rem, 1.05vw, .94rem)/1.25 Georgia, "Times New Roman", serif;
+  text-shadow:
+    0 1px 2px rgba(20, 18, 14, .9),
+    0 0 1px rgba(20, 18, 14, .8);
 }
 
 .dream-stone-preview__ripple {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 24px;
-  height: 12px;
-  border: 1px solid rgba(241, 248, 233, .85);
+  z-index: 1;
+  top: var(--ripple-y);
+  left: var(--ripple-x);
+  width: 16px;
+  height: 7px;
+  border: 1px solid rgba(232, 242, 229, .58);
   border-radius: 50%;
   opacity: 0;
-  transform: translate(-50%, -50%) scale(.2);
+  transform: translate(-50%, -50%) scale(.25);
 }
 
-.dream-stone-preview.is-throwing .dream-stone-preview__stone {
-  animation: dream-stone-drop .95s cubic-bezier(.55, .08, .75, .34) forwards;
+.dream-create__inner.is-throwing {
+  overflow: hidden;
 }
 
-.dream-stone-preview.is-throwing .dream-stone-preview__ripple--one {
-  animation: dream-ripple .75s ease-out .45s forwards;
+.dream-create__inner.is-throwing .dream-throw-scene {
+  z-index: 2;
 }
 
-.dream-stone-preview.is-throwing .dream-stone-preview__ripple--two {
-  animation: dream-ripple .8s ease-out .55s forwards;
+.dream-create__inner.is-throwing .dream-throw-scene::before {
+  opacity: 1;
 }
 
-.dream-stone-preview.is-gone .dream-stone-preview__stone {
-  visibility: hidden;
+.dream-create__inner.is-throwing .dream-create__copy {
+  opacity: 0;
 }
 
-@keyframes dream-stone-drop {
-  0% { opacity: 1; transform: translateY(-4px) rotate(-2deg) scale(1); }
-  52% { opacity: 1; transform: translateY(52px) rotate(26deg) scale(.93); }
-  100% { opacity: 0; transform: translateY(145px) rotate(82deg) scale(.65); }
+.dream-create__inner.is-throwing .dream-stone-preview {
+  animation: dream-stone-throw 1.05s cubic-bezier(.35, .05, .72, .7) forwards;
+}
+
+.dream-create__inner.is-throwing .dream-stone-preview__ripple--inner {
+  animation: dream-ripple .48s ease-out 1.02s forwards;
+}
+
+.dream-create__inner.is-throwing .dream-stone-preview__ripple--outer {
+  animation: dream-ripple .58s ease-out 1.06s forwards;
+}
+
+@keyframes dream-stone-throw {
+  0% { opacity: 1; transform: translate(-50%, -50%) translateY(-5px) scale(1); }
+  15% { opacity: 1; transform: translate(-50%, -50%) translateY(-11px) scale(1.015); }
+  100% { opacity: 0; transform: translate(calc(-50% + var(--throw-x)), calc(-50% + var(--throw-y))) scale(.16); }
 }
 
 @keyframes dream-ripple {
-  0% { opacity: .8; transform: translate(-50%, -50%) scale(.25); }
-  100% { opacity: 0; transform: translate(-50%, -50%) scale(8, 2.8); }
+  0% { opacity: .42; transform: translate(-50%, -50%) scale(.35); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(3.7, 2.1); }
 }
 
 .dream-ending {
@@ -899,12 +906,25 @@
   }
 
   .dream-create__inner {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 32px;
+    display: block;
+    min-height: 0;
+    padding-bottom: 205px;
+  }
+
+  .dream-create__copy {
+    max-width: none;
+  }
+
+  .dream-create .dream-prototype-privacy {
+    margin-top: 170px;
   }
 
   .dream-stone-preview {
-    min-height: 310px;
+    top: 410px;
+    bottom: auto;
+    left: 50%;
+    width: min(210px, 62vw);
+    transform: translate(-50%, -50%);
   }
 }
 
