@@ -43,10 +43,11 @@ The active application in `app/` contains the adventures below.
   psychological assessment, scientific measure, or wellbeing score.
 - The public API exposes approved check-ins only; pending check-ins are
   retrievable only by their submitting visitor and protected admin reviewers.
-- Check-ins remain separate from adventure contributions and do not count
-  toward the 50-contribution tree-funding commitment. The product model is
-  Share → Witness, with no public replies, likes, or messaging.
-- The existing check-in form and approved-check-in Community Tree are implemented and preserved, but no longer rendered on the homepage. BOTH are intended for the future dedicated How Are You Doing? tab/page, which is not yet built. They remain separate from the collective impact tally.
+- Each approved check-in counts as one eligible contribution toward the
+  50-contribution tree-funding commitment; pending and rejected check-ins do
+  not count. The product model is Share → Witness, with no public replies,
+  likes, or messaging.
+- The existing check-in form and approved-check-in Community Tree are implemented and preserved, but no longer rendered on the homepage. BOTH are intended for the future dedicated How Are You Doing? tab/page, which is not yet built. Approved check-ins contribute to the shared impact tally.
 - Future links/tools for evidence-based wellbeing or happiness measures require separate research and licensing review. No measures or placeholder page are added by the final homepage task.
 
 ## Gratitude Garden

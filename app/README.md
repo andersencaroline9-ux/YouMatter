@@ -89,12 +89,15 @@ separate from adventure contributions and never count toward the
 
 Run `pnpm build` or `pnpm lint` from this directory as needed.
 
-Impact uses 50 approved eligible grouped Gratitude/Strengths submissions or
-Kindness stories per earned tree. Each approved form counts once in both its
-category tally and the combined total, even when it contains three items. Check-ins, the waiting list, and Nature Mosaic
-are excluded. Run `node scripts/test-impact.mjs` for the counting boundaries.
-Record confirmed cumulative funded and planted totals separately in `/admin`;
-neither is inferred from earned trees. Migration `0008` initializes these at zero.
+Impact uses 50 approved eligible grouped Gratitude/Strengths submissions,
+Kindness stories, River of Dreams submissions, or How Are You Doing? check-ins
+per earned tree. Each approved form counts once in both its category tally and
+the combined total, even when it contains three items. Pending or rejected
+submissions do not count. RECONNECT waiting-list entries, Contact messages, and
+Nature Mosaic are excluded. Run `node scripts/test-impact.mjs` for the counting
+boundaries. Record confirmed cumulative funded and planted totals separately in
+`/admin`; neither is inferred from earned trees. Migration `0008` initializes
+these at zero.
 
 ---
 

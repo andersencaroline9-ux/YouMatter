@@ -60,7 +60,10 @@
 - The homepage emotional north star is arriving at your best friend's house: welcome the visitor before explaining the wellbeing proposition. The welcome combines a personal check-in with an immediate glimpse of the community.
 - The optional 1–10 homepage check-in is human and social, not a scientific measure, assessment, diagnosis, happiness score, or wellbeing score. Future validated measures belong in a separate “Check in with yourself” area.
 - Each approved check-in contributes one equally valued leaf to the community tree. Rating values must not affect leaf appearance. The homepage shares approved voices to witness them; do not add public replies, likes, reactions, advice, or messaging.
-- Homepage check-ins are a separate moderated record type and count as zero toward the 50-approved-adventure-contribution tree-funding commitment.
+- Homepage check-ins are a separate moderated record type; each approved
+  check-in counts as one eligible contribution toward the 50-contribution
+  tree-funding commitment. Pending and rejected check-ins do not count. This
+  supersedes the earlier exclusion from the shared total.
 - The homepage front door pairs the title and short positive-psychology WHY with an optional check-in and an approved-only community glimpse before forest entry. Mobile puts check-in and community before the WHY. Pending check-ins are private to their submitter and moderators, never part of the public check-in list.
 - Task 12A.12C replaces the temporary glimpse with the existing woodland tree photograph and a deterministic window of up to 12 uniform, interactive leaves for approved check-ins only. Leaves do not encode rating; the tree remains visible with zero check-ins. This pilot window is not an unlimited growth engine.
 

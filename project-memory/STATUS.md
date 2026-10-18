@@ -1,5 +1,20 @@
 # Project status
 
+## Approved check-ins in Our Forest — 2026-10-18
+
+- Updated the shared impact calculation to include one contribution for every
+  approved How Are You Doing? check-in. The impact API counts approved
+  check-ins in its atomic D1 aggregate batch; pending and rejected check-ins
+  remain excluded. Existing adventure categories and manually confirmed
+  funded/planted totals are unchanged. No schema or migration was needed.
+- Local API testing began from 10 eligible contributions, including 3 approved
+  check-ins. A pending check-in left the total at 10; approving it raised the
+  total to 11; rejecting/removing it returned the total to 10. A separately
+  rejected check-in stayed out of the total. An approved Kindness story raised
+  the total by one and its removal returned it to baseline. A RECONNECT
+  waitlist entry did not change the total. Test data was removed and the
+  baseline rechecked.
+
 ## Writing section — 2026-10-15
 
 - Added Writing as a primary section with a curated 20-piece launch collection,

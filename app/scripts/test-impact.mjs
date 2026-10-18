@@ -49,18 +49,25 @@ try {
   assert.equal(summary.dreamsShared,2);
   assert.equal(summary.totalApprovedContributions,17);
   // Each approved form counts once, even when it contains three items.
-  const onePerForm = calculateImpact(2,1,1,1,0,0);
+  const onePerForm = calculateImpact(2,1,1,1,0,0,1);
   assert.equal(onePerForm.gratitudesShared,2);
   assert.equal(onePerForm.kindnessesNoticed,1);
   assert.equal(onePerForm.strengthsRecognised,1);
   assert.equal(onePerForm.dreamsShared,1);
-  assert.equal(onePerForm.totalApprovedContributions,5);
-  assert.equal(onePerForm.towardNextTree,5);
-  assert.equal(onePerForm.contributionsUntilNextTree,45);
+  assert.equal(onePerForm.checkinsShared,1);
+  assert.equal(onePerForm.totalApprovedContributions,6);
+  assert.equal(onePerForm.towardNextTree,6);
+  assert.equal(onePerForm.contributionsUntilNextTree,44);
   assert.equal(summary.gratitudesShared + summary.kindnessesNoticed + summary.strengthsRecognised + summary.dreamsShared,
     summary.totalApprovedContributions);
+  assert.equal(onePerForm.gratitudesShared + onePerForm.kindnessesNoticed + onePerForm.strengthsRecognised
+    + onePerForm.dreamsShared + onePerForm.checkinsShared, onePerForm.totalApprovedContributions);
   assert.equal(calculateImpact(150,0,0,0,2,2).treesEarned,3);
   assert.equal(calculateImpact(150,0,0,0,2,2).treesActuallyPlanted,2);
+  const checkinThreshold = calculateImpact(49,0,0,0,0,0,1);
+  assert.equal(checkinThreshold.totalApprovedContributions,50);
+  assert.equal(checkinThreshold.treesEarned,1);
+  assert.equal(checkinThreshold.towardNextTree,0);
   for (const invalid of [null,{}, {treesFunded:-1,treesPlanted:0},{treesFunded:1.5,treesPlanted:0},
     {treesFunded:1,treesPlanted:2},{treesFunded:'2',treesPlanted:1},{treesFunded:Number.MAX_SAFE_INTEGER+1,treesPlanted:0}]) {
     assert.equal(isTreeAccounting(invalid),false);
