@@ -6,9 +6,6 @@ import "./site-shell.css";
 export const metadata: Metadata = {
   title: "You Matter — Choose Your Adventure",
   description: "Small daily practices made visible: gratitude, nature and kindness, grown together.",
-  other: {
-    "codex-preview": "development",
-  },
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",

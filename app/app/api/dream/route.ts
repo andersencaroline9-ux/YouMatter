@@ -3,11 +3,13 @@ import { eq, sql } from "drizzle-orm";
 import { getDb } from "../../../db";
 import { dreamSubmissions } from "../../../db/schema";
 import { purgeStalePendingContributions } from "../../../lib/privacy-retention";
+import {
+  readJsonBody,
+  RequestBodyTooLargeError,
+} from "../../../lib/request-json";
 
 const MAX_BODY_BYTES = 4_096;
 const RIVER_STONE_COUNT = 9;
-
-class BodyTooLargeError extends Error {}
 
 function privateResponse(body: object, status = 200) {
   return Response.json(body, {
@@ -18,34 +20,6 @@ function privateResponse(body: object, status = 200) {
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
-}
-
-async function readJson(request: Request): Promise<unknown> {
-  const contentLength = Number(request.headers.get("content-length") ?? 0);
-  if (contentLength > MAX_BODY_BYTES) throw new BodyTooLargeError();
-
-  const reader = request.body?.getReader();
-  if (!reader) throw new SyntaxError("A request body is required.");
-
-  const decoder = new TextDecoder("utf-8", { fatal: true });
-  let rawBody = "";
-  let bytesRead = 0;
-  try {
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      bytesRead += value.byteLength;
-      if (bytesRead > MAX_BODY_BYTES) {
-        await reader.cancel();
-        throw new BodyTooLargeError();
-      }
-      rawBody += decoder.decode(value, { stream: true });
-    }
-    rawBody += decoder.decode();
-  } finally {
-    reader.releaseLock();
-  }
-  return JSON.parse(rawBody) as unknown;
 }
 
 export async function GET() {
@@ -70,9 +44,9 @@ export async function GET() {
 export async function POST(request: Request) {
   let body: unknown;
   try {
-    body = await readJson(request);
+    body = await readJsonBody(request, MAX_BODY_BYTES);
   } catch (error) {
-    if (error instanceof BodyTooLargeError) {
+    if (error instanceof RequestBodyTooLargeError) {
       return privateResponse({ error: "The dream is too large." }, 413);
     }
     return privateResponse(

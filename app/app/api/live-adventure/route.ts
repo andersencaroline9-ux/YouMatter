@@ -5,6 +5,11 @@ import {
 import {
   purgeExpiredReconnectInterests,
 } from "../../../lib/privacy-retention";
+import {
+  PUBLIC_JSON_BODY_LIMIT_BYTES,
+  readJsonBody,
+  RequestBodyTooLargeError,
+} from "../../../lib/request-json";
 
 const FIRST_NAME_MAX_LENGTH = 40;
 const EMAIL_MAX_LENGTH = 254;
@@ -42,11 +47,19 @@ export async function GET() {
 export async function POST(request: Request) {
   let body: unknown;
   try {
-    body = await request.json();
-  } catch {
+    body = await readJsonBody(request, PUBLIC_JSON_BODY_LIMIT_BYTES);
+  } catch (error) {
     return Response.json(
-      { error: "Enter your first name and email address." },
-      { status: 400, headers: PRIVATE_HEADERS }
+      {
+        error:
+          error instanceof RequestBodyTooLargeError
+            ? "The submission is too large."
+            : "Enter your first name and email address.",
+      },
+      {
+        status: error instanceof RequestBodyTooLargeError ? 413 : 400,
+        headers: PRIVATE_HEADERS,
+      }
     );
   }
 

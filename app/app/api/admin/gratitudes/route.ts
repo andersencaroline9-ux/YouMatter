@@ -10,6 +10,8 @@ import {
   purgeStalePendingContributions,
 } from "../../../../lib/privacy-retention";
 
+const PRIVATE_HEADERS = { "Cache-Control": "private, no-store" };
+
 export async function GET(request: Request) {
   const authorization = await authorizeAdmin(
     request.headers.get("cf-access-jwt-assertion"),
@@ -18,7 +20,7 @@ export async function GET(request: Request) {
   if (!authorization.authorized) {
     return Response.json(
       { error: authorization.message },
-      { status: authorization.status }
+      { status: authorization.status, headers: PRIVATE_HEADERS }
     );
   }
 
@@ -38,9 +40,10 @@ export async function GET(request: Request) {
       .from(gratitudes)
       .orderBy(desc(gratitudes.createdAt), desc(gratitudes.id))
       .limit(300);
-    return Response.json({
-      gratitudes: groupGratitudeRows(rows).slice(0, 100),
-    });
+    return Response.json(
+      { gratitudes: groupGratitudeRows(rows).slice(0, 100) },
+      { headers: PRIVATE_HEADERS }
+    );
   } catch (error) {
     return Response.json(
       {
@@ -49,7 +52,7 @@ export async function GET(request: Request) {
             ? error.message
             : "Unable to load submissions.",
       },
-      { status: 500 }
+      { status: 500, headers: PRIVATE_HEADERS }
     );
   }
 }

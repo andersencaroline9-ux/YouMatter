@@ -9,9 +9,9 @@
 }
 
 .reconnect-hero-copy {
-  width: min(100%, 760px);
+  width: min(100%, 980px);
   justify-self: end;
-  padding: clamp(34px, 3.75vw, 54px) clamp(28px, 4vw, 62px) 36px max(24px, calc((100vw - 1160px) / 2));
+  padding: clamp(34px, 3.75vw, 54px) clamp(28px, 4vw, 62px) 36px clamp(24px, calc((100vw - 1160px) / 2), 140px);
 }
 
 .reconnect-eyebrow {

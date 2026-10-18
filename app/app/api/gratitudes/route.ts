@@ -13,6 +13,11 @@ import {
   getVisitorTokenHash,
   privateVisitorJson,
 } from "../../../lib/visitor-submissions";
+import {
+  PUBLIC_JSON_BODY_LIMIT_BYTES,
+  readJsonBody,
+  RequestBodyTooLargeError,
+} from "../../../lib/request-json";
 import { purgeStalePendingContributions } from "../../../lib/privacy-retention";
 
 function publicSubmissions(submissions: GratitudeSubmission[]) {
@@ -123,18 +128,23 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
+  let payload: unknown;
+  try {
+    payload = await readJsonBody(request, PUBLIC_JSON_BODY_LIMIT_BYTES);
+  } catch (error) {
+    return Response.json(
+      {
+        error:
+          error instanceof RequestBodyTooLargeError
+            ? "The submission is too large."
+            : "Please send a valid Gratitude submission.",
+      },
+      { status: error instanceof RequestBodyTooLargeError ? 413 : 400 }
+    );
+  }
+
   try {
     await purgeStalePendingContributions(env.DB);
-    let payload: unknown;
-    try {
-      payload = await request.json();
-    } catch {
-      return Response.json(
-        { error: "Please send a valid Gratitude submission." },
-        { status: 400 }
-      );
-    }
-
     if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
       return Response.json(
         { error: "Please send a valid Gratitude submission." },

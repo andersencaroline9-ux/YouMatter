@@ -8,6 +8,11 @@ import {
   getVisitorTokenHash,
   privateVisitorJson,
 } from "../../../lib/visitor-submissions";
+import {
+  PUBLIC_JSON_BODY_LIMIT_BYTES,
+  readJsonBody,
+  RequestBodyTooLargeError,
+} from "../../../lib/request-json";
 import { purgeStalePendingContributions } from "../../../lib/privacy-retention";
 
 const COMMENT_MAX_LENGTH = 240;
@@ -63,13 +68,24 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   let body: Record<string, unknown>;
   try {
-    const parsed: unknown = await request.json();
+    const parsed: unknown = await readJsonBody(
+      request,
+      PUBLIC_JSON_BODY_LIMIT_BYTES
+    );
     if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
       return Response.json({ error: "Check your check-in details." }, { status: 400 });
     }
     body = parsed as Record<string, unknown>;
-  } catch {
-    return Response.json({ error: "Check your check-in details." }, { status: 400 });
+  } catch (error) {
+    return Response.json(
+      {
+        error:
+          error instanceof RequestBodyTooLargeError
+            ? "The check-in is too large."
+            : "Check your check-in details.",
+      },
+      { status: error instanceof RequestBodyTooLargeError ? 413 : 400 }
+    );
   }
 
   const rating = body.rating;

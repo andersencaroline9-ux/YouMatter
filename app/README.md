@@ -33,6 +33,9 @@ node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1
 node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0006_live_adventure_waiting_list.sql
 node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0007_homepage_checkins.sql
 node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0008_impact_accounting.sql
+node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0009_strengths_permanent_sequence.sql
+node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0010_contact_messages.sql
+node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0011_dream_submissions.sql
 ```
 
 Apply these migrations once in order. Do not replay them against an already
@@ -46,7 +49,11 @@ pending, visitor-owned Strengths contribution per row. Migration `0006` creates
 the separate Live Adventure waiting list with unique normalized email addresses.
 Migration `0007` creates the moderated homepage check-in table. Check-ins are
 separate from adventure contributions and never count toward the
-50-contribution tree-funding commitment.
+50-contribution tree-funding commitment. Migration `0009` adds permanent
+sequence positions to approved Strengths contributions. Migration `0010`
+creates the private Contact inbox, and migration `0011` creates Dream
+submissions. Founding trees are accounting context, not visitor-contribution
+seed data.
 
 ## Local features and data
 

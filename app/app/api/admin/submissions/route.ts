@@ -21,6 +21,8 @@ import {
   purgeStalePendingContributions,
 } from "../../../../lib/privacy-retention";
 
+const PRIVATE_HEADERS = { "Cache-Control": "private, no-store" };
+
 export async function GET(request: Request) {
   const authorization = await authorizeAdmin(
     request.headers.get("cf-access-jwt-assertion"),
@@ -29,7 +31,7 @@ export async function GET(request: Request) {
   if (!authorization.authorized) {
     return Response.json(
       { error: authorization.message },
-      { status: authorization.status }
+      { status: authorization.status, headers: PRIVATE_HEADERS }
     );
   }
 
@@ -120,17 +122,20 @@ export async function GET(request: Request) {
       ...entry,
       strengths: parseStoredCharacterStrengths(strength),
     }));
-    return Response.json({
-      gratitude: groupGratitudeRows(gratitude).slice(0, 100),
-      nature: nature.map((row) => ({
-        ...row,
-        imageUrl: `/api/admin/nature/${row.id}/image`,
-      })),
-      kindness,
-      strengths: groupedStrengths,
-      checkins,
-      dreams,
-    });
+    return Response.json(
+      {
+        gratitude: groupGratitudeRows(gratitude).slice(0, 100),
+        nature: nature.map((row) => ({
+          ...row,
+          imageUrl: `/api/admin/nature/${row.id}/image`,
+        })),
+        kindness,
+        strengths: groupedStrengths,
+        checkins,
+        dreams,
+      },
+      { headers: PRIVATE_HEADERS }
+    );
   } catch (error) {
     return Response.json(
       {
@@ -139,7 +144,7 @@ export async function GET(request: Request) {
             ? error.message
             : "Unable to load submissions.",
       },
-      { status: 500 }
+      { status: 500, headers: PRIVATE_HEADERS }
     );
   }
 }

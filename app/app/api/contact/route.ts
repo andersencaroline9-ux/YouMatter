@@ -2,6 +2,10 @@ import { env } from "cloudflare:workers";
 import { getDb } from "../../../db";
 import { contactMessages } from "../../../db/schema";
 import { purgeExpiredContactMessages } from "../../../lib/privacy-retention";
+import {
+  readJsonBody,
+  RequestBodyTooLargeError,
+} from "../../../lib/request-json";
 
 const MAX_BODY_BYTES = 24_000;
 const MIN_COMPLETION_MS = 2_500;
@@ -10,8 +14,6 @@ const MAX_NAME_LENGTH = 100;
 const MAX_EMAIL_LENGTH = 254;
 const MAX_MESSAGE_LENGTH = 5_000;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-class BodyTooLargeError extends Error {}
 
 function clearSessionCookie(request: Request) {
   const secure = new URL(request.url).protocol === "https:" ? "; Secure" : "";
@@ -64,29 +66,9 @@ export async function POST(request: Request) {
 
   let body: unknown;
   try {
-    const reader = request.body?.getReader();
-    if (!reader) throw new Error("A request body is required.");
-    const decoder = new TextDecoder("utf-8", { fatal: true });
-    let rawBody = "";
-    let bytesRead = 0;
-    try {
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        bytesRead += value.byteLength;
-        if (bytesRead > MAX_BODY_BYTES) {
-          await reader.cancel();
-          throw new BodyTooLargeError();
-        }
-        rawBody += decoder.decode(value, { stream: true });
-      }
-      rawBody += decoder.decode();
-    } finally {
-      reader.releaseLock();
-    }
-    body = JSON.parse(rawBody);
+    body = await readJsonBody(request, MAX_BODY_BYTES);
   } catch (error) {
-    if (error instanceof BodyTooLargeError) {
+    if (error instanceof RequestBodyTooLargeError) {
       return response({ error: "The message is too large." }, 413, request, true);
     }
     return response({ error: "Please check the form and try again." }, 400, request);

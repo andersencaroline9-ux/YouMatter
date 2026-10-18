@@ -1,5 +1,39 @@
 # Project status
 
+## Final pre-launch technical hardening — 2026-10-18
+
+- Enabled public JSON write endpoints enforce byte limits: 8 KiB for Gratitude,
+  Kindness, Strengths, check-ins, and RECONNECT; 4 KiB for Dream; and 24 KiB
+  for Contact. Malformed JSON returns a generic 400 response. Local requests
+  verified legitimate submissions, oversized-body rejection, and malformed
+  JSON behavior; all temporary test records were removed.
+- Protected Admin APIs remained inaccessible without trusted identity and
+  returned `private, no-store`. Trusted loopback Admin reads succeeded locally
+  with the same cache policy. The Worker adds `nosniff`, strict-origin
+  referrer policy, frame denial, and the Permissions Policy. The About video
+  made no YouTube request before Play and requested its `youtube-nocookie.com`
+  iframe after interaction.
+- Nature Mosaic remains disabled (`/nature` redirects to `/`; its public API
+  returns 404). A local accounting regression verified one approved
+  contribution each for a Gratitude group, Kindness, Strengths, Dream, and
+  check-in, then deleted the fixture rows and restored the prior total.
+- Fresh local D1 instructions in `app/README.md` now list migrations 0000
+  through 0011 in order, prohibit replay, and identify founding trees as
+  accounting context rather than visitor seed data. No remote migration was
+  run.
+- Production build succeeded; ESLint passed with seven existing `<img>`
+  warnings; `git diff --check` passed. `pnpm audit --prod` reports four high,
+  two moderate, and one low advisory, with no critical advisory. No dependency
+  was changed. `sharp@0.35.4` (CVE-2026-96889) remains in the dependency graph
+  but was not found in the deployed Worker bundle. Enabled image paths use
+  application-controlled local assets, no enabled visitor-controlled
+  SVG/image-processing path reaches it, and Nature Mosaic remains disabled.
+  Disposition: not reachable in the current application; patch `sharp` soon
+  and re-evaluate if the image architecture changes.
+- CSP remains deferred because Vinext/RSC inline hydration and dynamic inline
+  styles need nonce/hash-aware integration and broader testing. HSTS remains
+  deferred until HTTPS and the custom domain are finalized behind Cloudflare.
+
 ## RECONNECT waiting-list privacy — 2026-10-18
 
 - Removed the anonymous duplicate-email response and public reserve-position

@@ -1,5 +1,18 @@
 # DECISIONS
 
+## 2026-10-18 — Final pre-launch request and response hardening
+- Cap enabled public JSON writes at 8 KiB, except Dream at 4 KiB and Contact at
+  24 KiB; reject oversized bodies before validation or persistence. Treat
+  malformed JSON as a client error without exposing parser details.
+- Apply `X-Content-Type-Options: nosniff`, a strict cross-origin referrer
+  policy, frame denial, and a Permissions Policy at the Worker boundary. All
+  `/api/admin/` responses are `private, no-store`; route authorization remains
+  independently enforced.
+- Defer CSP: Vinext/RSC emits inline hydration payloads, and current pages use
+  dynamic inline styles. A safe policy needs nonce/hash support and broader
+  testing; do not weaken it with blanket `unsafe-inline`. Defer HSTS until the
+  final HTTPS/custom-domain configuration is established behind Cloudflare.
+
 ## 2026-10-18 — RECONNECT waiting-list privacy
 - Anonymous valid new and duplicate email submissions use the same success
   response and message below capacity. Do not reveal whether an address is

@@ -7,6 +7,11 @@ import {
   getVisitorTokenHash,
   privateVisitorJson,
 } from "../../../lib/visitor-submissions";
+import {
+  PUBLIC_JSON_BODY_LIMIT_BYTES,
+  readJsonBody,
+  RequestBodyTooLargeError,
+} from "../../../lib/request-json";
 import { purgeStalePendingContributions } from "../../../lib/privacy-retention";
 
 export async function GET(request: Request) {
@@ -43,9 +48,30 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
+  let payload: unknown;
+  try {
+    payload = await readJsonBody(request, PUBLIC_JSON_BODY_LIMIT_BYTES);
+  } catch (error) {
+    return Response.json(
+      {
+        error:
+          error instanceof RequestBodyTooLargeError
+            ? "The kindness story is too large."
+            : "Please send a valid kindness story.",
+      },
+      { status: error instanceof RequestBodyTooLargeError ? 413 : 400 }
+    );
+  }
+  if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
+    return Response.json(
+      { error: "Please send a valid kindness story." },
+      { status: 400 }
+    );
+  }
+
   try {
     await purgeStalePendingContributions(env.DB);
-    const body = (await request.json()) as {
+    const body = payload as {
       message?: unknown;
       kind?: unknown;
       displayName?: unknown;
