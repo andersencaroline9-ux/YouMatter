@@ -83,10 +83,21 @@ export default function HomeCheckinExperience() {
                   <p>Whatever today looks like for you, you’re welcome here.</p>
                 </div>
                 <form className="home-checkin__form" onSubmit={submit}>
-                  <fieldset className="home-checkin__rating">
+                  <fieldset
+                    className="home-checkin__rating"
+                    role="radiogroup"
+                    aria-required="true"
+                    aria-describedby="home-checkin-rating-required"
+                  >
                     <legend className="visually-hidden">
                       How are you doing today, from 1 to 10?
                     </legend>
+                    <span
+                      className="visually-hidden"
+                      id="home-checkin-rating-required"
+                    >
+                      A rating is required.
+                    </span>
                     <div className="home-checkin__numbers">
                       {Array.from({ length: 10 }, (_, index) => index + 1).map(
                         (value) => (

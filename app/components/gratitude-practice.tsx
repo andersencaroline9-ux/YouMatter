@@ -203,7 +203,7 @@ export default function GratitudePractice({
   return (
     <div className="practice-grid">
       <div className="practice card">
-        <h2>Plant three small gratitudes.</h2>
+        <h2 id="gratitude-entry-heading">Plant three small gratitudes.</h2>
         <p className="gratitude-reassurance">
           <strong>Having a difficult day?</strong>
           You don&apos;t have to pretend everything is wonderful to practise
@@ -215,28 +215,39 @@ export default function GratitudePractice({
           when your shoulders softened. Honest and specific is enough.
         </p>
         <form className="gratitude-form" onSubmit={submit}>
-          {messages.map((message, index) => (
-            <div key={index}>
-              <label htmlFor={`g-${index}`}>Gratitude {index + 1}</label>
-              <textarea
-                id={`g-${index}`}
-                maxLength={280}
-                value={message}
-                onChange={(event) =>
-                  setMessages((current) =>
-                    current.map((value, currentIndex) =>
-                      currentIndex === index ? event.target.value : value
+          <div
+            className="gratitude-entry-group"
+            role="group"
+            aria-labelledby="gratitude-entry-heading"
+            aria-describedby="gratitude-entry-required"
+          >
+            <span className="visually-hidden" id="gratitude-entry-required">
+              All three entries are required.
+            </span>
+            {messages.map((message, index) => (
+              <div key={index}>
+                <label htmlFor={`g-${index}`}>Gratitude {index + 1}</label>
+                <textarea
+                  id={`g-${index}`}
+                  maxLength={280}
+                  aria-required="true"
+                  value={message}
+                  onChange={(event) =>
+                    setMessages((current) =>
+                      current.map((value, currentIndex) =>
+                        currentIndex === index ? event.target.value : value
+                      )
                     )
-                  )
-                }
-                placeholder={
-                  index === 0
-                    ? "Today, I’m grateful for…"
-                    : "One more small thing…"
-                }
-              />
-            </div>
-          ))}
+                  }
+                  placeholder={
+                    index === 0
+                      ? "Today, I’m grateful for…"
+                      : "One more small thing…"
+                  }
+                />
+              </div>
+            ))}
+          </div>
 
           <fieldset className="gratitude-form__identity">
             <legend>How would you like this to appear?</legend>

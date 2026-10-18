@@ -6,10 +6,15 @@ import {
   UsersRound,
 } from "lucide-react";
 import Image from "next/image";
+import type { Metadata } from "next";
 import SiteFooter from "../../components/site-footer";
 import SiteHeader from "../../components/site-header";
 import LiveAdventureWaitingList from "./waiting-list";
 import "./live-adventure.css";
+
+export const metadata: Metadata = {
+  title: "RECONNECT — 30 Days in Nature — You Matter",
+};
 
 const connections = [
   {

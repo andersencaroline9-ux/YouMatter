@@ -131,6 +131,7 @@ export default function KindnessPractice() {
             Tell us what happened.
             <textarea
               maxLength={320}
+              aria-required="true"
               value={message}
               onChange={(event) => setMessage(event.target.value)}
               placeholder="Someone noticed that…"

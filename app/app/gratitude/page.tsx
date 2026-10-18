@@ -1,7 +1,12 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import SiteFooter from "../../components/site-footer";
 import SiteHeader from "../../components/site-header";
 import GratitudeExperience from "../../components/gratitude-experience";
+
+export const metadata: Metadata = {
+  title: "Gratitude Garden — You Matter",
+};
 
 export default function GratitudePage() {
   return (

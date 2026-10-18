@@ -14,8 +14,9 @@
 
 .approved-home a:focus-visible,
 .approved-home progress:focus-visible {
-  outline: 3px solid #a67a2e;
+  outline: 3px solid #765316;
   outline-offset: 4px;
+  box-shadow: 0 0 0 2px var(--paper);
 }
 
 .forest-home__header {
@@ -52,7 +53,7 @@
   align-items: center;
   overflow: hidden;
   background:
-    linear-gradient(90deg, rgba(5, 18, 11, .34), rgba(5, 18, 11, .08) 67%, rgba(5, 18, 11, .02)),
+    linear-gradient(90deg, rgba(5, 18, 11, .68), rgba(5, 18, 11, .64) 60%, rgba(5, 18, 11, .60)),
     url("/forest-live-trailhead-temporary.jpg") center 53% / cover no-repeat;
   color: #fffdf7;
 }

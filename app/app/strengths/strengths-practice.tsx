@@ -471,8 +471,17 @@ export default function StrengthsPractice() {
           aria-label="Choose and share your strengths"
         >
           <form className="strengths-form card" onSubmit={submit}>
-            <fieldset className="strengths-selection">
+            <fieldset
+              className="strengths-selection"
+              aria-describedby="strengths-selection-requirement"
+            >
               <legend>Choose three strengths you recognise in yourself</legend>
+              <span
+                className="visually-hidden"
+                id="strengths-selection-requirement"
+              >
+                A selection is required. Choose exactly three strengths.
+              </span>
               <p className="strengths-helper" aria-live="polite">
                 {selectedStrengths.length} of 3 selected
                 {selectedStrengths.length > 0 &&

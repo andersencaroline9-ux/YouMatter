@@ -1,8 +1,13 @@
+import type { Metadata } from "next";
 import "./kindness.css";
 import AdventureShell from "../../components/adventure-shell";
 import KindnessDiscovery from "../../components/kindness-discovery";
 import KindnessPractice from "../../components/kindness-practice";
 import ImpactBarometer from "../../components/impact-barometer";
+
+export const metadata: Metadata = {
+  title: "The Kindness Tree — You Matter",
+};
 
 export default function KindnessPage() {
   return (

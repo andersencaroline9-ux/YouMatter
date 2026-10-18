@@ -63,6 +63,19 @@ export default function SiteHeader({ home = false }: { home?: boolean }) {
       ref={headerRef}
       className={`site-header${home ? " forest-home__header" : ""}`}
     >
+      <a
+        className="skip-to-main"
+        href="#main-content"
+        onClick={() => {
+          const main = document.querySelector("main");
+          if (!main) return;
+          main.id = "main-content";
+          main.tabIndex = -1;
+          main.focus();
+        }}
+      >
+        Skip to main content
+      </a>
       <nav className="shell site-nav" aria-label="Main navigation">
         <Link
           className="brand"
