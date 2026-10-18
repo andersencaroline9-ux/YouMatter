@@ -359,8 +359,8 @@ export default function LiveAdventurePage() {
                 register.
               </p>
               <p>
-                Caroline will contact people in order as the 10-person group
-                takes shape. Entries 11–20 are held on the reserve list.
+                Caroline will be in touch as places in the 10-person group are
+                confirmed.
               </p>
               <p className="reconnect-signup-detail">
                 $44 pilot price <span aria-hidden="true">·</span> Adults 18+{" "}

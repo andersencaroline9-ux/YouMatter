@@ -1,7 +1,5 @@
 import { env } from "cloudflare:workers";
 import {
-  isLiveAdventureReservePosition,
-  LIVE_ADVENTURE_COHORT_SIZE,
   LIVE_ADVENTURE_WAITLIST_CAPACITY,
 } from "../../../lib/live-adventure-cohort";
 import {
@@ -11,15 +9,6 @@ import {
 const FIRST_NAME_MAX_LENGTH = 40;
 const EMAIL_MAX_LENGTH = 254;
 const PRIVATE_HEADERS = { "Cache-Control": "private, no-store" };
-
-function publicCount(total: number) {
-  return {
-    interestCount: Math.min(total, LIVE_ADVENTURE_COHORT_SIZE),
-    publicTarget: LIVE_ADVENTURE_COHORT_SIZE,
-    waitingListFull: total >= LIVE_ADVENTURE_WAITLIST_CAPACITY,
-    reserveActive: total >= LIVE_ADVENTURE_COHORT_SIZE,
-  };
-}
 
 async function getInterestCount() {
   if (!env.DB) throw new Error("D1 binding is unavailable.");
@@ -33,9 +22,15 @@ async function getInterestCount() {
 export async function GET() {
   try {
     await purgeExpiredReconnectInterests(env.DB);
-    return Response.json(publicCount(await getInterestCount()), {
-      headers: PRIVATE_HEADERS,
-    });
+    return Response.json(
+      {
+        isFull:
+          (await getInterestCount()) >= LIVE_ADVENTURE_WAITLIST_CAPACITY,
+      },
+      {
+        headers: PRIVATE_HEADERS,
+      }
+    );
   } catch {
     return Response.json(
       { error: "The waiting-list status is temporarily unavailable." },
@@ -102,35 +97,16 @@ export async function POST(request: Request) {
       .first<{ id: number }>();
 
     if (!inserted) {
-      const existing = await env.DB.prepare(
-        "SELECT id FROM live_adventure_interests WHERE email = ? LIMIT 1"
-      )
-        .bind(email)
-        .first<{ id: number }>();
-      if (existing) {
+      if ((await getInterestCount()) >= LIVE_ADVENTURE_WAITLIST_CAPACITY) {
         return Response.json(
-          {
-            alreadyRegistered: true,
-            message: "You’re already on the waiting list.",
-          },
-          { headers: PRIVATE_HEADERS }
+          { error: "This group’s waiting list is currently full." },
+          { status: 409, headers: PRIVATE_HEADERS }
         );
       }
-      return Response.json(
-        { error: "This group’s waiting list is currently full." },
-        { status: 409, headers: PRIVATE_HEADERS }
-      );
     }
 
-    const position = await env.DB.prepare(
-      "SELECT COUNT(*) AS position FROM live_adventure_interests WHERE id <= ?"
-    )
-      .bind(inserted.id)
-      .first<{ position: number }>();
-    if (!position) throw new Error("Waiting-list position is unavailable.");
-
     return Response.json(
-      { reserve: isLiveAdventureReservePosition(position.position) },
+      { success: true },
       { status: 201, headers: PRIVATE_HEADERS }
     );
   } catch {

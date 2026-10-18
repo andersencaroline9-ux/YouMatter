@@ -72,9 +72,11 @@ separate from adventure contributions and never count toward the
 - `/admin` and admin APIs verify Cloudflare Access JWTs and the administrator
   email allowlist. Do not bypass this protection; local admin use requires a
   trusted local identity/JWT setup.
-- The Live Adventure public API returns only aggregate interest counts and
-  signup outcomes. Names and email addresses are exposed only through its
-  separately protected admin endpoint; the waiting list is not newsletter
+- The Live Adventure public API returns only whether the waiting list is full;
+  it does not expose registration counts or positions. Valid new and duplicate
+  email submissions receive the same success response and visitor-facing
+  message. Names, email addresses, and exact entries are exposed only through
+  the separately protected admin endpoint; the waiting list is not newsletter
   signup.
 - `/contact` stores an optional name, required email address and message in the
   private D1 `contact_messages` table, solely so Caroline can respond. Contact

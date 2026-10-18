@@ -1,5 +1,19 @@
 # Project status
 
+## RECONNECT waiting-list privacy — 2026-10-18
+
+- Removed the anonymous duplicate-email response and public reserve-position
+  response. Below capacity, new and duplicate submissions return the same HTTP
+  success status and JSON body, and the UI shows the same neutral message
+  without refreshing the public status after submission. The public status
+  exposes only whether the list is full; exact counts and entries remain
+  available to Admin. At capacity, all valid submissions return the same
+  full-list response. Database uniqueness, capacity, Admin visibility, and
+  internal queue order are unchanged.
+- Local tests confirmed one stored row for a new/duplicate email pair,
+  protected Admin visibility, unchanged invalid name/email validation, equal
+  responses at capacity, and cleanup of all temporary records.
+
 ## Approved check-ins in Our Forest — 2026-10-18
 
 - Updated the shared impact calculation to include one contribution for every
@@ -310,10 +324,10 @@ Last reviewed: 2026-10-14
 - `/live-adventure` now collects only first name and email for the 30 Days in
   Nature pilot. It explains the 18+ and no-commitment/no-payment conditions.
 - A new D1 table stores at most 20 unique normalized email addresses. Its
-  public endpoint returns aggregate interest data only, caps the displayed
-  count at the 15-person group size, and distinguishes reserve availability.
+  public endpoint exposes only whether the waiting list is full. Exact entries
+  remain available through the separately protected Admin endpoint.
 - The separately protected admin endpoint exposes names, emails, dates, and
-  first-15 versus reserve ordering. No participant data is added to the
+  first-10 versus reserve ordering. No participant data is added to the
   contribution moderation queue.
 - No visitor-ownership token, newsletter consent, payment fields, Stripe,
   email sending, or cohort automation was added. Payments and confirmation

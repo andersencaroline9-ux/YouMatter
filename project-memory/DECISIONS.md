@@ -1,5 +1,13 @@
 # DECISIONS
 
+## 2026-10-18 — RECONNECT waiting-list privacy
+- Anonymous valid new and duplicate email submissions use the same success
+  response and message below capacity. Do not reveal whether an address is
+  already stored or its queue position; preserve the unique normalized-email
+  constraint and protected Admin visibility. The public status exposes only
+  whether the whole waiting list is full. At capacity, all valid requests
+  receive the same full-list response.
+
 ## 2026-10-15 — The Strengths We Bring visitor experience
 - The locked public adventure title is “The Strengths We Bring”; “What do you
   bring?” remains the personal practice prompt. Update visitor-facing title

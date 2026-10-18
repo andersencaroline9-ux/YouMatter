@@ -112,8 +112,9 @@ The active application in `app/` contains the adventures below.
   and is not newsletter signup.
 - D1 stores up to 20 unique normalized email addresses. Entries 1–10 are the
   initial cohort interest list; entries 11–20 are reserves. The public
-  endpoint returns only safe aggregate counts capped at 10. Existing signup
-  records are not changed when the cohort threshold changes.
+  endpoint exposes only whether the waiting list is full; exact entries remain
+  protected in Admin. Existing signup records are not changed when the cohort
+  threshold changes.
 - Payment and cohort confirmation remain manual; no payment functionality is
   implemented.
 
