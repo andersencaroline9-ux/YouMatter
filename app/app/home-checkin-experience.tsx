@@ -112,6 +112,10 @@ export default function HomeCheckinExperience() {
                       <span>1 = having a really hard day</span>
                       <span>10 = having a really good day</span>
                     </div>
+                    <p className="home-checkin__note">
+                      This is a simple You Matter check-in, not a psychological
+                      assessment.
+                    </p>
                   </fieldset>
 
                   {rating !== null && (

@@ -53,6 +53,24 @@ export default function HowAreYouDoingPage() {
               <p>Meaning, purpose, personal growth and fulfilling relationships.</p>
             </article>
           </div>
+          <details className="how-are-you-doing__reference">
+            <summary>Further reading on wellbeing</summary>
+            <p>
+              Ryan, R. M., &amp; Deci, E. L. (2001).{" "}
+              <cite>
+                On Happiness and Human Potentials: A Review of Research on
+                Hedonic and Eudaimonic Well-Being.
+              </cite>{" "}
+              Annual Review of Psychology, 52, 141–166.{" "}
+              <a
+                href="https://doi.org/10.1146/annurev.psych.52.1.141"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                DOI ↗
+              </a>
+            </p>
+          </details>
         </section>
 
         <section

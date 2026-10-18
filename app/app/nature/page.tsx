@@ -24,7 +24,7 @@ export default function NaturePage() {
         },
         {
           label: "Hamann & Ivtzan (2016), 30 Minutes in Nature a Day",
-          href: "https://ojs-dev.mruni.eu/ojs/social-inquiry-into-well-being-a/article/view/4444",
+          href: "https://doi.org/10.13165/SIIW-16-2-2-04",
         },
       ]}
     >

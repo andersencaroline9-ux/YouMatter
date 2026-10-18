@@ -290,7 +290,7 @@ export default function LiveAdventurePage() {
               <ul className="reconnect-sources" aria-label="Further reading">
                 <li>
                   <a
-                    href="https://ojs-dev.mruni.eu/ojs/social-inquiry-into-well-being-a/article/view/4444"
+                    href="https://doi.org/10.13165/SIIW-16-2-2-04"
                     target="_blank"
                     rel="noreferrer"
                   >

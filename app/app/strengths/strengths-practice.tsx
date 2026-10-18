@@ -723,7 +723,17 @@ export default function StrengthsPractice() {
           <ul className="strengths-references">
             <li>
               Peterson, C., &amp; Seligman, M. E. P. (2004).{" "}
-              <em>Character Strengths and Virtues: A Handbook and Classification.</em>
+              <em>
+                Character Strengths and Virtues: A Handbook and Classification.
+              </em>{" "}
+              Oxford University Press.{" "}
+              <a
+                href="https://global.oup.com/academic/product/character-strengths-and-virtues-9780195167016"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Publisher ↗
+              </a>
             </li>
             <li>
               Niemiec, R. M., &amp; Pearce, R. (2021).{" "}
@@ -731,7 +741,15 @@ export default function StrengthsPractice() {
                 The Practice of Character Strengths: Unifying Definitions,
                 Principles, and Exploration of What’s Soaring, Emerging, and
                 Ripe With Potential in Science and in Practice.
-              </em>
+              </em>{" "}
+              Frontiers in Psychology, 11, Article 590220.{" "}
+              <a
+                href="https://doi.org/10.3389/fpsyg.2020.590220"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                DOI ↗
+              </a>
             </li>
           </ul>
         </details>

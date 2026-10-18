@@ -102,6 +102,13 @@
   color: #43584b;
 }
 
+.how-are-you-doing .home-checkin__note {
+  margin: 7px 0 0;
+  color: #52655a;
+  font-size: .8rem;
+  line-height: 1.4;
+}
+
 .how-are-you-doing .home-checkin__details {
   border-radius: 2px;
   background: #fffdf7;
@@ -259,6 +266,33 @@
   margin-bottom: 3px !important;
   font-size: 1.1rem;
   font-weight: 600;
+}
+
+.how-are-you-doing__reference {
+  margin-top: 24px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(24, 56, 46, .16);
+}
+
+.how-are-you-doing__reference summary {
+  min-height: 44px;
+  color: var(--wellbeing-green);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.how-are-you-doing__reference p {
+  max-width: 760px;
+  margin: 8px 0 0;
+  color: #43584b;
+  font-size: .92rem;
+  line-height: 1.55;
+}
+
+.how-are-you-doing__reference a {
+  color: var(--wellbeing-green);
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .how-are-you-doing__resources {
